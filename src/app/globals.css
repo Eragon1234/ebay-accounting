@@ -58,6 +58,36 @@ a {
     }
 }
 
+.button {
+    border-radius: var(--border-radius);
+    padding: var(--spacing-small) var(--spacing-medium);
+    border: 1px solid var(--foreground);
+    cursor: pointer;
+    width: fit-content;
+}
+
+header {
+    padding-block: var(--spacing-large);
+    margin-bottom: var(--spacing-large);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--spacing-large);
+}
+
+header :last-child {
+    margin-left: auto;
+}
+
+header nav {
+    font-size: 1.8rem;
+    display: contents;
+}
+
+header h1 {
+    display: inline-block;
+}
+
 .expense-card {
     border-radius: var(--border-radius);
     padding: var(--spacing-large);
