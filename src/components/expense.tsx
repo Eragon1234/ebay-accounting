@@ -4,7 +4,7 @@ type ExpenseProps = {
     expense: Expense;
 }
 
-export const ExpenseCard = ({expense}: ExpenseProps) => {
+export default function ExpenseCard({expense}: ExpenseProps) {
     return (
         <div className="expense-card">
             <h2 className="expense-card__title">{expense.name}</h2>
