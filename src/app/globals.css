@@ -105,6 +105,21 @@ header h1 {
     }
 }
 
+.add-option {
+    display: inline-block;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--foreground);
+    padding: var(--spacing-large);
+    margin-top: var(--spacing-large);
+    width: fit-content;
+    aspect-ratio: 1 / 1;
+    vertical-align: middle;
+}
+
+.add-option + .add-option {
+    margin-left: var(--spacing-large);
+}
+
 .expense-card {
     border-radius: var(--border-radius);
     padding: var(--spacing-large);
