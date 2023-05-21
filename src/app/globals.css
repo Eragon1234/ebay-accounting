@@ -39,6 +39,11 @@ body {
     padding: var(--spacing-large);
 }
 
+main {
+    margin-inline: auto;
+    width: fit-content;
+}
+
 h1,
 h2,
 h3,
