@@ -67,7 +67,7 @@ a {
 .button {
     border-radius: var(--border-radius);
     padding: var(--spacing-small) var(--spacing-medium);
-    border: 1px solid var(--foreground);
+    border: 1px solid currentColor;
     cursor: pointer;
     width: fit-content;
 }
