@@ -68,7 +68,21 @@ a {
     }
 }
 
-.button {
+form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-medium);
+}
+
+form input, form select, form textarea {
+    border-radius: var(--border-radius);
+    padding:  var(--spacing-medium) var(--spacing-large);
+    background-color: transparent;
+    border: 1px solid currentColor;
+    margin-bottom: var(--spacing-medium);
+}
+
+button, .button {
     border-radius: var(--border-radius);
     padding: var(--spacing-medium) var(--spacing-medium);
     border: 1px solid currentColor;
