@@ -66,8 +66,9 @@ a {
 
 .button {
     border-radius: var(--border-radius);
-    padding: var(--spacing-small) var(--spacing-medium);
+    padding: var(--spacing-medium) var(--spacing-medium);
     border: 1px solid currentColor;
+    background-color: transparent;
     cursor: pointer;
     width: fit-content;
 }
