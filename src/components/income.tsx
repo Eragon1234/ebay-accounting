@@ -1,4 +1,4 @@
-import { Income} from "@prisma/client";
+import {Income} from "@prisma/client";
 
 type IncomeProps = {
     income: Income;

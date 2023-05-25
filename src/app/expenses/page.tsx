@@ -11,7 +11,7 @@ export default async function Expenses() {
             <h1>Expenses</h1>
             {
                 expenses.map(expense => {
-                    return <ExpenseCard key={expense.id} expense={expense} />
+                    return <ExpenseCard key={expense.id} expense={expense}/>
                 })
             }
         </>

@@ -11,20 +11,20 @@ datasource db {
 }
 
 model Expense {
-  id Int @id @default(autoincrement())
-  type ExpenseType
-  name String
-  amount Float
-  date DateTime @default(now())
-  income Income? @relation(fields: [incomeId], references: [id])
+  id       Int         @id @default(autoincrement())
+  type     ExpenseType
+  name     String
+  amount   Float
+  date     DateTime    @default(now())
+  income   Income?     @relation(fields: [incomeId], references: [id])
   incomeId Int?
 }
 
 model Income {
-  id Int @id @default(autoincrement())
-  name String
-  amount Float
-  date DateTime
+  id       Int       @id @default(autoincrement())
+  name     String
+  amount   Float
+  date     DateTime
   expenses Expense[]
 }
 

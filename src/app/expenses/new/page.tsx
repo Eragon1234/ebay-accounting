@@ -27,9 +27,7 @@ function ExpenseForm() {
             <input type="number" id="amount" name="amount"/>
             <label htmlFor="date">Date</label>
             <input type="date" id="date" name="date"/>
-            <button type="submit" style={{
-                width: "auto",
-            }}>Add Expense</button>
+            <button type="submit" style={{width: "auto",}}>Add Expense</button>
         </form>
     )
 }
