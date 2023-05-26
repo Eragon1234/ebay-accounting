@@ -1,5 +1,7 @@
 import prisma from "@/db";
 import {ExpenseType} from "@prisma/client";
+import {revalidatePath} from "next/cache";
+import {redirect} from "next/navigation";
 
 export default function NewExpensePage() {
     return (
@@ -44,7 +46,10 @@ async function saveExpense(formData: FormData) {
             name: name as string,
             type: ExpenseType[type as keyof typeof ExpenseType],
             amount: Number(amount),
-            date: new Date(date as string)
+            date: new Date(date as string),
         }
     });
+
+    revalidatePath("/expenses");
+    redirect("/expenses");
 }
