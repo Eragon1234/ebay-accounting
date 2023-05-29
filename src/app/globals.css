@@ -211,3 +211,43 @@ header h1 {
     font-weight: 200;
     color: gray;
 }
+
+.multi-select {
+    border-radius: var(--border-radius);
+    background-color: transparent;
+}
+
+.multi-select__selected {
+    font-size: 1.3rem;
+}
+
+.multi-select__selected-item {
+    border: 1px solid currentColor;
+    padding: var(--spacing-small);
+    border-radius: var(--border-radius);
+}
+
+.multi-select__selected-item-remove {
+    margin: 0;
+    padding: .5em;
+
+    cursor: pointer;
+    border: none;
+}
+
+.multi-select__search {
+    width: 100%;
+}
+
+.multi-select__options {
+    width: auto;
+    border: 1px solid currentColor;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-small);
+    height: clamp(10rem, fit-content, 10rem);
+}
+
+.multi-select__option {
+    padding: var(--spacing-small);
+    cursor: pointer;
+}
