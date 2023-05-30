@@ -5,24 +5,31 @@ import useOutclick from "@/lib/use-outclick";
 
 type MultiSelectProps = {
     name: string;
-    updateOptions: (search: string) => Promise<string[]>;
+    updateOptions: (search: string) => Promise<Options>;
 }
+
+type Options = { [key: string]: string };
 
 export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
     const wrapperRef = useRef(null);
     useOutclick(wrapperRef, () => setIsOpen(false));
 
-    const [selected, setSelected] = useState<string[]>([]);
+    const [selected, setSelected] = useState<Options>({});
     const [search, setSearch] = useState<string>("");
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    const [options, setOptions] = useState<string[]>([]);
+    const [options, setOptions] = useState<Options>({});
 
-    const toggleOption = (option: string) => {
-        if (selected.includes(option)) {
-            setSelected(selected.filter((item) => item !== option));
+    const toggleOption = (option: [string, string]) => {
+        const selectedItems = Object.entries(selected);
+        if (selectedItems.includes(option)) {
+            selectedItems.splice(selectedItems.indexOf(option), 1);
+            setSelected(Object.fromEntries(selectedItems));
         } else {
-            setSelected([...selected, option]);
+            setSelected({
+                ...selected,
+                ...Object.fromEntries([option])
+            });
         }
 
         setSearch("");
@@ -36,9 +43,9 @@ export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
     return (
         <div ref={wrapperRef} className="multi-select">
             <div className="multi-select__selected">
-                {selected.map((option) => (
-                    <span className="multi-select__selected-item" key={option}>
-                        {option}
+                {Object.entries(selected).map((option) => (
+                    <span className="multi-select__selected-item" key={option[0]}>
+                        {options[option[0]]}
                         <button className="multi-select__selected-item-remove"
                                 onClick={() => toggleOption(option)}>X</button>
                     </span>
@@ -50,9 +57,9 @@ export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
             }}></input>
             {isOpen && (
                 <div className="multi-select__options">
-                    {options.map((option) => (
-                        <div className="multi-select__option" key={option} onClick={() => toggleOption(option)}>
-                            {option}
+                    {Object.entries(options).map((option) => (
+                        <div className="multi-select__option" key={option[0]} onClick={() => toggleOption(option)}>
+                            {option[1]}
                         </div>
                     ))}
                 </div>
