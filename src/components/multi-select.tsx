@@ -45,7 +45,7 @@ export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
                 {Object.entries(selected).map((option) => (
                     <span className="multi-select__selected-item" key={option[0]}>
                         {options[option[0]]}
-                        <button className="multi-select__selected-item-remove"
+                        <button type="button" className="multi-select__selected-item-remove"
                                 onClick={() => toggleOption(option)}>X</button>
                     </span>
                 ))}
