@@ -1,6 +1,8 @@
-import {MutableRefObject, useEffect} from "react";
+import {MutableRefObject, RefObject, useEffect, useRef} from "react";
 
-export default function useOutclick(ref: MutableRefObject<any>, callback: () => void) {
+export default function useOutclick(callback: () => void): RefObject<any> {
+    const ref: MutableRefObject<any> = useRef(null);
+
     useEffect(() => {
         function handleClickOutside(event: Event) {
             if (ref.current && !ref.current.contains(event.target)) {
@@ -12,4 +14,6 @@ export default function useOutclick(ref: MutableRefObject<any>, callback: () => 
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [ref, callback]);
+
+    return ref;
 }

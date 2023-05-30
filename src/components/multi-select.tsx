@@ -1,6 +1,6 @@
 "use client";
 
-import {useRef, useState} from "react";
+import {useState} from "react";
 import useOutclick from "@/lib/use-outclick";
 
 type MultiSelectProps = {
@@ -11,9 +11,6 @@ type MultiSelectProps = {
 type Options = { [key: string]: string };
 
 export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
-    const wrapperRef = useRef(null);
-    useOutclick(wrapperRef, () => setIsOpen(false));
-
     const [selected, setSelected] = useState<Options>({});
     const [search, setSearch] = useState<string>("");
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -41,7 +38,9 @@ export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
     }
 
     return (
-        <div ref={wrapperRef} className="multi-select">
+        <div ref={useOutclick(() => {
+            setIsOpen(false);
+        })} className="multi-select">
             <div className="multi-select__selected">
                 {Object.entries(selected).map((option) => (
                     <span className="multi-select__selected-item" key={option[0]}>
