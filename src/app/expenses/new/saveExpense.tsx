@@ -1,3 +1,5 @@
+"use server";
+
 import prisma from "@/db";
 import {ExpenseType} from "@prisma/client";
 import {revalidatePath} from "next/cache";
