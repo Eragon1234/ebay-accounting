@@ -59,7 +59,7 @@ export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
             )}
             <input style={{
                 display: "none"
-            }} name={name} value={selected} readOnly></input>
+            }} name={name} value={JSON.stringify(selected)} readOnly></input>
         </div>
     )
 }
