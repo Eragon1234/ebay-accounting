@@ -212,7 +212,12 @@ header h1 {
     color: gray;
 }
 
+:has(.multi-select) {
+    overflow: visible;
+}
+
 .multi-select {
+    position: relative;
     border-radius: var(--border-radius);
     background-color: transparent;
 }
@@ -240,11 +245,16 @@ header h1 {
 }
 
 .multi-select__options {
-    width: auto;
+    position: absolute;
+    width: 100%;
     border: 1px solid currentColor;
+    box-shadow: 0 .3rem 1rem currentColor;
+    background-color: var(--background);
     border-radius: var(--border-radius);
     padding: var(--spacing-small);
-    height: clamp(10rem, fit-content, 10rem);
+    height: fit-content;
+    max-height: 30vh;
+    overflow-y: scroll;
 }
 
 .multi-select__option {
