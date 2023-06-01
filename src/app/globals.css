@@ -127,22 +127,22 @@ header h1 {
 svg {
     width: 1em;
     height: 1em;
+    vertical-align: middle;
     fill: currentColor;
     stroke: currentColor;
-    vertical-align: middle;
 }
 
 .add-option {
-    display: inline-flex;
     font-size: 1.1em;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: var(--spacing-medium);
     flex-direction: column;
+    justify-content: center;
     width: 10vw;
     margin-top: var(--spacing-large);
     border: 1px solid var(--foreground);
     border-radius: var(--border-radius);
+    gap: var(--spacing-medium);
     aspect-ratio: 1 / 1;
 }
 
@@ -243,8 +243,8 @@ svg {
 }
 
 .multi-select__selected-item {
-    border: 1px solid currentColor;
     padding: var(--spacing-small);
+    border: 1px solid currentColor;
     border-radius: var(--border-radius);
 }
 
@@ -262,15 +262,15 @@ svg {
 
 .multi-select__options {
     position: absolute;
+    overflow-y: scroll;
     width: 100%;
-    border: 1px solid currentColor;
-    box-shadow: 0 .3rem 1rem currentColor;
-    background-color: var(--background);
-    border-radius: var(--border-radius);
-    padding: var(--spacing-small);
     height: fit-content;
     max-height: 30vh;
-    overflow-y: scroll;
+    padding: var(--spacing-small);
+    border: 1px solid currentColor;
+    border-radius: var(--border-radius);
+    background-color: var(--background);
+    box-shadow: 0 .3rem 1rem currentColor;
 }
 
 .multi-select__option {
