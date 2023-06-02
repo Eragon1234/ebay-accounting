@@ -7,7 +7,7 @@ export async function saveIncome(formData: FormData) {
     const name = formData.get("name");
     const amount = formData.get("amount");
     const date = formData.get("date");
-    const expenses: {[key: string]: string} = JSON.parse(formData.get("expenses") as string);
+    const expenses: { [key: string]: string } = JSON.parse(formData.get("expenses") as string);
 
     const expensesIds = Object.keys(expenses).map(expenseId => ({id: Number(expenseId)}));
 

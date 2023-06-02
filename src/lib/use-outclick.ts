@@ -9,6 +9,7 @@ export default function useOutclick(callback: () => void): RefObject<any> {
                 callback();
             }
         }
+
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);

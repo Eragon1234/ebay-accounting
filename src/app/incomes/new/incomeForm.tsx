@@ -3,7 +3,7 @@ import MultiSelect from "@/components/multi-select";
 import prisma from "@/db";
 
 export function IncomeForm() {
-    const searchExpenses = async (search: string): Promise<{[key: string]: string}> => {
+    const searchExpenses = async (search: string): Promise<{ [key: string]: string }> => {
         "use server";
         const expenses = await prisma.expense.findMany({
             where: {

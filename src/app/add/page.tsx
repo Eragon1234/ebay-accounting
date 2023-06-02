@@ -10,10 +10,10 @@ export default function Add() {
         }}>
             <h1>Create new</h1>
             <Link href="/incomes/new" className="add-option">
-                <IncomeIcon />Income
+                <IncomeIcon/>Income
             </Link>
             <Link href="/expenses/new" className="add-option">
-                <ExpenseIcon />Expense
+                <ExpenseIcon/>Expense
             </Link>
         </div>
     )
