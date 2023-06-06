@@ -18,14 +18,13 @@ export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
     const [options, setOptions] = useState<Options>({});
 
     const toggleOption = (option: [string, string]) => {
-        const selectedItems = Object.entries(selected);
-        if (selectedItems.some((item) => item[0] === option[0])) {
-            selectedItems.splice(selectedItems.findIndex((item) => item[0] === option[0]), 1);
-            setSelected(Object.fromEntries(selectedItems));
+        const newSelected = {...selected};
+        if (newSelected[option[0]]) {
+            delete newSelected[option[0]];
         } else {
-            setSelected({...selected, ...Object.fromEntries([option])});
+            newSelected[option[0]] = option[1];
         }
-
+        setSelected(newSelected);
         setSearch("");
     }
 
