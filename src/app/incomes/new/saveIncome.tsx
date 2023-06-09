@@ -1,26 +1,67 @@
 "use server";
 
 import prisma from "@/db";
+import zod, {ZodError} from "zod";
 import {redirect} from "next/navigation";
+import {Prisma} from "@prisma/client";
+
+const newIncomeSchema = zod.object({
+    name: zod.string({
+        required_error: "missing name",
+    }),
+    amount: zod.number({
+        required_error: "missing amount",
+        coerce: true
+    }),
+    date: zod.date({
+        required_error: "missing date",
+        coerce: true
+    }),
+    expenseIds: zod.array(zod.object({
+        id: zod.number({
+            coerce: true
+        }),
+    }))
+})
 
 export async function saveIncome(formData: FormData) {
-    const name = formData.get("name");
-    const amount = formData.get("amount");
-    const date = formData.get("date");
-    const expenses: { [key: string]: string } = JSON.parse(formData.get("expenses") as string);
+    try {
+        const {
+            name,
+            amount,
+            date,
+            expenseIds
+        } = newIncomeSchema.parse({
+            name: formData.get("name"),
+            amount: formData.get("amount"),
+            date: formData.get("date"),
+            expenseIds:
+                JSON.parse(formData.get("expenses") as string)
+                    .keys()
+                    .map((expenseId: string) => ({id: expenseId}))
+        });
 
-    const expensesIds = Object.keys(expenses).map(expenseId => ({id: Number(expenseId)}));
-
-    await prisma.income.create({
-        data: {
-            name: name as string,
-            amount: Number(amount),
-            date: new Date(date as string),
-            expenses: {
-                connect: expensesIds
+        await prisma.income.create({
+            data: {
+                name,
+                amount,
+                date,
+                expenses: {
+                    connect: expenseIds
+                }
+            }
+        });
+    } catch (e) {
+        if (e instanceof ZodError) {
+            return {
+                error: e.message
+            }
+        } else if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            return {
+                error: e.message
             }
         }
-    });
+    }
 
     redirect("/incomes")
 }
