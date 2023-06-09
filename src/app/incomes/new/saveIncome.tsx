@@ -36,8 +36,7 @@ export async function saveIncome(formData: FormData) {
             amount: formData.get("amount"),
             date: formData.get("date"),
             expenseIds:
-                JSON.parse(formData.get("expenses") as string)
-                    .keys()
+                Object.keys(JSON.parse(formData.get("expenses") as string))
                     .map((expenseId: string) => ({id: expenseId}))
         });
 
@@ -60,6 +59,8 @@ export async function saveIncome(formData: FormData) {
             return {
                 error: e.message
             }
+        } else {
+            throw e;
         }
     }
 
