@@ -159,7 +159,7 @@ svg {
     display: grid;
     width: clamp(22rem, 90%, 30rem);
     padding: var(--spacing-large);
-    border: 1px solid gray;
+    border: 1px solid grey;
 
     border-radius: var(--border-radius);
     grid-template-columns: 1fr auto;
@@ -177,7 +177,7 @@ svg {
 .expense-card__type {
     font-size: 1.1rem;
     font-weight: 200;
-    color: gray;
+    color: grey;
     border-radius: var(--border-radius);
 }
 
@@ -195,14 +195,14 @@ svg {
 .expense-card__date {
     font-size: 1.3rem;
     font-weight: 200;
-    color: gray;
+    color: grey;
 }
 
 .income-card {
     display: grid;
     width: clamp(16rem, 90%, 30rem);
     padding: var(--spacing-large);
-    border: 1px solid gray;
+    border: 1px solid grey;
 
     border-radius: var(--border-radius);
     grid-template-columns: 1fr auto;
@@ -231,7 +231,7 @@ svg {
 .income-card__date {
     font-size: 1.3rem;
     font-weight: 200;
-    color: gray;
+    color: grey;
 }
 
 :has(.multi-select) {
