@@ -2,6 +2,8 @@ import {saveIncome} from "@/app/incomes/new/saveIncome";
 import MultiSelect from "@/components/multi-select";
 import prisma from "@/db";
 
+const MAX_SEARCH_RESULTS = 10;
+
 export function IncomeForm() {
     const searchExpenses = async (search: string): Promise<{ [key: string]: string }> => {
         "use server";
@@ -10,7 +12,8 @@ export function IncomeForm() {
                 name: {
                     contains: search
                 }
-            }
+            },
+            take: MAX_SEARCH_RESULTS
         });
 
         return expenses.reduce((map, expense) => {
