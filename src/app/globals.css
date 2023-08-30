@@ -283,3 +283,19 @@ svg {
     padding: var(--spacing-small);
     cursor: pointer;
 }
+
+.pagination-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-large);
+    margin-top: var(--spacing-large);
+}
+
+.pagination-nav__item {
+    color: grey;
+}
+
+.pagination-nav__item--active {
+    color: var(--foreground);
+}

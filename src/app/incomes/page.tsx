@@ -1,19 +1,57 @@
-import prisma from "@/db";
+"use client";
+
+import {useSearchParams} from "next/navigation";
+import Link from "next/link";
 import IncomeCard from "@/components/income";
+import {useEffect, useState} from "react";
+import {countIncomes, getIncomes} from "@/lib/income";
+import {Income} from "@prisma/client";
 
-export const dynamic = "force-dynamic";
+const PAGE_SIZE = 5;
 
-export default async function Incomes() {
-    const incomes = await prisma.income.findMany();
+export default function Incomes() {
+    const searchParams = useSearchParams()
+    const pageParam = searchParams.get("page") ?? "1"
+    const page = parseInt(pageParam)
 
-    return (
-        <>
-            <h1>Incomes</h1>
-            {
-                incomes.map(income => {
-                    return IncomeCard({income})
-                })
-            }
-        </>
-    )
+    const take = PAGE_SIZE
+    const skip = (page - 1) * PAGE_SIZE
+
+    const [incomeCount, setIncomeCount] = useState(0)
+    const [incomes, setIncomes] = useState<Income[] | null>(null)
+
+    const pageCount = Math.ceil(incomeCount / PAGE_SIZE)
+
+    useEffect(() => {
+        countIncomes().then(setIncomeCount)
+        getIncomes(skip, take).then(setIncomes)
+    }, [skip, take])
+
+    if (incomes === null) {
+        return <></>
+    }
+
+    return <>
+        <h1>Incomes</h1>
+        {
+            incomes.map(income => {
+                return IncomeCard({income})
+            })
+        }
+        {pageCount > 1 &&
+            <div className="pagination-nav">
+                {
+                    Array.from({length: pageCount}).map((_, i) => {
+                        return <Link key={i}
+                                     href={`/incomes?page=${i + 1}`}
+                                     className={"pagination-nav__item " +
+                                         (i + 1 === page ? "pagination-nav__item--active" : "")}
+                        >
+                            {i + 1}
+                        </Link>
+                    })
+                }
+            </div>
+        }
+    </>
 }
