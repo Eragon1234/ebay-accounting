@@ -18,24 +18,20 @@ export default function Incomes() {
     const skip = (page - 1) * PAGE_SIZE
 
     const [incomeCount, setIncomeCount] = useState(0)
-    const [incomes, setIncomes] = useState<Income[] | null>(null)
+    const [incomes, setIncomes] = useState<Income[]>([])
 
     const pageCount = Math.ceil(incomeCount / PAGE_SIZE)
 
     useEffect(() => {
         countIncomes().then(setIncomeCount)
-        getIncomes(skip, take).then(setIncomes)
+        getIncomes(take, skip).then(setIncomes)
     }, [skip, take])
-
-    if (incomes === null) {
-        return <></>
-    }
 
     return <>
         <h1>Incomes</h1>
         {
             incomes.map(income => {
-                return IncomeCard({income})
+                return <IncomeCard key={income.id} income={income} />
             })
         }
         {pageCount > 1 &&

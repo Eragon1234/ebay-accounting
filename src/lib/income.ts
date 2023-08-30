@@ -7,9 +7,9 @@ export async function countIncomes() {
     return prisma.income.count();
 }
 
-export async function getIncomes(skip: number, take: number): Promise<Income[]> {
+export async function getIncomes(take: number, skip: number): Promise<Income[]> {
     return prisma.income.findMany({
-        skip,
         take,
+        skip,
     });
 }
