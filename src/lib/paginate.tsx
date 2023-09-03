@@ -12,7 +12,7 @@ type UsePaginate = {
     pageCount: number
 }
 
-export function usePaginate(itemCount: number, pageSearchParam: string = "page", pageSize: number = PAGE_SIZE): UsePaginate {
+export function usePaginate(itemCount: number, pageSize: number = PAGE_SIZE, pageSearchParam: string = "page"): UsePaginate {
     const searchParams = useSearchParams()
     const pageParam = searchParams.get(pageSearchParam) ?? "1"
     const page = parseInt(pageParam)
