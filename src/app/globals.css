@@ -1,14 +1,16 @@
 :root {
     font-size: 62.5%;
+
     --background: rgb(255, 255, 255);
     --foreground: rgb(0, 0, 0);
+
+    --spacing-small: 0.5rem;
+    --spacing-medium: 1rem;
     --spacing-large: 2rem;
 
-    --spacing-medium: 1rem;
     --border-radius: 1.2rem;
-    --spacing-small: 0.5rem;
 
-    --max-width: 1100px;
+    --page-width: 1100px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,14 +26,9 @@
     padding: 0;
 }
 
-html,
-body {
-    overflow-x: hidden;
-}
-
 body {
     font-size: 1.6rem;
-    max-width: var(--max-width);
+    max-width: var(--page-width);
     padding: var(--spacing-large);
 
     color: var(--foreground);
