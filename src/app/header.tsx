@@ -8,7 +8,10 @@ export default function Header() {
                 <Link href="/">Home</Link>
                 <Link href="/expenses">Expenses</Link>
                 <Link href="/incomes">Incomes</Link>
-                <Link className="button" href="/add">+</Link>
+                <Link style={{
+                    fontSize: "3.5rem",
+                    alignSelf: "flex-start",
+                }} href="/add">+</Link>
             </nav>
         </header>
     )
