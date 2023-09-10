@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/db";
+import prisma from "@/db/db";
 import zod, {ZodError} from "zod";
 import {redirect} from "next/navigation";
 import {Prisma} from "@prisma/client";

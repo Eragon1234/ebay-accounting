@@ -1,7 +1,7 @@
 "use server";
 
 import {Income} from "@prisma/client";
-import prisma from "@/db";
+import prisma from "@/db/db";
 
 export async function countIncomes() {
     return prisma.income.count();

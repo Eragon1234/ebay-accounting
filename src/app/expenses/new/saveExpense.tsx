@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/db";
+import prisma from "@/db/db";
 import {ExpenseType, Prisma} from "@prisma/client";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";

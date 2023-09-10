@@ -2,7 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {Expense} from "@prisma/client";
-import {countExpenses, getExpenses} from "@/lib/expense";
+import {countExpenses, getExpenses} from "@/db/expense";
 import ExpenseCard from "@/components/expense";
 import {Paginate, usePaginate} from "@/lib/paginate";
 

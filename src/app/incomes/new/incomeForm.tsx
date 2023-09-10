@@ -1,6 +1,6 @@
 import {saveIncome} from "@/app/incomes/new/saveIncome";
 import MultiSelect from "@/components/multi-select";
-import prisma from "@/db";
+import prisma from "@/db/db";
 
 const MAX_SEARCH_RESULTS = 10;
 

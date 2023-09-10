@@ -2,7 +2,7 @@
 
 import IncomeCard from "@/components/income";
 import {useEffect, useState} from "react";
-import {countIncomes, getIncomes} from "@/lib/income";
+import {countIncomes, getIncomes} from "@/db/income";
 import {Income} from "@prisma/client";
 import {Paginate, usePaginate} from "@/lib/paginate";
 

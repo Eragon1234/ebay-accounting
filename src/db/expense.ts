@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/db";
+import prisma from "@/db/db";
 import {Expense} from "@prisma/client";
 
 export async function countExpenses(): Promise<number> {
