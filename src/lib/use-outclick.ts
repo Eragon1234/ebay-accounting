@@ -1,6 +1,12 @@
-import {MutableRefObject, RefObject, useEffect, useRef} from "react";
+import {MutableRefObject, useEffect, useRef} from "react";
 
-export default function useOutclick(callback: () => void): RefObject<any> {
+/**
+ * Executes the given callback function when a click event occurs outside the referenced element.
+ *
+ * @param {() => void} callback - The function to be executed when an outside click occurs.
+ * @return {MutableRefObject<any>} - The mutable reference object holding the reference to the element.
+ */
+export default function useOutclick(callback: () => void): MutableRefObject<any> {
     const ref: MutableRefObject<any> = useRef(null);
 
     useEffect(() => {
