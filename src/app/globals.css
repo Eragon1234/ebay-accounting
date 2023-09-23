@@ -28,6 +28,7 @@
 
 body {
     font-size: 1.6rem;
+    font-family: Tahoma, sans-serif;
     max-width: var(--page-width);
     padding: var(--spacing-large);
 
