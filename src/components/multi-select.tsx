@@ -1,6 +1,6 @@
 "use client";
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import useOutclick from "@/lib/use-outclick";
 
 type MultiSelectProps = {
@@ -17,12 +17,18 @@ export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
 
     const [options, setOptions] = useState<Options>({});
 
+    useEffect(() => {
+        updateOptions(search).then(setOptions);
+    }, [search, updateOptions])
+
     const toggleOption = (option: [string, string]) => {
+        const [key, value] = option;
+
         const newSelected = {...selected};
-        if (newSelected[option[0]]) {
-            delete newSelected[option[0]];
+        if (newSelected[key]) {
+            delete newSelected[key];
         } else {
-            newSelected[option[0]] = option[1];
+            newSelected[key] = value;
         }
         setSelected(newSelected);
         setSearch("");
@@ -33,10 +39,10 @@ export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
         updateOptions(search).then(setOptions);
     }
 
+    const close = () => setIsOpen(false);
+
     return (
-        <div ref={useOutclick(() => {
-            setIsOpen(false);
-        })} className="multi-select">
+        <div ref={useOutclick(close)} className="multi-select">
             <div className="multi-select__selected">
                 {Object.entries(selected).map((option) => (
                     <span className="multi-select__selected-item" key={option[0]}>
@@ -46,10 +52,8 @@ export default function MultiSelect({name, updateOptions}: MultiSelectProps) {
                     </span>
                 ))}
             </div>
-            <input className="multi-select__search" value={search} onFocus={focus} onInput={async event => {
-                setSearch(event.currentTarget.value);
-                updateOptions(event.currentTarget.value).then(setOptions);
-            }}></input>
+            <input className="multi-select__search" value={search} onFocus={focus}
+                   onInput={event => setSearch(event.currentTarget.value)}/>
             {isOpen && (
                 <div className="multi-select__options">
                     {Object.entries(options).map((option) => (
