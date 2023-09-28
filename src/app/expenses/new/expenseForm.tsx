@@ -1,9 +1,9 @@
 import {ExpenseType} from "@prisma/client";
-import saveExpense from "@/app/expenses/new/saveExpense";
+import createExpenseFromForm from "@/db/expense";
 
 export function ExpenseForm() {
     return (
-        <form action={saveExpense}>
+        <form action={createExpenseFromForm}>
             <label htmlFor="name">Name</label>
             <input type="text" id="name" name="name"/>
             <label htmlFor="type">Type</label>
