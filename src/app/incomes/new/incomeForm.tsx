@@ -1,6 +1,6 @@
-import {saveIncome} from "@/app/incomes/new/saveIncome";
 import MultiSelect from "@/components/multi-select";
 import prisma from "@/db/db";
+import {createIncomeFromForm} from "@/db/income";
 
 const MAX_SEARCH_RESULTS = 10;
 
@@ -22,7 +22,7 @@ export function IncomeForm() {
         }, {} as { [key: string]: string });
     }
     return (
-        <form action={saveIncome}>
+        <form action={createIncomeFromForm}>
             <label htmlFor="name">Name</label>
             <input type="text" id="name" name="name"/>
             <label htmlFor="amount">Amount</label>
