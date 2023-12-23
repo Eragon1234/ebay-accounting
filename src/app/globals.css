@@ -94,12 +94,30 @@ button, .button {
 #sidebar {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-large);
+    gap: var(--spacing-medium);
 }
 
 #sidebar nav {
     font-size: 1.8rem;
     display: contents;
+}
+
+#sidebar a {
+    padding: var(--spacing-medium);
+    border-radius: var(--border-radius);
+}
+
+#sidebar a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#sidebar a.active {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.13);
+}
+
+#sidebar a:hover {
+    color: white;
 }
 
 #sidebar h1 {
