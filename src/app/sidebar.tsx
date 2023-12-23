@@ -13,15 +13,12 @@ export default function Sidebar() {
     ];
 
     return (
-        <div id="sidebar">
-            <h1>eBay</h1>
-            <nav>
-                {links.map(({href, name, style}) => (
-                    <Link key={href} href={href} className={pathname === href ? 'active' : ''} style={style}>
-                        {name}
-                    </Link>
-                ))}
-            </nav>
-        </div>
+        <nav id="sidebar">
+            {links.map(({href, name, style}) => (
+                <Link key={href} href={href} className={pathname === href ? 'active' : ''} style={style}>
+                    {name}
+                </Link>
+            ))}
+        </nav>
     );
 }
