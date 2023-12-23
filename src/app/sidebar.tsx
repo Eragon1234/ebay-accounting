@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-export default function Header() {
+export default function Sidebar() {
     return (
-        <header>
+        <div id="sidebar">
             <h1>eBay</h1>
             <nav>
                 <Link href="/">Home</Link>
@@ -10,9 +10,8 @@ export default function Header() {
                 <Link href="/incomes">Incomes</Link>
                 <Link style={{
                     fontSize: "3.5rem",
-                    alignSelf: "flex-start",
                 }} href="/add">+</Link>
             </nav>
-        </header>
+        </div>
     )
 }

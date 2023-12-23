@@ -35,6 +35,8 @@ body {
     color: var(--foreground);
     background: var(--background);
     margin-inline: auto;
+    display: grid;
+    grid-template-columns: 20% 60%;
 }
 
 main {
@@ -89,37 +91,19 @@ button, .button {
     background-color: transparent;
 }
 
-header {
+#sidebar {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: var(--spacing-large);
-    padding-bottom: var(--spacing-large);
+    flex-direction: column;
     gap: var(--spacing-large);
 }
 
-header :last-child {
-    margin-left: auto;
-}
-
-header nav {
+#sidebar nav {
     font-size: 1.8rem;
     display: contents;
 }
 
-header h1 {
+#sidebar h1 {
     display: inline-block;
-}
-
-@media (max-width: 450px) {
-    header {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    header :last-child {
-        margin-left: 0;
-    }
 }
 
 svg {
@@ -286,8 +270,8 @@ svg {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-large);
     margin-top: var(--spacing-large);
+    gap: var(--spacing-large);
 }
 
 .pagination-nav__item {
