@@ -9,8 +9,6 @@
     --spacing-large: 2rem;
 
     --border-radius: 1.2rem;
-
-    --page-width: 1100px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -30,7 +28,6 @@ body {
     font-family: Tahoma, sans-serif;
     font-size: 1.6rem;
     display: grid;
-    max-width: var(--page-width);
 
     padding: var(--spacing-large);
     color: var(--foreground);
