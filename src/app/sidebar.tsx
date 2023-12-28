@@ -9,13 +9,12 @@ export default function Sidebar() {
         {href: '/', name: 'Home'},
         {href: '/expenses', name: 'Expenses'},
         {href: '/incomes', name: 'Incomes'},
-        {href: '/add', name: '+', style: {fontSize: "3.5rem"}},
     ];
 
     return (
         <nav id="sidebar">
-            {links.map(({href, name, style}) => (
-                <Link key={href} href={href} className={pathname === href ? 'active' : ''} style={style}>
+            {links.map(({href, name}) => (
+                <Link key={href} href={href} className={pathname === href ? 'active' : ''}>
                     {name}
                 </Link>
             ))}
