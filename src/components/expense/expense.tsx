@@ -1,5 +1,7 @@
 import {Expense} from "@prisma/client";
 
+import "./expense.css";
+
 type ExpenseProps = {
     expense: Expense;
 }

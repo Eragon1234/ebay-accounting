@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import {Expense} from "@prisma/client";
 import {countExpenses, getExpenses} from "@/db/expense";
-import ExpenseCard from "@/components/expense";
+import ExpenseCard from "@/components/expense/expense";
 import {Paginate, usePaginate} from "@/lib/paginate";
 
 const PAGE_SIZE = 5;

@@ -1,4 +1,4 @@
-import MultiSelect from "@/components/multi-select";
+import MultiSelect from "@/components/multi-select/multi-select";
 import prisma from "@/db/db";
 import {createIncomeFromForm} from "@/db/income";
 

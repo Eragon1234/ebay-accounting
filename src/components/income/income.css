@@ -1,0 +1,35 @@
+.income-card {
+    display: grid;
+    width: clamp(16rem, 90%, 30rem);
+    padding: var(--spacing-large);
+    border: 1px solid grey;
+
+    border-radius: var(--border-radius);
+    grid-template-columns: 1fr auto;
+}
+
+.income-card + .income-card {
+    margin-top: var(--spacing-large);
+}
+
+.income-card__title {
+    font-size: 2.4rem;
+    display: inline-block;
+}
+
+.income-card__amount {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: green;
+}
+
+.income-card__amount::before {
+    margin-right: var(--spacing-small);
+    content: "€";
+}
+
+.income-card__date {
+    font-size: 1.3rem;
+    font-weight: 200;
+    color: grey;
+}

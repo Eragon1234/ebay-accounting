@@ -1,5 +1,7 @@
 import {Income} from "@prisma/client";
 
+import "./income.css";
+
 type IncomeProps = {
     income: Income;
 }

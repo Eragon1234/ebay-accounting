@@ -1,6 +1,6 @@
 "use client";
 
-import IncomeCard from "@/components/income";
+import IncomeCard from "@/components/income/income";
 import {useEffect, useState} from "react";
 import {countIncomes, getIncomes} from "@/db/income";
 import {Income} from "@prisma/client";

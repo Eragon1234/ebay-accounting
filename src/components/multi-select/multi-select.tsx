@@ -3,6 +3,8 @@
 import {useEffect, useState} from "react";
 import useOutclick from "@/lib/use-outclick";
 
+import "./multi-select.css";
+
 type MultiSelectProps = {
     name: string;
     updateOptions: (search: string) => Promise<Options>;
