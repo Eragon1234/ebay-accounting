@@ -42,10 +42,10 @@ body {
 }
 
 #topbar {
-    grid-area: topbar;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    grid-area: topbar;
 }
 
 #topbar h1 {
@@ -108,10 +108,10 @@ button, .button {
 }
 
 table {
+    width: 100%;
     border-spacing: 0;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--border-radius);
-    width: 100%;
 }
 
 thead {

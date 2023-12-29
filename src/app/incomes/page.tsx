@@ -6,7 +6,6 @@ import {countIncomes, getIncomes} from "@/db/income";
 import {Income} from "@prisma/client";
 import {Paginate, usePaginate} from "@/lib/paginate";
 
-
 const PAGE_SIZE = 5;
 
 export default function Incomes() {
