@@ -57,7 +57,6 @@ body {
 }
 
 main {
-    width: fit-content;
     grid-area: main;
 }
 
@@ -106,6 +105,27 @@ button, .button {
     border: 1px solid currentColor;
     border-radius: var(--border-radius);
     background-color: transparent;
+}
+
+table {
+    border-spacing: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    width: 100%;
+}
+
+thead {
+    text-align: left;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+th, td {
+    padding: var(--spacing-large);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+tr:last-child td {
+    border-bottom: none;
 }
 
 #sidebar {
