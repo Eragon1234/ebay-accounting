@@ -2,7 +2,11 @@
     font-size: 62.5%;
 
     --background: rgb(255, 255, 255);
+
     --foreground: rgb(0, 0, 0);
+    --secondary-foreground: rgba(0, 0, 0, 0.8);
+
+    --border-color: rgba(0, 0, 0, 0.2);
 
     --spacing-small: 0.5rem;
     --spacing-medium: 1rem;
@@ -14,7 +18,11 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --background: rgb(0, 0, 0);
+
         --foreground: rgb(255, 255, 255);
+        --secondary-foreground: rgba(255, 255, 255, 0.8);
+
+        --border-color: rgba(255, 255, 255, 0.2);
     }
 }
 
@@ -44,7 +52,7 @@ body {
 #topbar {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid var(--border-color);
     grid-area: topbar;
 }
 
@@ -110,18 +118,18 @@ button, .button {
 table {
     width: 100%;
     border-spacing: 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
 }
 
 thead {
     text-align: left;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--secondary-foreground);
 }
 
 th, td {
     padding: var(--spacing-large);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid var(--border-color);
 }
 
 tr:last-child td {
@@ -137,17 +145,17 @@ tr:last-child td {
 
 #sidebar a {
     padding: var(--spacing-medium);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--secondary-foreground);
     border-radius: var(--border-radius);
 }
 
 #sidebar a.active {
-    color: white;
-    background-color: rgba(255, 255, 255, 0.13);
+    color: var(--foreground);
+    background-color: var(--border-color);
 }
 
 #sidebar a:hover {
-    color: white;
+    color: var(--foreground);
 }
 
 #sidebar h1 {
