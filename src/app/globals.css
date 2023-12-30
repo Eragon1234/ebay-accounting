@@ -115,27 +115,6 @@ button, .button {
     background-color: transparent;
 }
 
-table {
-    width: 100%;
-    border-spacing: 0;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-}
-
-thead {
-    text-align: left;
-    color: var(--secondary-foreground);
-}
-
-th, td {
-    padding: var(--spacing-large);
-    border-bottom: 1px solid var(--border-color);
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
 #sidebar {
     font-size: 1.8rem;
     display: flex;
