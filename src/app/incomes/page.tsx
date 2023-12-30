@@ -1,10 +1,10 @@
 "use client";
 
-import IncomeCard from "@/components/income/income";
 import {useEffect, useState} from "react";
 import {countIncomes, getIncomes} from "@/db/income";
 import {Income} from "@prisma/client";
 import {Paginate, usePaginate} from "@/lib/paginate";
+import Table from "@/components/table/table";
 
 const PAGE_SIZE = 5;
 
@@ -22,11 +22,11 @@ export default function Incomes() {
 
     return <>
         <h1>Incomes</h1>
-        {
-            incomes.map(income => {
-                return <IncomeCard key={income.id} income={income}/>
-            })
-        }
+        <Table columns={[
+            {header: "Name", accessor: "name"},
+            {header: "Amount", accessor: "amount"},
+            {header: "Date", accessor: "date", render: a => a.toLocaleDateString()}
+        ]} data={incomes}/>
         <Paginate pageCount={pageCount} currentPage={page}/>
     </>
 }

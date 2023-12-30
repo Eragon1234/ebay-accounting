@@ -3,8 +3,8 @@
 import {useEffect, useState} from "react";
 import {Expense} from "@prisma/client";
 import {countExpenses, getExpenses} from "@/db/expense";
-import ExpenseCard from "@/components/expense/expense";
 import {Paginate, usePaginate} from "@/lib/paginate";
+import Table from "@/components/table/table";
 
 const PAGE_SIZE = 5;
 
@@ -22,11 +22,11 @@ export default function Expenses() {
 
     return <>
         <h1>Expenses</h1>
-        {
-            expenses.map(expense => {
-                return <ExpenseCard key={expense.id} expense={expense}/>
-            })
-        }
+        <Table columns={[
+            {header: "Name", accessor: "name"},
+            {header: "Amount", accessor: "amount"},
+            {header: "Date", accessor: "date", render: (a) => a.toLocaleDateString()},
+        ]} data={expenses}/>
         <Paginate pageCount={pageCount} currentPage={page}/>
     </>
 }
