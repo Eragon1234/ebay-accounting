@@ -14,6 +14,9 @@ export async function getExpenses(take: number, skip: number): Promise<Expense[]
     return prisma.expense.findMany({
         take,
         skip,
+        orderBy: [
+            {date: "asc"}
+        ]
     })
 }
 

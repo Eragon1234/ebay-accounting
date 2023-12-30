@@ -13,6 +13,9 @@ export async function getIncomes(take: number, skip: number): Promise<Income[]> 
     return prisma.income.findMany({
         take,
         skip,
+        orderBy: [
+            {date: "asc"}
+        ]
     });
 }
 
