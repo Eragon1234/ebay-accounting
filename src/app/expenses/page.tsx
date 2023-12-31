@@ -25,6 +25,7 @@ export default function Expenses() {
         <Table columns={[
             {header: "Name", accessor: "name"},
             {header: "Amount", accessor: "amount"},
+            {header: "Type", accessor: "type"},
             {header: "Date", accessor: "date", render: (a) => a.toLocaleDateString()},
         ]} data={expenses}/>
         <Paginate pageCount={pageCount} currentPage={page}/>
