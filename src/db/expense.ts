@@ -1,10 +1,10 @@
 "use server";
 
 import prisma from "@/db/db";
-import {Expense, ExpenseType} from "@prisma/client";
+import {Expense, ExpenseType, Prisma} from "@prisma/client";
 import zod from "zod";
-import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
+import {saveFile} from "@/db/files";
 
 export async function countExpenses(): Promise<number> {
     return prisma.expense.count()
@@ -20,14 +20,7 @@ export async function getExpenses(take: number, skip: number): Promise<Expense[]
     })
 }
 
-type CreateExpense = {
-    name: string,
-    amount: number,
-    date: Date,
-    type: ExpenseType
-}
-
-export async function createExpense(expense: CreateExpense): Promise<Expense> {
+export async function createExpense(expense: Prisma.ExpenseCreateInput): Promise<Expense> {
     return prisma.expense.create({
         data: expense
     })
@@ -36,7 +29,7 @@ export async function createExpense(expense: CreateExpense): Promise<Expense> {
 const newExpenseSchema = zod.object({
     name: zod.string({
         required_error: "missing name",
-    }),
+    }).min(5, "name should be at least 5 characters long"),
     date: zod.date({
         required_error: "missing date",
         coerce: true
@@ -44,42 +37,37 @@ const newExpenseSchema = zod.object({
     amount: zod.number({
         required_error: "missing amount",
         coerce: true
-    }),
-    expenseType: zod.nativeEnum(ExpenseType, {
+    }).gt(0, "amount should be greater than zero"),
+    type: zod.nativeEnum(ExpenseType, {
         required_error: "missing expense type",
     }),
-})
+    vat: zod.number({
+        coerce: true
+    }).nonnegative("VAT should be positive").optional()
+}).refine(({vat, type}) => type !== ExpenseType.VAT || vat != undefined);
 
 export default async function createExpenseFromForm(formData: FormData) {
-    try {
-        const {
-            name,
-            date,
-            amount,
-            expenseType,
-        } = newExpenseSchema.parse({
-            name: formData.get("name"),
-            date: formData.get("date"),
-            amount: formData.get("amount"),
-            expenseType: formData.get("type"),
-        });
+    const validatedFields = newExpenseSchema.safeParse({
+        name: formData.get("name"),
+        date: formData.get("date"),
+        amount: formData.get("amount"),
+        type: formData.get("type"),
+        vat: formData.get("vat")
+    });
 
-        await createExpense({
-            name,
-            date,
-            amount,
-            type: expenseType,
-        })
-    } catch (e) {
-        if (e instanceof zod.ZodError) {
-            return {
-                error: e.message,
-            }
-        } else {
-            throw e;
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors
         }
     }
 
-    revalidatePath("/expenses");
+    const files = formData.getAll("files") as File[];
+    const paths = files.filter(file => file.size !== 0).map(saveFile);
+
+    await createExpense({
+        ...validatedFields.data,
+        files: await Promise.all(paths)
+    });
+
     redirect("/expenses");
 }
