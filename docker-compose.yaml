@@ -11,6 +11,8 @@ services:
       - db
     env_file:
       - .env
+    volumes:
+      - web:/files
   db:
     image: postgres:alpine
     container_name: db
@@ -25,3 +27,5 @@ services:
 volumes:
   db:
     name: db
+  web:
+    name: web
