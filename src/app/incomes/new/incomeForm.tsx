@@ -1,36 +1,19 @@
-import MultiSelect from "@/components/multi-select/multi-select";
-import prisma from "@/db/db";
 import {createIncomeFromForm} from "@/db/income";
 
-const MAX_SEARCH_RESULTS = 10;
-
 export function IncomeForm() {
-    const searchExpenses = async (search: string): Promise<{ [key: string]: string }> => {
-        "use server";
-        const expenses = await prisma.expense.findMany({
-            where: {
-                name: {
-                    contains: search
-                }
-            },
-            take: MAX_SEARCH_RESULTS
-        });
+    const today = new Date();
+    const isoDateString = today.toISOString().slice(0, 10);
 
-        return expenses.reduce((map, expense) => {
-            map[expense.id] = expense.name;
-            return map;
-        }, {} as { [key: string]: string });
-    }
     return (
         <form action={createIncomeFromForm}>
             <label htmlFor="name">Name</label>
-            <input type="text" id="name" name="name"/>
+            <input type="text" id="name" name="name" required/>
             <label htmlFor="amount">Amount</label>
-            <input type="number" id="amount" name="amount"/>
+            <input type="number" id="amount" name="amount" required/>
             <label htmlFor="date">Date</label>
-            <input type="date" id="date" name="date"/>
-            <label htmlFor="expenses">Expenses</label>
-            <MultiSelect name={"expenses"} updateOptions={searchExpenses}/>
+            <input type="date" id="date" name="date" defaultValue={isoDateString} required/>
+            <label htmlFor="files">Files</label>
+            <input type="file" name="files" id="files" multiple={true}/>
             <button type="submit" style={{width: "auto"}}>Add Income</button>
         </form>
     )

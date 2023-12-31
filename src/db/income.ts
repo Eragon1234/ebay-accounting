@@ -2,8 +2,9 @@
 
 import {Income, Prisma} from "@prisma/client";
 import prisma from "@/db/db";
-import zod, {ZodError} from "zod";
+import zod from "zod";
 import {redirect} from "next/navigation";
+import {saveFile} from "@/db/files";
 
 export async function countIncomes() {
     return prisma.income.count();
@@ -28,55 +29,37 @@ export async function createIncome(income: Prisma.IncomeCreateInput): Promise<In
 const newIncomeSchema = zod.object({
     name: zod.string({
         required_error: "missing name",
-    }),
+    }).trim().min(5, "name should be at least 5 characters long"),
     amount: zod.number({
         required_error: "missing amount",
         coerce: true
-    }),
+    }).nonnegative().gt(0, "amount should be greater than 0"),
     date: zod.date({
         required_error: "missing date",
         coerce: true
     }),
-    expenseIds: zod.array(zod.object({
-        id: zod.number({
-            coerce: true
-        }),
-    }))
 })
 
 export async function createIncomeFromForm(formData: FormData) {
-    try {
-        const {
-            name,
-            amount,
-            date,
-            expenseIds
-        } = newIncomeSchema.parse({
-            name: formData.get("name"),
-            amount: formData.get("amount"),
-            date: formData.get("date"),
-            expenseIds:
-                Object.keys(JSON.parse(formData.get("expenses") as string))
-                    .map((expenseId: string) => ({id: expenseId}))
-        });
+    const validatedFields = newIncomeSchema.safeParse({
+        name: formData.get("name"),
+        amount: formData.get("amount"),
+        date: formData.get("date"),
+    });
 
-        await createIncome({
-            name,
-            amount,
-            date,
-            expenses: {
-                connect: expenseIds
-            }
-        })
-    } catch (e) {
-        if (e instanceof ZodError) {
-            return {
-                error: e.message
-            }
-        } else {
-            throw e;
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors
         }
     }
+
+    const files = formData.getAll("files") as File[];
+    const paths = files.filter(file => file.size !== 0).map(saveFile);
+
+    await createIncome({
+        ...validatedFields.data,
+        files: await Promise.all(paths)
+    });
 
     redirect("/incomes")
 }
