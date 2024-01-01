@@ -1,11 +1,7 @@
 .glowing {
     font-size: 6rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    padding: 3rem;
-    transform: translate(-50%, -130%);
+    width: fit-content;
+    margin-inline: auto;
 
     text-shadow: 0 0 5rem var(--foreground);
 }
