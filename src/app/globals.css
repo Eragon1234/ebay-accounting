@@ -185,17 +185,15 @@ svg {
 }
 
 .add-option {
-    font-size: 1.1em;
+    font-size: 1.5em;
     display: inline-flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    width: 10vw;
-    margin-top: var(--spacing-large);
     border: 1px solid var(--foreground);
     border-radius: var(--border-radius);
     gap: var(--spacing-medium);
-    aspect-ratio: 1 / 1;
+    padding: var(--spacing-large);
 }
 
 .add-option + .add-option {
