@@ -23,9 +23,9 @@ export default function Incomes() {
     return <>
         <h1>Incomes</h1>
         <Table columns={[
-            {header: "Name", accessor: "name"},
-            {header: "Amount", accessor: "amount"},
-            {header: "Date", accessor: "date", render: a => a.toLocaleDateString()}
+            {header: "Name", render: a => a.name},
+            {header: "Amount", render: a => a.amount},
+            {header: "Date", render: a => a.date.toLocaleDateString()}
         ]} data={incomes}/>
         <Paginate pageCount={pageCount} currentPage={page}/>
     </>

@@ -3,15 +3,14 @@ import {ReactNode} from 'react';
 import "./table.css";
 
 type TableProps<D extends Record<any, any>> = {
-    columns: Column<D, keyof D>[],
+    columns: Column<D>[],
     data: D[]
 }
 
-type Column<D, K extends keyof D> = K extends any ? {
+type Column<D> = {
     header: ReactNode,
-    accessor: K,
-    render?: (value: D[K]) => ReactNode
-} : never;
+    render: (value: D) => ReactNode
+}
 
 export default function Table<D extends Record<any, any>>({columns, data}: TableProps<D>) {
     return (
@@ -30,7 +29,7 @@ export default function Table<D extends Record<any, any>>({columns, data}: Table
                 <tr key={index}>
                     {columns.map((column, i) => (
                         <td key={i}>
-                            {render(column, item[column.accessor as keyof typeof item])}
+                            {column.render(item)}
                         </td>
                     ))}
                 </tr>
@@ -38,11 +37,4 @@ export default function Table<D extends Record<any, any>>({columns, data}: Table
             </tbody>
         </table>
     );
-}
-
-function render<D>(column: Column<D, keyof D>, val: any): ReactNode {
-    if (column.render) {
-        return column.render(val)
-    }
-    return val
 }
