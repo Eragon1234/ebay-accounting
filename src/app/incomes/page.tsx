@@ -1,7 +1,8 @@
 import {countIncomes, getIncomes} from "@/db/income";
 import Table from "@/components/table/table";
-import {calculatePagination, Paginate, parsePageFromSearchParams} from "@/lib/paginate";
+import {calculatePagination, parsePageFromSearchParams} from "@/lib/paginate";
 import SearchParams from "@/types/searchParams";
+import {Paginate} from "@/components/paginate/paginate";
 
 const PAGE_SIZE = 50;
 

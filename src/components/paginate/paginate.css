@@ -1,0 +1,15 @@
+.pagination-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--spacing-large);
+    gap: var(--spacing-large);
+}
+
+.pagination-nav__item {
+    color: grey;
+}
+
+.pagination-nav__item--active {
+    color: var(--foreground);
+}

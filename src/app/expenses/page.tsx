@@ -1,7 +1,8 @@
-import {calculatePagination, Paginate, parsePageFromSearchParams} from "@/lib/paginate";
+import {calculatePagination, parsePageFromSearchParams} from "@/lib/paginate";
 import Table from "@/components/table/table";
 import SearchParams from "@/types/searchParams";
 import {countExpenses, getExpenses} from "@/db/expense";
+import {Paginate} from "@/components/paginate/paginate";
 
 const PAGE_SIZE = 50;
 
