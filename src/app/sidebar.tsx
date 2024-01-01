@@ -12,7 +12,7 @@ export default function Sidebar() {
     ];
 
     return (
-        <nav id="sidebar">
+        <nav id="sidebar" onClick={() => document.body.classList.remove("sidebar-open")}>
             {links.map(({href, name}) => (
                 <Link key={href} href={href} className={pathname === href ? 'active' : ''}>
                     {name}

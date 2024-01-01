@@ -115,11 +115,46 @@ button, .button {
     background-color: transparent;
 }
 
+.hamburger-icon {
+    display: none;
+    font-size: 2em;
+}
+
 #sidebar {
     font-size: 1.8rem;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-medium);
+}
+
+@media screen and (max-width: 800px) {
+    #sidebar {
+        display: none;
+    }
+
+    body {
+        grid-template-areas:
+                "topbar topbar"
+                "main main";
+    }
+
+    body.sidebar-open {
+        grid-template-areas:
+                "topbar topbar"
+                "sidebar sidebar";
+    }
+
+    body.sidebar-open #sidebar {
+        display: flex;
+    }
+
+    body.sidebar-open main {
+        display: none;
+    }
+
+    .hamburger-icon {
+        display: initial;
+    }
 }
 
 #sidebar a {
