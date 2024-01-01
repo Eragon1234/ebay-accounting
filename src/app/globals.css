@@ -110,7 +110,8 @@ button, .button {
     width: fit-content;
     padding: var(--spacing-medium) var(--spacing-medium);
     cursor: pointer;
-    border: 1px solid currentColor;
+    color: var(--foreground);
+    border: 1px solid var(--foreground);
     border-radius: var(--border-radius);
     background-color: transparent;
 }
