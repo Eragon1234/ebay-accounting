@@ -6,7 +6,7 @@ import {Paginate} from "@/components/paginate/paginate";
 
 const PAGE_SIZE = 50;
 
-export default async function Incomes({searchParams}: {searchParams: SearchParams}) {
+export default async function Incomes({searchParams}: { searchParams: SearchParams }) {
     const page = parsePageFromSearchParams(searchParams);
 
     const incomeCount = await countIncomes();

@@ -7,7 +7,7 @@ import {ExpenseType} from "@prisma/client";
 
 const PAGE_SIZE = 50;
 
-export default async function Expenses({searchParams}: {searchParams: SearchParams}) {
+export default async function Expenses({searchParams}: { searchParams: SearchParams }) {
     const page = parsePageFromSearchParams(searchParams);
 
     const expenseCount = await countExpenses();

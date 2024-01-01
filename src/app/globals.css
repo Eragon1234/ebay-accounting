@@ -116,8 +116,8 @@ button, .button {
 }
 
 .hamburger-icon {
-    display: none;
     font-size: 2em;
+    display: none;
 }
 
 #sidebar {
@@ -190,10 +190,10 @@ svg {
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    padding: var(--spacing-large);
     border: 1px solid var(--foreground);
     border-radius: var(--border-radius);
     gap: var(--spacing-medium);
-    padding: var(--spacing-large);
 }
 
 .add-option + .add-option {
