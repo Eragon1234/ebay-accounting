@@ -1,28 +1,34 @@
-"use client";
-
-import {useSearchParams} from "next/navigation";
 import Link from "next/link";
+import SearchParams from "@/types/searchParams";
 
-const PAGE_SIZE = 5
+export function parsePageFromSearchParams(searchParams: SearchParams): number {
+    const val = searchParams["page"];
+
+    if (!val) {
+        return 1;
+    }
+
+    if (Array.isArray(val)) {
+        return Number(val[0]) || 1;
+    }
+
+    return Number(val) || 1;
+}
 
 type UsePaginate = {
-    page: number
+    currentPage: number
     take: number
     skip: number
     pageCount: number
 }
 
-export function usePaginate(itemCount: number, pageSize: number = PAGE_SIZE, pageSearchParam: string = "page"): UsePaginate {
-    const searchParams = useSearchParams()
-    const pageParam = searchParams.get(pageSearchParam) ?? "1"
-    const page = parseInt(pageParam)
-
-    const take = PAGE_SIZE
-    const skip = (page - 1) * PAGE_SIZE
+export function calculatePagination(page: number, itemCount: number, pageSize: number): UsePaginate {
+    const take = pageSize;
+    const skip = (page - 1) * pageSize;
 
     const pageCount = Math.ceil(itemCount / pageSize)
 
-    return {page, take, skip, pageCount}
+    return {currentPage: page, take, skip, pageCount}
 }
 
 type PaginateProps = {
@@ -45,9 +51,9 @@ export function Paginate({pageCount, currentPage}: PaginateProps) {
             {
                 pages.map((page) => {
                     return <Link key={page}
-                                 href={`/incomes?page=${page}`}
+                                 href={`?page=${page}`}
                                  className={"pagination-nav__item " +
-                                     (page === currentPage ? "pagination-nav__item--active" : "")}>
+                                     (page === currentPage && "pagination-nav__item--active")}>
                         {
                             page
                         }

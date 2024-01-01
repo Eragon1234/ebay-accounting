@@ -1,24 +1,18 @@
-"use client";
-
-import {useEffect, useState} from "react";
 import {countIncomes, getIncomes} from "@/db/income";
-import {Income} from "@prisma/client";
-import {Paginate, usePaginate} from "@/lib/paginate";
 import Table from "@/components/table/table";
+import {calculatePagination, Paginate, parsePageFromSearchParams} from "@/lib/paginate";
+import SearchParams from "@/types/searchParams";
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 50;
 
-export default function Incomes() {
-    const [incomeCount, setIncomeCount] = useState(0)
+export default async function Incomes({searchParams}: {searchParams: SearchParams}) {
+    const page = parsePageFromSearchParams(searchParams);
 
-    const {skip, take, page, pageCount} = usePaginate(incomeCount, PAGE_SIZE);
+    const incomeCount = await countIncomes();
 
-    const [incomes, setIncomes] = useState<Income[]>([])
+    const pagination = calculatePagination(page, incomeCount, PAGE_SIZE);
 
-    useEffect(() => {
-        countIncomes().then(setIncomeCount)
-        getIncomes(take, skip).then(setIncomes)
-    }, [skip, take])
+    const incomes = await getIncomes(PAGE_SIZE, pagination.skip);
 
     return <>
         <h1>Incomes</h1>
@@ -27,6 +21,6 @@ export default function Incomes() {
             {header: "Amount", render: a => a.amount},
             {header: "Date", render: a => a.date.toLocaleDateString()}
         ]} data={incomes}/>
-        <Paginate pageCount={pageCount} currentPage={page}/>
+        <Paginate {...pagination}/>
     </>
 }

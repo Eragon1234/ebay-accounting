@@ -1,24 +1,18 @@
-"use client";
-
-import {useEffect, useState} from "react";
-import {Expense} from "@prisma/client";
-import {countExpenses, getExpenses} from "@/db/expense";
-import {Paginate, usePaginate} from "@/lib/paginate";
+import {calculatePagination, Paginate, parsePageFromSearchParams} from "@/lib/paginate";
 import Table from "@/components/table/table";
+import SearchParams from "@/types/searchParams";
+import {countExpenses, getExpenses} from "@/db/expense";
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 50;
 
-export default function Expenses() {
-    const [expenseCount, setExpenseCount] = useState(0)
+export default async function Expenses({searchParams}: {searchParams: SearchParams}) {
+    const page = parsePageFromSearchParams(searchParams);
 
-    const {skip, take, page, pageCount} = usePaginate(expenseCount, PAGE_SIZE);
+    const expenseCount = await countExpenses();
 
-    const [expenses, setExpenses] = useState<Expense[]>([])
+    const pagination = calculatePagination(page, expenseCount, PAGE_SIZE);
 
-    useEffect(() => {
-        countExpenses().then(setExpenseCount)
-        getExpenses(take, skip).then(setExpenses)
-    }, [skip, take])
+    const expenses = await getExpenses(PAGE_SIZE, pagination.skip);
 
     return <>
         <h1>Expenses</h1>
@@ -28,6 +22,6 @@ export default function Expenses() {
             {header: "Type", render: a => a.type},
             {header: "Date", render: a => a.date.toLocaleDateString()},
         ]} data={expenses}/>
-        <Paginate pageCount={pageCount} currentPage={page}/>
+        <Paginate {...pagination}/>
     </>
 }
