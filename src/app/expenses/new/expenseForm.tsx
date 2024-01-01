@@ -24,7 +24,7 @@ export function ExpenseForm() {
             </select>
             {type === ExpenseType.VAT && <input type="number" id="vat" name="vat" required/>}
             <label htmlFor="amount">Amount</label>
-            <input type="number" id="amount" name="amount" required/>
+            <input type="number" id="amount" name="amount" step="0.01" required/>
             <label htmlFor="date">Date</label>
             <input type="date" id="date" name="date" defaultValue={isoDateString}/>
             <label htmlFor="files">Files</label>

@@ -9,7 +9,7 @@ export function IncomeForm() {
             <label htmlFor="name">Name</label>
             <input type="text" id="name" name="name" required/>
             <label htmlFor="amount">Amount</label>
-            <input type="number" id="amount" name="amount" required/>
+            <input type="number" id="amount" name="amount" step="0.01" required/>
             <label htmlFor="date">Date</label>
             <input type="date" id="date" name="date" defaultValue={isoDateString} required/>
             <label htmlFor="files">Files</label>
