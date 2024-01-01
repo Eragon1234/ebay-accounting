@@ -14,27 +14,31 @@ type Column<D> = {
 
 export default function Table<D extends Record<any, any>>({columns, data}: TableProps<D>) {
     return (
-        <table>
-            <thead>
-            <tr>
-                {columns.map((column, i) => (
-                    <th key={i}>
-                        {column.header}
-                    </th>
-                ))}
-            </tr>
-            </thead>
-            <tbody>
-            {data.map((item, index: number) => (
-                <tr key={index}>
+        <div style={{
+            overflow: "scroll"
+        }}>
+            <table>
+                <thead>
+                <tr>
                     {columns.map((column, i) => (
-                        <td key={i}>
-                            {column.render(item)}
-                        </td>
+                        <th key={i}>
+                            {column.header}
+                        </th>
                     ))}
                 </tr>
-            ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {data.map((item, index: number) => (
+                    <tr key={index}>
+                        {columns.map((column, i) => (
+                            <td key={i}>
+                                {column.render(item)}
+                            </td>
+                        ))}
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
     );
 }
