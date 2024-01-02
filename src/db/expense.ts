@@ -29,8 +29,8 @@ export async function getYearlyExpense(): Promise<number> {
         },
         where: {
             date: {
-                gt: new Date(now.getFullYear(), 0),
-                lte: new Date(now.getFullYear() + 1, 0)
+                gte: new Date(Date.UTC(now.getFullYear(), 0)),
+                lt: new Date(Date.UTC(now.getFullYear() + 1, 0))
             }
         }
     });
