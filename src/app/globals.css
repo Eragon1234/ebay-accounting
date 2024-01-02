@@ -185,15 +185,18 @@ svg {
     stroke: currentColor;
 }
 
+.card {
+    padding: var(--spacing-large);
+    border: 1px solid var(--foreground);
+    border-radius: var(--border-radius);
+}
+
 .add-option {
     font-size: 1.5em;
     display: inline-flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    padding: var(--spacing-large);
-    border: 1px solid var(--foreground);
-    border-radius: var(--border-radius);
     gap: var(--spacing-medium);
 }
 

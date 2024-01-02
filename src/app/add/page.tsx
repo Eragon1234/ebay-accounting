@@ -5,10 +5,10 @@ import ExpenseIcon from "@/components/icons/expense-icon";
 export default function Add() {
     return <>
         <h1>Create new</h1>
-        <Link href="/incomes/new" className="add-option">
+        <Link href="/incomes/new" className="card add-option">
             <IncomeIcon/>Income
         </Link>
-        <Link href="/expenses/new" className="add-option">
+        <Link href="/expenses/new" className="card add-option">
             <ExpenseIcon/>Expense
         </Link>
     </>
