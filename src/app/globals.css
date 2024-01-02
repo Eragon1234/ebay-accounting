@@ -208,3 +208,22 @@ svg {
     width: 2em;
     height: 2em;
 }
+
+.dashboard-card {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--spacing-medium);
+}
+
+.dashboard-card + .dashboard-card {
+    margin-left: var(--spacing-large);
+}
+
+.dashboard-card__title {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.dashboard-card__amount {
+    font-size: 3em;
+}

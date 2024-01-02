@@ -20,6 +20,24 @@ export async function getExpenses(take: number, skip: number): Promise<Expense[]
     })
 }
 
+export async function getYearlyExpense(): Promise<number> {
+    const now = new Date();
+
+    const result = await prisma.expense.aggregate({
+        _sum: {
+            amount: true,
+        },
+        where: {
+            date: {
+                gt: new Date(now.getFullYear(), 0),
+                lte: new Date(now.getFullYear() + 1, 0)
+            }
+        }
+    });
+
+    return result._sum.amount || 0;
+}
+
 export async function createExpense(expense: Prisma.ExpenseCreateInput): Promise<Expense> {
     return prisma.expense.create({
         data: expense

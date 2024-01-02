@@ -1,6 +1,0 @@
-.glowing {
-    font-size: 6rem;
-    width: fit-content;
-    text-shadow: 0 0 5rem var(--foreground);
-    margin-inline: auto;
-}
