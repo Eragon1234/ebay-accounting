@@ -20,7 +20,7 @@ export default async function Expenses({searchParams}: { searchParams: SearchPar
         <h1>Expenses</h1>
         <Table columns={[
             {header: "Name", render: a => a.name},
-            {header: "Amount", render: a => a.amount},
+            {header: "Amount", render: a => `${a.amount} €`},
             {header: "Type", render: a => a.type === ExpenseType.VAT ? `VAT ${a.vat}%` : a.type},
             {header: "Date", render: a => a.date.toLocaleDateString()},
         ]} data={expenses}/>

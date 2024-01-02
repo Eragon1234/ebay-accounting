@@ -19,7 +19,7 @@ export default async function Incomes({searchParams}: { searchParams: SearchPara
         <h1>Incomes</h1>
         <Table columns={[
             {header: "Name", render: a => a.name},
-            {header: "Amount", render: a => a.amount},
+            {header: "Amount", render: a => `${a.amount} €`},
             {header: "Date", render: a => a.date.toLocaleDateString()}
         ]} data={incomes}/>
         <Paginate {...pagination}/>
