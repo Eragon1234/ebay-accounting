@@ -1,6 +1,8 @@
 import {getYearlyIncome} from "@/db/income";
 import {getYearlyExpense} from "@/db/expense";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
     const income = await getYearlyIncome();
     const expense = await getYearlyExpense();
