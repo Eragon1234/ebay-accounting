@@ -15,7 +15,7 @@ export async function getExpenses(take: number, skip: number): Promise<Expense[]
         take,
         skip,
         orderBy: [
-            {date: "asc"}
+            {date: "desc"}
         ]
     })
 }

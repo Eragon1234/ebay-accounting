@@ -15,7 +15,7 @@ export async function getIncomes(take: number, skip: number): Promise<Income[]> 
         take,
         skip,
         orderBy: [
-            {date: "asc"}
+            {date: "desc"}
         ]
     });
 }
