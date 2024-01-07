@@ -2,14 +2,15 @@
 
 import {usePathname} from 'next/navigation';
 import Link from 'next/link';
+import {ReactNode} from "react";
 
-export default function Sidebar() {
+type Link = {
+    href: string,
+    name: ReactNode
+}
+
+export default function Sidebar({links}: { links: Link[] }) {
     const pathname = usePathname();
-    const links = [
-        {href: '/', name: 'Home'},
-        {href: '/expenses', name: 'Expenses'},
-        {href: '/incomes', name: 'Incomes'},
-    ];
 
     return (
         <nav id="sidebar" onClick={() => document.body.classList.remove("sidebar-open")}>

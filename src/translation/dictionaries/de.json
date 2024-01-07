@@ -1,0 +1,52 @@
+{
+  "sidebar": {
+    "home": "Home",
+    "expenses": "Ausgaben",
+    "incomes": "Einnahmen"
+  },
+  "home": {
+    "income": "Umsatz",
+    "earnings": "Einnahmen"
+  },
+  "incomes": {
+    "incomes": "Einnahmen",
+    "name": "Name",
+    "amount": "Betrag",
+    "date": "Datum"
+  },
+  "addIncome": {
+    "name": "Name",
+    "amount": "Betrag",
+    "date": "Datum",
+    "files": "Dateien",
+    "addIncome": "Einnahme hinzufügen"
+  },
+  "expenses": {
+    "expenses": "Ausgaben",
+    "name": "Name",
+    "amount": "Betrag",
+    "type": "Art",
+    "date": "Datum",
+    "expenseType": {
+      "VAT": "Mwst.",
+      "DIFFERENTIAL": "Differenzbesteuert"
+    }
+  },
+  "addExpense": {
+    "name": "Name",
+    "type": "Art",
+    "amount": "Betrag",
+    "date": "Datum",
+    "files": "Dateien",
+    "addExpense": "Ausgabe hinzufügen",
+    "expenseType": {
+      "VAT": "Mwst.",
+      "DIFFERENTIAL": "Differenzbesteuert"
+    }
+  },
+  "add": {
+    "expense": "Ausgabe",
+    "income": "Einnahme",
+    "createNew": "Neuer Eintrag"
+  }
+}

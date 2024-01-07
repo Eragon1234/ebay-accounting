@@ -1,9 +1,12 @@
 import {getYearlyIncome} from "@/db/income";
 import {getYearlyExpense} from "@/db/expense";
+import {getDictionary, Locales} from "@/translation/dictionaries";
 
 export const dynamic = "force-dynamic";
 
-export default async function Home() {
+export default async function Home({params}: { params: { lang: Locales } }) {
+    const dict = await getDictionary(params.lang);
+
     const income = await getYearlyIncome();
     const expense = await getYearlyExpense();
 
@@ -12,7 +15,7 @@ export default async function Home() {
     return <>
         <div className="card dashboard-card">
             <div className="dashboard-card__title">
-                Income
+                {dict.home.income}
             </div>
             <div className="dashboard-card__amount">
                 {income} €
@@ -20,7 +23,7 @@ export default async function Home() {
         </div>
         <div className="card dashboard-card">
             <div className="dashboard-card__title">
-                Earnings
+                {dict.home.earnings}
             </div>
             <div className="dashboard-card__amount">
                 {earnings.toFixed(2)} €

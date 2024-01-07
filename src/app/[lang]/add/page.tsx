@@ -1,15 +1,18 @@
 import Link from "next/link";
 import IncomeIcon from "@/components/icons/income-icon";
 import ExpenseIcon from "@/components/icons/expense-icon";
+import {getDictionary, Locales} from "@/translation/dictionaries";
 
-export default function Add() {
+export default async function Add({params}: { params: { lang: Locales } }) {
+    const dict = await getDictionary(params.lang);
+
     return <>
-        <h1>Create new</h1>
+        <h1>{dict.add.createNew}</h1>
         <Link href="/incomes/new" className="card add-option">
-            <IncomeIcon/>Income
+            <IncomeIcon/>{dict.add.income}
         </Link>
         <Link href="/expenses/new" className="card add-option">
-            <ExpenseIcon/>Expense
+            <ExpenseIcon/>{dict.add.expense}
         </Link>
     </>
 }

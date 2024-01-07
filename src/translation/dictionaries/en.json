@@ -1,0 +1,52 @@
+{
+  "sidebar": {
+    "home": "Home",
+    "expenses": "Expenses",
+    "incomes": "Incomes"
+  },
+  "home": {
+    "income": "Income",
+    "earnings": "Earnings"
+  },
+  "incomes": {
+    "incomes": "Incomes",
+    "name": "Name",
+    "amount": "Amount",
+    "date": "Date"
+  },
+  "addIncome": {
+    "name": "Name",
+    "amount": "Amount",
+    "date": "Date",
+    "files": "Files",
+    "addIncome": "Add Income"
+  },
+  "expenses": {
+    "expenses": "Expenses",
+    "name": "Name",
+    "amount": "Amount",
+    "type": "Type",
+    "date": "Date",
+    "expenseType": {
+      "VAT": "VAT",
+      "DIFFERENTIAL": "DIFFERENTIAL"
+    }
+  },
+  "addExpense": {
+    "name": "Name",
+    "type": "Art",
+    "amount": "Amount",
+    "date": "Date",
+    "files": "Files",
+    "addExpense": "Add Expense",
+    "expenseType": {
+      "VAT": "VAT",
+      "DIFFERENTIAL": "DIFFERENTIAL"
+    }
+  },
+  "add": {
+    "expense": "Expense",
+    "income": "Income",
+    "createNew": "Create new"
+  }
+}
