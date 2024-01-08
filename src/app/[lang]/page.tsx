@@ -18,7 +18,7 @@ export default async function Home({params}: { params: { lang: Locales } }) {
                 {dict.home.income}
             </div>
             <div className="dashboard-card__amount">
-                {income} €
+                {income.toFixed(2)} €
             </div>
         </div>
         <div className="card dashboard-card">
