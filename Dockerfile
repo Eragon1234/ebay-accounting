@@ -2,7 +2,7 @@ FROM node:alpine AS deps
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN  npm install --production
+RUN  npm install --omit=dev
 
 FROM node:alpine AS builder
 WORKDIR /app
