@@ -2,7 +2,7 @@
 
 import {usePathname} from 'next/navigation';
 import Link from 'next/link';
-import {ReactNode} from "react";
+import {ReactNode, useEffect} from "react";
 
 type Link = {
     href: string,
@@ -12,8 +12,12 @@ type Link = {
 export default function Sidebar({links}: { links: Link[] }) {
     const pathname = usePathname();
 
+    useEffect(() => {
+        document.body.classList.remove("sidebar-open");
+    }, [pathname]);
+
     return (
-        <nav id="sidebar" onClick={() => document.body.classList.remove("sidebar-open")}>
+        <nav id="sidebar">
             {links.map(({href, name}) => (
                 <Link key={href} href={href} className={pathname === href ? 'active' : ''}>
                     {name}
