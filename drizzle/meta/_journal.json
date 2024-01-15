@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1705270917878,
+      "tag": "0000_colorful_quasimodo",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1705270959909,
+      "tag": "0001_noisy_rhodey",
+      "breakpoints": true
+    }
+  ]
+}

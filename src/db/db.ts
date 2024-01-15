@@ -1,13 +1,21 @@
-import {PrismaClient} from '@prisma/client'
+import {drizzle} from "drizzle-orm/node-postgres";
+import {Client} from "pg";
+import * as schema from "./schema";
+import {migrate} from "drizzle-orm/node-postgres/migrator";
 
-const globalForPrisma = global as unknown as {
-    prisma: PrismaClient | undefined
-}
+const migrationClient = new Client({
+    connectionString: process.env.DATABASE_URL,
+});
+migrate(drizzle(migrationClient), {
+    migrationsFolder: "drizzle"
+});
 
-const prisma =
-    globalForPrisma.prisma ??
-    new PrismaClient()
+const queryClient = new Client({
+    connectionString: process.env.DATABASE_URL,
+});
+queryClient.connect();
 
-export default prisma
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+const db = drizzle(queryClient, {
+    schema
+});
+export default db;

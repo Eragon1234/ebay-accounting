@@ -1,47 +1,45 @@
 "use server";
 
-import prisma from "@/db/db";
-import {Expense, ExpenseType, Prisma} from "@prisma/client";
+import db from "@/db/db";
 import zod from "zod";
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
+import {Expense, expense, ExpenseType, expenseType, NewExpense} from "@/db/schema";
+import {and, count, desc, gte, lt, sum} from "drizzle-orm";
 
 export async function countExpenses(): Promise<number> {
-    return prisma.expense.count()
+    return db.select({count: count(expense.id)}).from(expense).then(a => a[0].count);
 }
 
-export async function getExpenses(take: number, skip: number): Promise<Expense[]> {
-    return prisma.expense.findMany({
-        take,
-        skip,
+export async function getExpenses(limit: number, offset: number): Promise<Expense[]> {
+    return db.query.expense.findMany({
+        limit,
+        offset,
         orderBy: [
-            {date: "desc"}
+            desc(expense.date)
         ]
-    })
+    });
 }
 
 export async function getYearlyExpense(): Promise<number> {
     const now = new Date();
+    const yearBegin = new Date(Date.UTC(now.getFullYear(), 0));
+    const nextYearBegin = new Date(Date.UTC(now.getFullYear() + 1, 0));
 
-    const result = await prisma.expense.aggregate({
-        _sum: {
-            amount: true,
-        },
-        where: {
-            date: {
-                gte: new Date(Date.UTC(now.getFullYear(), 0)),
-                lt: new Date(Date.UTC(now.getFullYear() + 1, 0))
-            }
-        }
-    });
+    const result = await db.select({
+        sum: sum(expense.amount).mapWith(Number)
+    }).from(expense).where(
+        and(
+            gte(expense.date, yearBegin),
+            lt(expense.date, nextYearBegin)
+        )
+    );
 
-    return result._sum.amount || 0;
+    return result[0].sum || 0;
 }
 
-export async function createExpense(expense: Prisma.ExpenseCreateInput): Promise<Expense> {
-    return prisma.expense.create({
-        data: expense
-    })
+export async function createExpense(newExpense: NewExpense) {
+    await db.insert(expense).values(newExpense);
 }
 
 const newExpenseSchema = zod.object({
@@ -56,7 +54,7 @@ const newExpenseSchema = zod.object({
         required_error: "missing amount",
         coerce: true
     }).gt(0, "amount should be greater than zero"),
-    type: zod.nativeEnum(ExpenseType, {
+    type: zod.enum(expenseType.enumValues, {
         required_error: "missing expense type",
     }),
     vat: zod.number({

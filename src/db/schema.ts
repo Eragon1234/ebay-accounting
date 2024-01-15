@@ -1,0 +1,39 @@
+import {customType, date, integer, pgEnum, pgTable, serial, text} from "drizzle-orm/pg-core";
+import zod from "zod";
+
+export const expenseType = pgEnum("ExpenseType", ['DIFFERENTIAL', 'VAT']);
+
+const numericNumber = customType<{ data: number }>({
+    dataType() {
+        return 'numeric';
+    },
+    fromDriver(value) {
+        return Number(value);
+    },
+});
+
+export const income = pgTable("Income", {
+    id: serial("id").primaryKey().notNull(),
+    amount: numericNumber("amount").notNull(),
+    name: text("name").notNull(),
+    date: date("date", {mode: "date"}).notNull(),
+    files: text("files").array(),
+});
+
+export const expense = pgTable("Expense", {
+    id: serial("id").primaryKey().notNull(),
+    amount: numericNumber("amount").notNull(),
+    type: expenseType("type").notNull(),
+    vat: integer("vat"),
+    name: text("name").notNull(),
+    date: date("date", {mode: "date"}).notNull(),
+    files: text("files").array(),
+});
+
+export type Expense = typeof expense.$inferSelect;
+export type NewExpense = typeof expense.$inferInsert;
+
+export type Income = typeof income.$inferSelect;
+export type NewIncome = typeof income.$inferInsert;
+
+export const ExpenseType = zod.enum(expenseType.enumValues).enum;

@@ -1,47 +1,44 @@
 "use server";
 
-import {Income, Prisma} from "@prisma/client";
-import prisma from "@/db/db";
 import zod from "zod";
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
+import {expense, Income, income, NewIncome} from "@/db/schema";
+import db from "@/db/db";
+import {and, count, desc, gte, lt, sum} from "drizzle-orm";
 
 export async function countIncomes() {
-    return prisma.income.count();
+    return db.select({count: count(income.id)}).from(income).then(a => a[0].count);
 }
 
-export async function getIncomes(take: number, skip: number): Promise<Income[]> {
-    return prisma.income.findMany({
-        take,
-        skip,
+export async function getIncomes(limit: number, offset: number): Promise<Income[]> {
+    return db.query.income.findMany({
+        limit,
+        offset,
         orderBy: [
-            {date: "desc"}
+            desc(expense.date)
         ]
     });
 }
 
 export async function getYearlyIncome(): Promise<number> {
     const now = new Date();
+    const yearBegin = new Date(Date.UTC(now.getFullYear(), 0));
+    const nextYearBegin = new Date(Date.UTC(now.getFullYear() + 1, 0));
 
-    const result = await prisma.income.aggregate({
-        _sum: {
-            amount: true,
-        },
-        where: {
-            date: {
-                gte: new Date(Date.UTC(now.getFullYear(), 0)),
-                lt: new Date(Date.UTC(now.getFullYear() + 1, 0))
-            }
-        }
-    });
-
-    return result._sum.amount || 0;
+    const result = await db.select({
+        sum: sum(income.amount).mapWith(Number)
+    }).from(income).where(
+        and(
+            gte(income.date, yearBegin),
+            lt(income.date, nextYearBegin)
+        )
+    );
+    return result[0].sum || 0;
 }
 
-export async function createIncome(income: Prisma.IncomeCreateInput): Promise<Income> {
-    return prisma.income.create({
-        data: income
-    });
+export async function createIncome(newIncome: NewIncome) {
+    await db.insert(income).values(newIncome)
 }
 
 const newIncomeSchema = zod.object({

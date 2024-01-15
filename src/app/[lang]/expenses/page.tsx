@@ -3,8 +3,8 @@ import Table from "@/components/table/table";
 import SearchParams from "@/types/searchParams";
 import {countExpenses, getExpenses} from "@/db/expense";
 import {Paginate} from "@/components/paginate/paginate";
-import {ExpenseType} from "@prisma/client";
 import {getDictionary, Locales} from "@/translation/dictionaries";
+import {ExpenseType} from "@/db/schema";
 
 const PAGE_SIZE = 50;
 
@@ -22,7 +22,7 @@ export default async function Expenses({params, searchParams}: {
 
     const expenses = await getExpenses(PAGE_SIZE, pagination.skip);
 
-    const formatType = (type: ExpenseType, vat: number | null) => {
+    const formatType = (type: typeof ExpenseType[keyof typeof ExpenseType], vat: number | null) => {
         if (type === ExpenseType.VAT) {
             return `${dict.expenses.expenseType.VAT} ${vat}%`;
         }
