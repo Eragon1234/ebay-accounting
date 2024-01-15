@@ -7,7 +7,7 @@ const migrationClient = new Client({
     connectionString: process.env.DATABASE_URL,
 });
 migrate(drizzle(migrationClient), {
-    migrationsFolder: "drizzle"
+    migrationsFolder: "../../drizzle"
 });
 
 const queryClient = new Client({

@@ -22,6 +22,7 @@ RUN adduser --system --uid 1001 nextjs
 RUN mkdir /files
 RUN chmod -R 755 /files
 
+COPY --from=builder /app/drizzle /drizzle
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
