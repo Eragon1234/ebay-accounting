@@ -48,5 +48,9 @@
     "expense": "Expense",
     "income": "Income",
     "createNew": "Create new"
+  },
+  "login": {
+    "password": "Password",
+    "submit": "Sign In"
   }
 }

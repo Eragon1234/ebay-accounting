@@ -48,5 +48,9 @@
     "expense": "Ausgabe",
     "income": "Einnahme",
     "createNew": "Neuer Eintrag"
+  },
+  "login": {
+    "password": "Passwort",
+    "submit": "Login"
   }
 }
