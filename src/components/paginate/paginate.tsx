@@ -1,4 +1,5 @@
 import Link from "next/link";
+import "./paginate.css";
 
 type PaginateProps = {
     pageCount: number
