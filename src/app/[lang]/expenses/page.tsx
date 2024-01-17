@@ -35,7 +35,7 @@ export default async function Expenses({params, searchParams}: {
             {header: dict.expenses.name, render: a => a.name},
             {header: dict.expenses.amount, render: a => `${a.amount / euroToMicroEuro} €`},
             {header: dict.expenses.type, render: a => formatType(a.type, a.vat)},
-            {header: dict.expenses.date, render: a => a.date},
+            {header: dict.expenses.date, render: a => new Date(a.date).toLocaleDateString()},
         ]} data={expenses}/>
         <Paginate {...pagination}/>
     </>
