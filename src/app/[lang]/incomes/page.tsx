@@ -27,7 +27,7 @@ export default async function Incomes({params, searchParams}: {
         <Table columns={[
             {header: dict.incomes.name, render: a => a.name},
             {header: dict.incomes.amount, render: a => `${a.amount / euroToMicroEuro} €`},
-            {header: dict.incomes.date, render: a => a.date.toLocaleDateString()}
+            {header: dict.incomes.date, render: a => a.date}
         ]} data={incomes}/>
         <Paginate {...pagination}/>
     </>

@@ -25,7 +25,7 @@ export async function getIncomeInRange(start: Date, end: Date): Promise<number> 
     const result = await db.select({
         sum: sum(income.amount).mapWith(Number)
     }).from(income).where(
-        between(income.date, start, end)
+        between(income.date, start.toISOString(), end.toISOString())
     );
     return result[0].sum || 0;
 }
@@ -40,7 +40,7 @@ export async function createIncomeFromForm(formData: FormData) {
     const validatedFields = newIncomeSchema.safeParse({
         name: formData.get("name"),
         amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
-        date: new Date(Date.parse(formData.get("date") as string)),
+        date: formData.get("date"),
     });
 
     if (!validatedFields.success) {
@@ -49,12 +49,12 @@ export async function createIncomeFromForm(formData: FormData) {
         }
     }
 
-    const files = formData.getAll("files") as File[];
-    const paths = files.filter(file => file.size !== 0).map(saveFile);
+    const file = formData.get("file") as File;
+    const path = file.size !== 0 ? await saveFile(file) : null;
 
     await createIncome({
         ...validatedFields.data,
-        files: await Promise.all(paths)
+        file: path
     });
 
     redirect("/incomes")

@@ -1,18 +1,15 @@
 "use server";
 
-import {randomUUID} from 'crypto';
-import path from "path";
-import fs from "fs";
-
 export async function saveFile(file: File): Promise<string> {
-    const filePath = path.join('/files', randomUUID());
-    if (fs.existsSync(filePath)) {
+    const bucket = process.env.BUCKET;
+    const filename = crypto.randomUUID();
+    if (!await bucket.head(filename)) {
         return saveFile(file);
     }
 
     const arrayBuffer = await file.arrayBuffer();
 
-    fs.writeFileSync(filePath, Buffer.from(arrayBuffer));
+    await bucket.put(filename, arrayBuffer);
 
-    return filePath;
+    return filename;
 }

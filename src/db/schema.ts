@@ -1,26 +1,30 @@
-import {bigint, date, integer, pgEnum, pgTable, serial, text} from "drizzle-orm/pg-core";
-import zod from "zod";
-
-export const expenseType = pgEnum("ExpenseType", ['DIFFERENTIAL', 'VAT']);
+import {integer, sqliteTable, text} from "drizzle-orm/sqlite-core";
 
 export const euroToMicroEuro = 1_000_000;
 
-export const income = pgTable("Income", {
-    id: serial("id").primaryKey().notNull(),
-    amount: bigint("amount", {mode: "number"}).notNull(), // in µ€, 1€ = 1_000_000µ€
+export enum ExpenseType {
+    VAT = "VAT",
+    DIFFERENTIAL = "DIFFERENTIAL"
+}
+
+export const income = sqliteTable("Income", {
+    id: integer("id", {mode: "number"}).primaryKey().notNull(),
+    amount: integer("amount", {mode: "number"}).notNull(), // in µ€, 1€ = 1_000_000µ€
     name: text("name").notNull(),
-    date: date("date", {mode: "date"}).notNull(),
-    files: text("files").array(),
+    date: text("date").notNull(),
+    file: text("file"),
 });
 
-export const expense = pgTable("Expense", {
-    id: serial("id").primaryKey().notNull(),
-    amount: bigint("amount", {mode: "number"}).notNull(), // in µ€, 1€ = 1_000_000µ€
-    type: expenseType("type").notNull(),
-    vat: integer("vat"),
+export const expense = sqliteTable("Expense", {
+    id: integer("id", {mode: "number"}).primaryKey().notNull(),
+    amount: integer("amount", {mode: "number"}).notNull(), // in µ€, 1€ = 1_000_000µ€
+    type: text("type", {
+        enum: ["VAT", "DIFFERENTIAL"]
+    }).notNull(),
+    vat: integer("vat", {mode: "number"}),
     name: text("name").notNull(),
-    date: date("date", {mode: "date"}).notNull(),
-    files: text("files").array(),
+    date: text("date").notNull(),
+    file: text("file"),
 });
 
 export type Expense = typeof expense.$inferSelect;
@@ -28,5 +32,3 @@ export type NewExpense = typeof expense.$inferInsert;
 
 export type Income = typeof income.$inferSelect;
 export type NewIncome = typeof income.$inferInsert;
-
-export const ExpenseType = zod.enum(expenseType.enumValues).enum;

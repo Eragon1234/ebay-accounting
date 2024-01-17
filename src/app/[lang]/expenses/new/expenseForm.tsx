@@ -4,7 +4,7 @@ import createExpenseFromForm from "@/db/expense";
 import {useState} from "react";
 import {getDictionary} from "@/translation/dictionaries";
 import {AsyncReturnType} from "@/types/asyncReturnType";
-import {ExpenseType, expenseType} from "@/db/schema";
+import {ExpenseType} from "@/db/schema";
 
 export function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDictionary> }) {
     const today = new Date();
@@ -19,7 +19,7 @@ export function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDictionary
             <label htmlFor="type">{dict.addExpense.type}</label>
             <select id="type" name="type" value={type} onChange={e => setType(e.target.value)}>
                 {
-                    expenseType.enumValues.map((key) => (
+                    Object.keys(ExpenseType).map((key) => (
                         <option key={key}
                                 value={key}>{key}</option>
                     ))
@@ -30,8 +30,8 @@ export function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDictionary
             <input type="number" id="amount" name="amount" step="0.01" required/>
             <label htmlFor="date">{dict.addExpense.date}</label>
             <input type="date" id="date" name="date" defaultValue={isoDateString}/>
-            <label htmlFor="files">{dict.addExpense.files}</label>
-            <input type="file" name="files" id="files" multiple/>
+            <label htmlFor="file">{dict.addExpense.files}</label>
+            <input type="file" name="file" id="file"/>
             <button type="submit" style={{width: "auto",}}>{dict.addExpense.addExpense}</button>
         </form>
     )

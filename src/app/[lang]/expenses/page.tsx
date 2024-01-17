@@ -22,7 +22,7 @@ export default async function Expenses({params, searchParams}: {
 
     const expenses = await getExpenses(PAGE_SIZE, pagination.skip);
 
-    const formatType = (type: typeof ExpenseType[keyof typeof ExpenseType], vat: number | null) => {
+    const formatType = (type: keyof typeof ExpenseType, vat: number | null) => {
         if (type === ExpenseType.VAT) {
             return `${dict.expenses.expenseType.VAT} ${vat}%`;
         }
@@ -35,7 +35,7 @@ export default async function Expenses({params, searchParams}: {
             {header: dict.expenses.name, render: a => a.name},
             {header: dict.expenses.amount, render: a => `${a.amount / euroToMicroEuro} €`},
             {header: dict.expenses.type, render: a => formatType(a.type, a.vat)},
-            {header: dict.expenses.date, render: a => a.date.toLocaleDateString()},
+            {header: dict.expenses.date, render: a => a.date},
         ]} data={expenses}/>
         <Paginate {...pagination}/>
     </>

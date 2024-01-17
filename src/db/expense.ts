@@ -25,7 +25,7 @@ export async function getExpenseInRange(start: Date, end: Date): Promise<number>
     const result = await db.select({
         sum: sum(expense.amount).mapWith(Number)
     }).from(expense).where(
-        between(expense.date, start, end)
+        between(expense.date, start.toISOString(), end.toISOString())
     );
 
     return result[0].sum || 0;
@@ -40,7 +40,7 @@ const newExpenseSchema = createInsertSchema(expense);
 export default async function createExpenseFromForm(formData: FormData) {
     const validatedFields = newExpenseSchema.safeParse({
         name: formData.get("name"),
-        date: new Date(Date.parse(formData.get("date") as string)),
+        date: formData.get("date"),
         amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
         type: formData.get("type"),
         vat: parseInt(formData.get("vat") as string)
@@ -53,12 +53,12 @@ export default async function createExpenseFromForm(formData: FormData) {
         }
     }
 
-    const files = formData.getAll("files") as File[];
-    const paths = files.filter(file => file.size !== 0).map(saveFile);
+    const file = formData.get("file") as File;
+    const path = file.size !== 0 ? await saveFile(file) : null;
 
     await createExpense({
         ...validatedFields.data,
-        files: await Promise.all(paths)
+        file: path
     });
 
     redirect("/expenses");
