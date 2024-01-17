@@ -1,14 +1,15 @@
 import {getYearlyIncome} from "@/db/income";
 import {getYearlyExpense} from "@/db/expense";
 import {getDictionary, Locales} from "@/translation/dictionaries";
+import {microEuroToEuro} from "@/db/schema";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home({params}: { params: { lang: Locales } }) {
     const dict = await getDictionary(params.lang);
 
-    const income = await getYearlyIncome();
-    const expense = await getYearlyExpense();
+    const income = await getYearlyIncome() * microEuroToEuro;
+    const expense = await getYearlyExpense() * microEuroToEuro;
 
     const earnings = income - expense;
 

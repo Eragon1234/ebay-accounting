@@ -1,20 +1,13 @@
-import {customType, date, integer, pgEnum, pgTable, serial, text} from "drizzle-orm/pg-core";
+import {bigint, date, integer, pgEnum, pgTable, serial, text} from "drizzle-orm/pg-core";
 import zod from "zod";
 
 export const expenseType = pgEnum("ExpenseType", ['DIFFERENTIAL', 'VAT']);
 
-const numericNumber = customType<{ data: number }>({
-    dataType() {
-        return 'numeric';
-    },
-    fromDriver(value) {
-        return Number(value);
-    },
-});
+export const microEuroToEuro = 1 / 1_000_000;
 
 export const income = pgTable("Income", {
     id: serial("id").primaryKey().notNull(),
-    amount: numericNumber("amount").notNull(),
+    amount: bigint("amount", {mode: "number"}).notNull(), // in µ€, 1€ = 1_000_000µ€
     name: text("name").notNull(),
     date: date("date", {mode: "date"}).notNull(),
     files: text("files").array(),
@@ -22,7 +15,7 @@ export const income = pgTable("Income", {
 
 export const expense = pgTable("Expense", {
     id: serial("id").primaryKey().notNull(),
-    amount: numericNumber("amount").notNull(),
+    amount: bigint("amount", {mode: "number"}).notNull(), // in µ€, 1€ = 1_000_000µ€
     type: expenseType("type").notNull(),
     vat: integer("vat"),
     name: text("name").notNull(),

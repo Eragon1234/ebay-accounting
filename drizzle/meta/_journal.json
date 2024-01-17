@@ -15,6 +15,13 @@
       "when": 1705270959909,
       "tag": "0001_noisy_rhodey",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1705483762320,
+      "tag": "0002_soft_kree",
+      "breakpoints": true
     }
   ]
 }
