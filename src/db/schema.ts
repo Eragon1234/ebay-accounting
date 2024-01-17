@@ -3,7 +3,7 @@ import zod from "zod";
 
 export const expenseType = pgEnum("ExpenseType", ['DIFFERENTIAL', 'VAT']);
 
-export const microEuroToEuro = 1 / 1_000_000;
+export const euroToMicroEuro = 1_000_000;
 
 export const income = pgTable("Income", {
     id: serial("id").primaryKey().notNull(),

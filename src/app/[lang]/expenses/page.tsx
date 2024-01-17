@@ -4,7 +4,7 @@ import SearchParams from "@/types/searchParams";
 import {countExpenses, getExpenses} from "@/db/expense";
 import {Paginate} from "@/components/paginate/paginate";
 import {getDictionary, Locales} from "@/translation/dictionaries";
-import {ExpenseType, microEuroToEuro} from "@/db/schema";
+import {ExpenseType, euroToMicroEuro} from "@/db/schema";
 
 const PAGE_SIZE = 50;
 
@@ -33,7 +33,7 @@ export default async function Expenses({params, searchParams}: {
         <h1>{dict.expenses.expenses}</h1>
         <Table columns={[
             {header: dict.expenses.name, render: a => a.name},
-            {header: dict.expenses.amount, render: a => `${a.amount * microEuroToEuro} €`},
+            {header: dict.expenses.amount, render: a => `${a.amount / euroToMicroEuro} €`},
             {header: dict.expenses.type, render: a => formatType(a.type, a.vat)},
             {header: dict.expenses.date, render: a => a.date.toLocaleDateString()},
         ]} data={expenses}/>
