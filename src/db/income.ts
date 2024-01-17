@@ -5,7 +5,7 @@ import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
 import {expense, Income, income, NewIncome} from "@/db/schema";
 import db from "@/db/db";
-import {and, count, desc, gte, lt, sum} from "drizzle-orm";
+import {between, count, desc, sum} from "drizzle-orm";
 
 export async function countIncomes() {
     return db.select({count: count(income.id)}).from(income).then(a => a[0].count);
@@ -21,18 +21,11 @@ export async function getIncomes(limit: number, offset: number): Promise<Income[
     });
 }
 
-export async function getYearlyIncome(): Promise<number> {
-    const now = new Date();
-    const yearBegin = new Date(Date.UTC(now.getFullYear(), 0));
-    const nextYearBegin = new Date(Date.UTC(now.getFullYear() + 1, 0));
-
+export async function getIncomeInRange(start: Date, end: Date): Promise<number> {
     const result = await db.select({
         sum: sum(income.amount).mapWith(Number)
     }).from(income).where(
-        and(
-            gte(income.date, yearBegin),
-            lt(income.date, nextYearBegin)
-        )
+        between(income.date, start, end)
     );
     return result[0].sum || 0;
 }

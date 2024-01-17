@@ -5,7 +5,7 @@ import zod from "zod";
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
 import {Expense, expense, ExpenseType, expenseType, NewExpense} from "@/db/schema";
-import {and, count, desc, gte, lt, sum} from "drizzle-orm";
+import {between, count, desc, sum} from "drizzle-orm";
 
 export async function countExpenses(): Promise<number> {
     return db.select({count: count(expense.id)}).from(expense).then(a => a[0].count);
@@ -21,18 +21,11 @@ export async function getExpenses(limit: number, offset: number): Promise<Expens
     });
 }
 
-export async function getYearlyExpense(): Promise<number> {
-    const now = new Date();
-    const yearBegin = new Date(Date.UTC(now.getFullYear(), 0));
-    const nextYearBegin = new Date(Date.UTC(now.getFullYear() + 1, 0));
-
+export async function getExpenseInRange(start: Date, end: Date): Promise<number> {
     const result = await db.select({
         sum: sum(expense.amount).mapWith(Number)
     }).from(expense).where(
-        and(
-            gte(expense.date, yearBegin),
-            lt(expense.date, nextYearBegin)
-        )
+        between(expense.date, start, end)
     );
 
     return result[0].sum || 0;
