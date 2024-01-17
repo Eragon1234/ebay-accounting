@@ -47,7 +47,6 @@ export default async function createExpenseFromForm(formData: FormData) {
     });
 
     if (!validatedFields.success) {
-        console.log(validatedFields.error.flatten().fieldErrors)
         return {
             errors: validatedFields.error.flatten().fieldErrors
         }
