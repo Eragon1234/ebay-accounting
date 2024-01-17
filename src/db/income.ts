@@ -1,11 +1,11 @@
 "use server";
 
-import zod from "zod";
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
-import {expense, Income, income, NewIncome} from "@/db/schema";
+import {euroToMicroEuro, expense, Income, income, NewIncome} from "@/db/schema";
 import db from "@/db/db";
 import {between, count, desc, sum} from "drizzle-orm";
+import {createInsertSchema} from "drizzle-zod";
 
 export async function countIncomes() {
     return db.select({count: count(income.id)}).from(income).then(a => a[0].count);
@@ -34,25 +34,13 @@ export async function createIncome(newIncome: NewIncome) {
     await db.insert(income).values(newIncome)
 }
 
-const newIncomeSchema = zod.object({
-    name: zod.string({
-        required_error: "missing name",
-    }).trim().min(5, "name should be at least 5 characters long"),
-    amount: zod.number({
-        required_error: "missing amount",
-        coerce: true
-    }).nonnegative().gt(0, "amount should be greater than 0"),
-    date: zod.date({
-        required_error: "missing date",
-        coerce: true
-    }),
-})
+const newIncomeSchema = createInsertSchema(income);
 
 export async function createIncomeFromForm(formData: FormData) {
     const validatedFields = newIncomeSchema.safeParse({
         name: formData.get("name"),
-        amount: formData.get("amount"),
-        date: formData.get("date"),
+        amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
+        date: new Date(Date.parse(formData.get("date") as string)),
     });
 
     if (!validatedFields.success) {

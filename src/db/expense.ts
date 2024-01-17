@@ -1,11 +1,11 @@
 "use server";
 
 import db from "@/db/db";
-import zod from "zod";
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
-import {Expense, expense, ExpenseType, expenseType, NewExpense} from "@/db/schema";
+import {euroToMicroEuro, Expense, expense, NewExpense} from "@/db/schema";
 import {between, count, desc, sum} from "drizzle-orm";
+import {createInsertSchema} from "drizzle-zod";
 
 export async function countExpenses(): Promise<number> {
     return db.select({count: count(expense.id)}).from(expense).then(a => a[0].count);
@@ -35,36 +35,19 @@ export async function createExpense(newExpense: NewExpense) {
     await db.insert(expense).values(newExpense);
 }
 
-const newExpenseSchema = zod.object({
-    name: zod.string({
-        required_error: "missing name",
-    }).min(5, "name should be at least 5 characters long"),
-    date: zod.date({
-        required_error: "missing date",
-        coerce: true
-    }),
-    amount: zod.number({
-        required_error: "missing amount",
-        coerce: true
-    }).gt(0, "amount should be greater than zero"),
-    type: zod.enum(expenseType.enumValues, {
-        required_error: "missing expense type",
-    }),
-    vat: zod.number({
-        coerce: true
-    }).nonnegative("VAT should be positive").optional()
-}).refine(({vat, type}) => type !== ExpenseType.VAT || vat != undefined);
+const newExpenseSchema = createInsertSchema(expense);
 
 export default async function createExpenseFromForm(formData: FormData) {
     const validatedFields = newExpenseSchema.safeParse({
         name: formData.get("name"),
-        date: formData.get("date"),
-        amount: formData.get("amount"),
+        date: new Date(Date.parse(formData.get("date") as string)),
+        amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
         type: formData.get("type"),
-        vat: formData.get("vat")
+        vat: parseInt(formData.get("vat") as string)
     });
 
     if (!validatedFields.success) {
+        console.log(validatedFields.error.flatten().fieldErrors)
         return {
             errors: validatedFields.error.flatten().fieldErrors
         }
