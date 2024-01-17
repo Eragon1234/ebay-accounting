@@ -50,7 +50,10 @@ export async function createIncomeFromForm(formData: FormData) {
     }
 
     const file = formData.get("file") as File;
-    const path = file.size !== 0 ? await saveFile(file) : null;
+    let path;
+    if (file) {
+        path = await saveFile(file);
+    }
 
     await createIncome({
         ...validatedFields.data,
