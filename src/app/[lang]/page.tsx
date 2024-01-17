@@ -9,8 +9,8 @@ export default async function Home({params}: { params: { lang: Locales } }) {
     const dict = await getDictionary(params.lang);
 
     const now = new Date();
-    const yearBegin = new Date(now.getFullYear(), 0);
-    const yearEnd = new Date(now.getFullYear(), 11, 31);
+    const yearBegin = new Date(Date.UTC(now.getFullYear(), 0));
+    const yearEnd = new Date(Date.UTC(now.getFullYear(), 11, 31));
 
     const income = await getIncomeInRange(yearBegin, yearEnd) / euroToMicroEuro;
     const expense = await getExpenseInRange(yearBegin, yearEnd) / euroToMicroEuro;

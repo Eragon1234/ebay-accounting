@@ -25,7 +25,7 @@ export async function getExpenseInRange(start: Date, end: Date): Promise<number>
     const result = await db.select({
         sum: sum(expense.amount).mapWith(Number)
     }).from(expense).where(
-        between(expense.date, start.toISOString(), end.toISOString())
+        between(expense.date, start.toISOString().slice(0, 10), end.toISOString().slice(0, 10))
     );
 
     return result[0].sum || 0;
