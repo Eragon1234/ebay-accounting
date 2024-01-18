@@ -21,6 +21,15 @@ export async function getExpenses(limit: number, offset: number): Promise<Expens
     });
 }
 
+export async function getExpenseTypes(): Promise<string[]> {
+    const result = await db
+        .select({type: expense.type})
+        .from(expense)
+        .groupBy(expense.type);
+
+    return result.map(r => r.type || "");
+}
+
 export async function getExpenseInRange(start: Date, end: Date): Promise<number> {
     const result = await db.select({
         sum: sum(expense.amount).mapWith(Number)
@@ -41,8 +50,9 @@ export default async function createExpenseFromForm(formData: FormData) {
     const validatedFields = newExpenseSchema.safeParse({
         name: formData.get("name"),
         date: formData.get("date"),
-        amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
         type: formData.get("type"),
+        amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
+        taxType: formData.get("taxType"),
         vat: parseInt(formData.get("vat") as string)
     });
 

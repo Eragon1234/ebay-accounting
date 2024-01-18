@@ -25,21 +25,23 @@
     "expenses": "Expenses",
     "name": "Name",
     "amount": "Amount",
+    "taxType": "Tax Type",
     "type": "Type",
     "date": "Date",
-    "expenseType": {
+    "taxTypeEnum": {
       "VAT": "VAT",
       "DIFFERENTIAL": "DIFFERENTIAL"
     }
   },
   "addExpense": {
     "name": "Name",
-    "type": "Art",
+    "taxType": "Tax Type",
+    "type": "Type",
     "amount": "Amount",
     "date": "Date",
     "file": "File",
     "addExpense": "Add Expense",
-    "expenseType": {
+    "taxTypeEnum": {
       "VAT": "VAT",
       "DIFFERENTIAL": "DIFFERENTIAL"
     }

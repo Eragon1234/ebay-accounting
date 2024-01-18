@@ -18,6 +18,7 @@ export const income = sqliteTable("Income", {
 export const expense = sqliteTable("Expense", {
     id: integer("id", {mode: "number"}).primaryKey().notNull(),
     amount: integer("amount", {mode: "number"}).notNull(), // in µ€, 1€ = 1_000_000µ€
+    type: text("type"),
     taxType: text("tax_type", {
         enum: ["VAT", "DIFFERENTIAL"]
     }).notNull(),

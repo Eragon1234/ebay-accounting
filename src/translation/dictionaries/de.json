@@ -25,21 +25,23 @@
     "expenses": "Ausgaben",
     "name": "Name",
     "amount": "Betrag",
+    "taxType": "Steuerart",
     "type": "Art",
     "date": "Datum",
-    "expenseType": {
+    "taxTypeEnum": {
       "VAT": "Mwst.",
       "DIFFERENTIAL": "Differenzbesteuert"
     }
   },
   "addExpense": {
     "name": "Name",
+    "taxType": "Steuerart",
     "type": "Art",
     "amount": "Betrag",
     "date": "Datum",
     "file": "Datei",
     "addExpense": "Ausgabe hinzufügen",
-    "expenseType": {
+    "taxTypeEnum": {
       "VAT": "Mwst.",
       "DIFFERENTIAL": "Differenzbesteuert"
     }

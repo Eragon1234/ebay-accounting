@@ -24,17 +24,18 @@ export default async function Expenses({params, searchParams}: {
 
     const formatType = (type: keyof typeof TaxType, vat: number | null) => {
         if (type === TaxType.VAT) {
-            return `${dict.expenses.expenseType.VAT} ${vat}%`;
+            return `${dict.expenses.taxTypeEnum.VAT} ${vat}%`;
         }
-        return dict.expenses.expenseType[type];
+        return dict.expenses.taxTypeEnum[type];
     }
 
     return <>
         <h1>{dict.expenses.expenses}</h1>
         <Table columns={[
             {header: dict.expenses.name, render: a => a.name},
+            {header: dict.expenses.type, render: a => a.type},
             {header: dict.expenses.amount, render: a => `${a.amount / euroToMicroEuro} €`},
-            {header: dict.expenses.type, render: a => formatType(a.taxType, a.vat)},
+            {header: dict.expenses.taxType, render: a => formatType(a.taxType, a.vat)},
             {header: dict.expenses.date, render: a => new Date(a.date).toLocaleDateString()},
         ]} data={expenses}/>
         <Paginate {...pagination}/>
