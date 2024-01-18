@@ -4,7 +4,7 @@ import SearchParams from "@/types/searchParams";
 import {countExpenses, getExpenses} from "@/db/expense";
 import {Paginate} from "@/components/paginate/paginate";
 import {getDictionary, Locales} from "@/translation/dictionaries";
-import {ExpenseType, euroToMicroEuro} from "@/db/schema";
+import {TaxType, euroToMicroEuro} from "@/db/schema";
 
 const PAGE_SIZE = 50;
 
@@ -22,8 +22,8 @@ export default async function Expenses({params, searchParams}: {
 
     const expenses = await getExpenses(PAGE_SIZE, pagination.skip);
 
-    const formatType = (type: keyof typeof ExpenseType, vat: number | null) => {
-        if (type === ExpenseType.VAT) {
+    const formatType = (type: keyof typeof TaxType, vat: number | null) => {
+        if (type === TaxType.VAT) {
             return `${dict.expenses.expenseType.VAT} ${vat}%`;
         }
         return dict.expenses.expenseType[type];
@@ -34,7 +34,7 @@ export default async function Expenses({params, searchParams}: {
         <Table columns={[
             {header: dict.expenses.name, render: a => a.name},
             {header: dict.expenses.amount, render: a => `${a.amount / euroToMicroEuro} €`},
-            {header: dict.expenses.type, render: a => formatType(a.type, a.vat)},
+            {header: dict.expenses.type, render: a => formatType(a.taxType, a.vat)},
             {header: dict.expenses.date, render: a => new Date(a.date).toLocaleDateString()},
         ]} data={expenses}/>
         <Paginate {...pagination}/>

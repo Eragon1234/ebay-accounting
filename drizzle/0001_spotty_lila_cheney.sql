@@ -1,0 +1,1 @@
+ALTER TABLE `Expense` RENAME COLUMN `type` TO `tax_type`;

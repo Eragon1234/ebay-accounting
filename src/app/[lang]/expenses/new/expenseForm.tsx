@@ -4,13 +4,13 @@ import createExpenseFromForm from "@/db/expense";
 import {useState} from "react";
 import {getDictionary} from "@/translation/dictionaries";
 import {AsyncReturnType} from "@/types/asyncReturnType";
-import {ExpenseType} from "@/db/schema";
+import {TaxType} from "@/db/schema";
 
 export function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDictionary> }) {
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);
 
-    const [type, setType] = useState<string>(ExpenseType.VAT);
+    const [type, setType] = useState<string>(TaxType.VAT);
 
     return (
         <form action={createExpenseFromForm}>
@@ -19,13 +19,13 @@ export function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDictionary
             <label htmlFor="type">{dict.addExpense.type}</label>
             <select id="type" name="type" value={type} onChange={e => setType(e.target.value)}>
                 {
-                    Object.keys(ExpenseType).map((key) => (
+                    Object.keys(TaxType).map((key) => (
                         <option key={key}
                                 value={key}>{key}</option>
                     ))
                 }
             </select>
-            {type === ExpenseType.VAT && <input type="number" id="vat" name="vat" required/>}
+            {type === TaxType.VAT && <input type="number" id="vat" name="vat" required/>}
             <label htmlFor="amount">{dict.addExpense.amount}</label>
             <input type="number" id="amount" name="amount" step="0.01" required/>
             <label htmlFor="date">{dict.addExpense.date}</label>
