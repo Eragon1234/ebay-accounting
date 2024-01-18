@@ -18,7 +18,7 @@
     "name": "Name",
     "amount": "Amount",
     "date": "Date",
-    "files": "Files",
+    "file": "File",
     "addIncome": "Add Income"
   },
   "expenses": {
@@ -37,7 +37,7 @@
     "type": "Art",
     "amount": "Amount",
     "date": "Date",
-    "files": "Files",
+    "file": "File",
     "addExpense": "Add Expense",
     "expenseType": {
       "VAT": "VAT",

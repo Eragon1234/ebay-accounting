@@ -30,7 +30,7 @@ export function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDictionary
             <input type="number" id="amount" name="amount" step="0.01" required/>
             <label htmlFor="date">{dict.addExpense.date}</label>
             <input type="date" id="date" name="date" defaultValue={isoDateString}/>
-            <label htmlFor="file">{dict.addExpense.files}</label>
+            <label htmlFor="file">{dict.addExpense.file}</label>
             <input type="file" name="file" id="file"/>
             <button type="submit" style={{width: "auto",}}>{dict.addExpense.addExpense}</button>
         </form>

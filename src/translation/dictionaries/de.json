@@ -18,7 +18,7 @@
     "name": "Name",
     "amount": "Betrag",
     "date": "Datum",
-    "files": "Dateien",
+    "file": "Datei",
     "addIncome": "Einnahme hinzufügen"
   },
   "expenses": {
@@ -37,7 +37,7 @@
     "type": "Art",
     "amount": "Betrag",
     "date": "Datum",
-    "files": "Dateien",
+    "file": "Datei",
     "addExpense": "Ausgabe hinzufügen",
     "expenseType": {
       "VAT": "Mwst.",
