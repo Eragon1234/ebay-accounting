@@ -1,5 +1,5 @@
 import {getIncomeInRange} from "@/db/income";
-import {getExpenseInRange} from "@/db/expense";
+import {getExpenseInRange, getExpenseInRangeByType} from "@/db/expense";
 import {getDictionary, Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
 
@@ -14,8 +14,9 @@ export default async function Home({params}: { params: { lang: Locales } }) {
 
     const income = await getIncomeInRange(yearBegin, yearEnd) / euroToMicroEuro;
     const expense = await getExpenseInRange(yearBegin, yearEnd) / euroToMicroEuro;
-
     const earnings = income - expense;
+
+    const expenseByType = await getExpenseInRangeByType(yearBegin, yearEnd);
 
     return <>
         <div className="card dashboard-card">
@@ -34,5 +35,15 @@ export default async function Home({params}: { params: { lang: Locales } }) {
                 {earnings.toFixed(2)} €
             </div>
         </div>
+        {Object.keys(expenseByType).map(type =>
+            <div key={type} className="card dashboard-card">
+                <div className="dashboard-card__title">
+                    {type}
+                </div>
+                <div className="dashboard-card__amount">
+                    {(expenseByType[type] / euroToMicroEuro).toFixed(2)} €
+                </div>
+            </div>
+        )}
     </>
 }
