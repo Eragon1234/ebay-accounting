@@ -19,31 +19,33 @@ export default async function Home({params}: { params: { lang: Locales } }) {
     const expenseByType = await getExpenseInRangeByType(yearBegin, yearEnd);
 
     return <>
-        <div className="card dashboard-card">
-            <div className="dashboard-card__title">
-                {dict.home.income}
-            </div>
-            <div className="dashboard-card__amount">
-                {income.toFixed(2)} €
-            </div>
-        </div>
-        <div className="card dashboard-card">
-            <div className="dashboard-card__title">
-                {dict.home.earnings}
-            </div>
-            <div className="dashboard-card__amount">
-                {earnings.toFixed(2)} €
-            </div>
-        </div>
-        {Object.keys(expenseByType).map(type =>
-            <div key={type} className="card dashboard-card">
+        <div className="dashboard">
+            <div className="card dashboard-card">
                 <div className="dashboard-card__title">
-                    {type}
+                    {dict.home.income}
                 </div>
                 <div className="dashboard-card__amount">
-                    {(expenseByType[type] / euroToMicroEuro).toFixed(2)} €
+                    {income.toFixed(2)} €
                 </div>
             </div>
-        )}
+            <div className="card dashboard-card">
+                <div className="dashboard-card__title">
+                    {dict.home.earnings}
+                </div>
+                <div className="dashboard-card__amount">
+                    {earnings.toFixed(2)} €
+                </div>
+            </div>
+            {Object.keys(expenseByType).map(type =>
+                <div key={type} className="card dashboard-card">
+                    <div className="dashboard-card__title">
+                        {type}
+                    </div>
+                    <div className="dashboard-card__amount">
+                        {(expenseByType[type] / euroToMicroEuro).toFixed(2)} €
+                    </div>
+                </div>
+            )}
+        </div>
     </>
 }

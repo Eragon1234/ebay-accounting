@@ -209,14 +209,16 @@ svg {
     height: 2em;
 }
 
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-large);
+}
+
 .dashboard-card {
     display: inline-flex;
     flex-direction: column;
     gap: var(--spacing-medium);
-}
-
-.dashboard-card + .dashboard-card {
-    margin-left: var(--spacing-large);
 }
 
 .dashboard-card__title {
