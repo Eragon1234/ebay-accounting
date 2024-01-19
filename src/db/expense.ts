@@ -67,7 +67,7 @@ export default async function createExpenseFromForm(formData: FormData) {
         type: (formData.get("type") as string).trim(),
         amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
         taxType: formData.get("taxType"),
-        vat: parseInt(formData.get("vat") as string)
+        vat: parseInt(formData.get("vat") as string) || null
     });
 
     if (!validatedFields.success) {
