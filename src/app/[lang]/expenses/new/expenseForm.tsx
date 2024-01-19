@@ -20,7 +20,6 @@ export async function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDict
                     types.map(type => <option key={type} value={type}></option>)
                 }
             </datalist>
-            <label htmlFor="taxType">{dict.addExpense.taxType}</label>
             <TaxTypeInput dict={dict}/>
             <label htmlFor="amount">{dict.addExpense.amount}</label>
             <input type="number" id="amount" name="amount" step="0.01" required/>
