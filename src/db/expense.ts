@@ -62,9 +62,9 @@ const newExpenseSchema = createInsertSchema(expense);
 
 export default async function createExpenseFromForm(formData: FormData) {
     const validatedFields = newExpenseSchema.safeParse({
-        name: formData.get("name"),
+        name: (formData.get("name") as string).trim(),
         date: formData.get("date"),
-        type: formData.get("type"),
+        type: (formData.get("type") as string).trim(),
         amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
         taxType: formData.get("taxType"),
         vat: parseInt(formData.get("vat") as string)

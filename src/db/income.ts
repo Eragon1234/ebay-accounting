@@ -38,7 +38,7 @@ const newIncomeSchema = createInsertSchema(income);
 
 export async function createIncomeFromForm(formData: FormData) {
     const validatedFields = newIncomeSchema.safeParse({
-        name: formData.get("name"),
+        name: (formData.get("name") as string).trim(),
         amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
         date: formData.get("date"),
     });
