@@ -2,7 +2,7 @@
 
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
-import {euroToMicroEuro, expense, Income, income, NewIncome} from "@/db/schema";
+import {euroToMicroEuro, Income, income, NewIncome} from "@/db/schema";
 import db from "@/db/db";
 import {between, count, desc, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
@@ -16,7 +16,7 @@ export async function getIncomes(limit: number, offset: number): Promise<Income[
         limit,
         offset,
         orderBy: [
-            desc(expense.date)
+            desc(income.date)
         ]
     });
 }
