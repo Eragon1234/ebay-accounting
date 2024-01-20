@@ -4,7 +4,7 @@ import db from "@/db/db";
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
 import {euroToMicroEuro, Expense, expense, NewExpense} from "@/db/schema";
-import {between, count, desc, sum} from "drizzle-orm";
+import {asc, between, count, desc, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
 
 export async function countExpenses(): Promise<number> {
@@ -16,7 +16,8 @@ export async function getExpenses(limit: number, offset: number): Promise<Expens
         limit,
         offset,
         orderBy: [
-            desc(expense.date)
+            desc(expense.date),
+            asc(expense.name)
         ]
     });
 }
