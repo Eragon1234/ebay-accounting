@@ -6,6 +6,7 @@ import {saveFile} from "@/db/files";
 import {euroToMicroEuro, Expense, expense, NewExpense} from "@/db/schema";
 import {asc, between, count, desc, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
+import {revalidatePath} from "next/cache";
 
 export async function countExpenses(): Promise<number> {
     return db.select({count: count(expense.id)}).from(expense).then(a => a[0].count);
@@ -88,5 +89,6 @@ export default async function createExpenseFromForm(formData: FormData) {
         file: path
     });
 
+    revalidatePath("/[lang]/expenses", "page")
     redirect("/expenses");
 }

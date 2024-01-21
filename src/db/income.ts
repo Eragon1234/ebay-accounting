@@ -6,6 +6,7 @@ import {euroToMicroEuro, Income, income, NewIncome} from "@/db/schema";
 import db from "@/db/db";
 import {between, count, desc, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
+import {revalidatePath} from "next/cache";
 
 export async function countIncomes() {
     return db.select({count: count(income.id)}).from(income).then(a => a[0].count);
@@ -60,5 +61,6 @@ export async function createIncomeFromForm(formData: FormData) {
         file: path
     });
 
+    revalidatePath("/[lang]/incomes", "page")
     redirect("/incomes")
 }
