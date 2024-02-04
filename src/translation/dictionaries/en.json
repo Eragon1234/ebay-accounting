@@ -6,7 +6,8 @@
   },
   "home": {
     "income": "Income",
-    "earnings": "Earnings"
+    "earnings": "Earnings",
+    "vatToPay": "VAT to pay"
   },
   "incomes": {
     "incomes": "Incomes",

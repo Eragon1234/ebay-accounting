@@ -6,7 +6,8 @@
   },
   "home": {
     "income": "Umsatz",
-    "earnings": "Einnahmen"
+    "earnings": "Einnahmen",
+    "vatToPay": "zu zahlende Umsatzsteuer"
   },
   "incomes": {
     "incomes": "Einnahmen",

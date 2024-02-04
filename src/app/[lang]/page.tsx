@@ -2,6 +2,7 @@ import {getIncomeInRange} from "@/db/income";
 import {getExpenseInRange, getExpenseInRangeByType} from "@/db/expense";
 import {getDictionary, Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
+import {getVATInRange} from "@/db/tax";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +16,8 @@ export default async function Home({params}: { params: { lang: Locales } }) {
     const income = await getIncomeInRange(yearBegin, yearEnd) / euroToMicroEuro;
     const expense = await getExpenseInRange(yearBegin, yearEnd) / euroToMicroEuro;
     const earnings = income - expense;
+
+    const vatToPay = await getVATInRange(yearBegin, yearEnd) / euroToMicroEuro;
 
     const expenseByType = await getExpenseInRangeByType(yearBegin, yearEnd);
 
@@ -34,6 +37,14 @@ export default async function Home({params}: { params: { lang: Locales } }) {
                 </div>
                 <div className="dashboard-card__amount">
                     {earnings.toFixed(2)} €
+                </div>
+            </div>
+            <div className="card dashboard-card">
+                <div className="dashboard-card__title">
+                    {dict.home.vatToPay}
+                </div>
+                <div className="dashboard-card__amount">
+                    {vatToPay.toFixed(2)} €
                 </div>
             </div>
             {Object.keys(expenseByType).map(type =>
