@@ -4,11 +4,9 @@ import {getDictionary, Locales} from "@/translation/dictionaries";
 export default async function NewIncomePage({params}: { params: { lang: Locales } }) {
     const dict = await getDictionary(params.lang);
 
-    return (
-        <div>
-            <h1>{dict.addIncome.addIncome}</h1>
-            <IncomeForm lang={params.lang}/>
-        </div>
-    )
+    return <>
+        <h1>{dict.addIncome.addIncome}</h1>
+        <IncomeForm lang={params.lang}/>
+    </>
 }
 
