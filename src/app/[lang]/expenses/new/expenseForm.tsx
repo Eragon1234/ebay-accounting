@@ -12,8 +12,6 @@ export async function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDict
 
     const types = await getExpenseTypes();
 
-    const {pending} = useFormStatus();
-
     return (
         <form action={createExpenseFromForm}>
             <label htmlFor="name">{dict.addExpense.name}</label>
@@ -32,7 +30,14 @@ export async function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDict
             <input type="date" id="date" name="date" defaultValue={isoDateString}/>
             <label htmlFor="file">{dict.addExpense.file}</label>
             <input type="file" name="file" id="file"/>
-            <button type="submit" style={{width: "auto",}} disabled={pending}>{dict.addExpense.addExpense}</button>
+            <SubmitButton dict={dict}/>
         </form>
     )
 }
+
+async function SubmitButton({dict}: { dict: AsyncReturnType<typeof getDictionary> }) {
+    const {pending} = useFormStatus();
+
+    return <button type="submit" style={{width: "auto",}} disabled={pending}>{dict.addExpense.addExpense}</button>;
+}
+

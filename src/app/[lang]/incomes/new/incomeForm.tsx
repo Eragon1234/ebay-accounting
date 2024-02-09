@@ -3,14 +3,13 @@
 import {createIncomeFromForm} from "@/db/income";
 import {getDictionary, Locales} from "@/translation/dictionaries";
 import {useFormStatus} from "react-dom";
+import {AsyncReturnType} from "@/types/asyncReturnType";
 
 export async function IncomeForm({lang}: { lang: Locales }) {
     const dict = await getDictionary(lang);
 
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);
-
-    const {pending} = useFormStatus();
 
     return (
         <form action={createIncomeFromForm}>
@@ -22,7 +21,14 @@ export async function IncomeForm({lang}: { lang: Locales }) {
             <input type="date" id="date" name="date" defaultValue={isoDateString} required/>
             <label htmlFor="file">{dict.addIncome.file}</label>
             <input type="file" name="file" id="file"/>
-            <button type="submit" style={{width: "auto"}} disabled={pending}>{dict.addIncome.addIncome}</button>
+            <SubmitButton dict={dict}/>
         </form>
     )
 }
+
+async function SubmitButton({dict}: { dict: AsyncReturnType<typeof getDictionary> }) {
+    const {pending} = useFormStatus();
+
+    return <button type="submit" style={{width: "auto"}} disabled={pending}>{dict.addIncome.addIncome}</button>;
+}
+
