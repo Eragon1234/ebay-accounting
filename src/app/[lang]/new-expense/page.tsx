@@ -1,4 +1,4 @@
-import {ExpenseForm} from "@/app/[lang]/expenses/new/expenseForm";
+import {ExpenseForm} from "@/app/[lang]/new-expense/expenseForm";
 import {getDictionary, Locales} from "@/translation/dictionaries";
 
 export default async function NewExpensePage({params}: { params: { lang: Locales } }) {

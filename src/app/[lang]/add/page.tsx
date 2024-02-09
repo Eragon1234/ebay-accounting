@@ -8,10 +8,10 @@ export default async function Add({params}: { params: { lang: Locales } }) {
 
     return <>
         <h1>{dict.add.createNew}</h1>
-        <Link href="/incomes/new" className="card add-option">
+        <Link href="/new-income" className="card add-option">
             <IncomeIcon/>{dict.add.income}
         </Link>
-        <Link href="/expenses/new" className="card add-option">
+        <Link href="/new-expense" className="card add-option">
             <ExpenseIcon/>{dict.add.expense}
         </Link>
     </>

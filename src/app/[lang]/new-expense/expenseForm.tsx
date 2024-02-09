@@ -1,7 +1,7 @@
 import createExpenseFromForm, {getExpenseTypes} from "@/db/expense";
 import {getDictionary} from "@/translation/dictionaries";
 import {AsyncReturnType} from "@/types/asyncReturnType";
-import {TaxTypeInput} from "@/app/[lang]/expenses/new/taxTypeInput";
+import {TaxTypeInput} from "@/app/[lang]/new-expense/taxTypeInput";
 import {SubmitButton} from "@/components/submit-button/submitButton";
 
 export async function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDictionary> }) {
