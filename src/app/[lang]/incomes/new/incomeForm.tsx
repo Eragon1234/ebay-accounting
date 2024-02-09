@@ -1,11 +1,16 @@
+"use client";
+
 import {createIncomeFromForm} from "@/db/income";
 import {getDictionary, Locales} from "@/translation/dictionaries";
+import {useFormStatus} from "react-dom";
 
 export async function IncomeForm({lang}: { lang: Locales }) {
     const dict = await getDictionary(lang);
 
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);
+
+    const {pending} = useFormStatus();
 
     return (
         <form action={createIncomeFromForm}>
@@ -17,7 +22,7 @@ export async function IncomeForm({lang}: { lang: Locales }) {
             <input type="date" id="date" name="date" defaultValue={isoDateString} required/>
             <label htmlFor="file">{dict.addIncome.file}</label>
             <input type="file" name="file" id="file"/>
-            <button type="submit" style={{width: "auto"}}>{dict.addIncome.addIncome}</button>
+            <button type="submit" style={{width: "auto"}} disabled={pending}>{dict.addIncome.addIncome}</button>
         </form>
     )
 }
