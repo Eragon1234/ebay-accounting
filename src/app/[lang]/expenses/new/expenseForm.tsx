@@ -1,10 +1,8 @@
-"use client";
-
 import createExpenseFromForm, {getExpenseTypes} from "@/db/expense";
 import {getDictionary} from "@/translation/dictionaries";
 import {AsyncReturnType} from "@/types/asyncReturnType";
 import {TaxTypeInput} from "@/app/[lang]/expenses/new/taxTypeInput";
-import {useFormStatus} from "react-dom";
+import {SubmitButton} from "@/components/submit-button/submitButton";
 
 export async function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDictionary> }) {
     const today = new Date();
@@ -30,14 +28,7 @@ export async function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDict
             <input type="date" id="date" name="date" defaultValue={isoDateString}/>
             <label htmlFor="file">{dict.addExpense.file}</label>
             <input type="file" name="file" id="file"/>
-            <SubmitButton dict={dict}/>
+            <SubmitButton text={dict.addExpense.addExpense}/>
         </form>
     )
 }
-
-async function SubmitButton({dict}: { dict: AsyncReturnType<typeof getDictionary> }) {
-    const {pending} = useFormStatus();
-
-    return <button type="submit" style={{width: "auto",}} disabled={pending}>{dict.addExpense.addExpense}</button>;
-}
-
