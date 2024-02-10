@@ -7,6 +7,7 @@ import {euroToMicroEuro, Expense, expense, NewExpense} from "@/db/schema";
 import {asc, between, count, desc, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
 import {revalidatePath} from "next/cache";
+import {Locales} from "@/translation/dictionaries";
 
 export async function countExpenses(): Promise<number> {
     return db.select({count: count(expense.id)}).from(expense).then(a => a[0].count);
@@ -62,7 +63,7 @@ export async function createExpense(newExpense: NewExpense) {
 
 const newExpenseSchema = createInsertSchema(expense);
 
-export default async function createExpenseFromForm(formData: FormData) {
+export default async function createExpenseFromForm(lang: Locales, formData: FormData) {
     const validatedFields = newExpenseSchema.safeParse({
         name: (formData.get("name") as string).trim(),
         date: formData.get("date"),
@@ -89,6 +90,6 @@ export default async function createExpenseFromForm(formData: FormData) {
         file: path
     });
 
-    revalidatePath("/[lang]/expenses", "page")
-    redirect("/expenses");
+    revalidatePath("/[lang]/expenses", "page");
+    redirect(`/${lang}/expenses`);
 }

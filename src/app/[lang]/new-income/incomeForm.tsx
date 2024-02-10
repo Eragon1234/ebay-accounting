@@ -8,8 +8,10 @@ export async function IncomeForm({lang}: { lang: Locales }) {
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);
 
+    const action = createIncomeFromForm.bind(null, lang);
+
     return (
-        <form action={createIncomeFromForm}>
+        <form action={action}>
             <label htmlFor="name">{dict.addIncome.name}</label>
             <input type="text" id="name" name="name" required/>
             <label htmlFor="amount">{dict.addIncome.amount}</label>

@@ -6,6 +6,6 @@ export default async function NewExpensePage({params}: { params: { lang: Locales
 
     return <>
         <h1>{dict.addExpense.addExpense}</h1>
-        <ExpenseForm dict={dict}/>
+        <ExpenseForm lang={params.lang}/>
     </>
 }

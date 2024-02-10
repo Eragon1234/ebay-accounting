@@ -7,6 +7,7 @@ import db from "@/db/db";
 import {between, count, desc, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
 import {revalidatePath} from "next/cache";
+import {Locales} from "@/translation/dictionaries";
 
 export async function countIncomes() {
     return db.select({count: count(income.id)}).from(income).then(a => a[0].count);
@@ -37,7 +38,7 @@ export async function createIncome(newIncome: NewIncome) {
 
 const newIncomeSchema = createInsertSchema(income);
 
-export async function createIncomeFromForm(formData: FormData) {
+export async function createIncomeFromForm(lang: Locales, formData: FormData) {
     const validatedFields = newIncomeSchema.safeParse({
         name: (formData.get("name") as string).trim(),
         amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
@@ -61,6 +62,6 @@ export async function createIncomeFromForm(formData: FormData) {
         file: path
     });
 
-    revalidatePath("/[lang]/incomes", "page")
-    redirect("/incomes")
+    revalidatePath("/[lang]/incomes", "page");
+    redirect(`/${lang}/incomes`);
 }

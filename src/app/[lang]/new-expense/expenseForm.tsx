@@ -1,17 +1,20 @@
 import createExpenseFromForm, {getExpenseTypes} from "@/db/expense";
-import {getDictionary} from "@/translation/dictionaries";
-import {AsyncReturnType} from "@/types/asyncReturnType";
+import {getDictionary, Locales} from "@/translation/dictionaries";
 import {TaxTypeInput} from "@/app/[lang]/new-expense/taxTypeInput";
 import {SubmitButton} from "@/components/submit-button/submitButton";
 
-export async function ExpenseForm({dict}: { dict: AsyncReturnType<typeof getDictionary> }) {
+export async function ExpenseForm({lang}: { lang: Locales }) {
+    const dict = await getDictionary(lang);
+
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);
 
     const types = await getExpenseTypes();
 
+    const action = createExpenseFromForm.bind(null, lang);
+
     return (
-        <form action={createExpenseFromForm}>
+        <form action={action}>
             <label htmlFor="name">{dict.addExpense.name}</label>
             <input type="text" id="name" name="name" required/>
             <label htmlFor="type">{dict.addExpense.type}</label>
