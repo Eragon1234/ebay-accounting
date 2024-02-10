@@ -53,7 +53,7 @@ export async function createIncomeFromForm(lang: Locales, formData: FormData) {
 
     const file = formData.get("file") as File;
     let path;
-    if (file) {
+    if (file && file.size > 0) {
         path = await saveFile(file);
     }
 

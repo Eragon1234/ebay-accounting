@@ -81,7 +81,7 @@ export default async function createExpenseFromForm(lang: Locales, formData: For
 
     const file = formData.get("file") as File;
     let path;
-    if (file) {
+    if (file && file.size > 0) {
         path = await saveFile(file);
     }
 
