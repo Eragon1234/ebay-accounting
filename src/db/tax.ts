@@ -22,11 +22,11 @@ export async function getVATInRange(start: Date, end: Date): Promise<number> {
     const taxToBePaid = taxableIncome - (taxableIncome / 1.19);
 
     const paidVat = (await db.select({
-        paidVat: sql`sum(amount - (amount / (100 + vat) * 100))`
+        paidVat: sql`sum(${expense.amount} - (${expense.amount} / (100 + ${expense.vat}) * 100))`.mapWith(Number)
     }).from(expense).where(
         and(
             between(expense.date, start.toISOString().slice(0, 10), end.toISOString().slice(0, 10)),
-            eq(expense.taxType, TaxType.DIFFERENTIAL)
+            eq(expense.taxType, TaxType.VAT)
         )
     ))[0].paidVat;
 
