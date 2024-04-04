@@ -16,23 +16,17 @@ export default function Dashboard({dict}: { dict: Dict }) {
     const [rangeEnd, setRangeEnd] = useState(yearEnd);
 
     const [income, setIncome] = useState(0);
-    const [earnings, setEarnings] = useState(0);
+    const [expense, setExpense] = useState(0);
     const [vatToPay, setVatToPay] = useState(0);
     const [expenseByType, setExpenseByType] = useState<Record<string, number>>({});
 
-    const fetchValues = async () => {
-        const newIncome = await getIncomeInRange(rangeStart, rangeEnd) / euroToMicroEuro;
-        setIncome(newIncome);
-        const newExpense = await getExpenseInRange(rangeStart, rangeEnd) / euroToMicroEuro;
-        setEarnings(newIncome - newExpense);
-        const newVatToPay = await getVATInRange(rangeStart, rangeEnd) / euroToMicroEuro;
-        setVatToPay(newVatToPay);
-        const newExpenseByType = await getExpenseInRangeByType(rangeStart, rangeEnd);
-        setExpenseByType(newExpenseByType);
-    };
+    const earnings = income - expense;
 
     useEffect(() => {
-        fetchValues();
+        getIncomeInRange(rangeStart, rangeEnd).then(v => setIncome(v / euroToMicroEuro));
+        getExpenseInRange(rangeStart, rangeEnd).then(v => setExpense(v / euroToMicroEuro));
+        getVATInRange(rangeStart, rangeEnd).then(v => setVatToPay(v / euroToMicroEuro));
+        getExpenseInRangeByType(rangeStart, rangeEnd).then(v => setExpenseByType(v));
     }, [rangeStart, rangeEnd]);
 
     return <>
