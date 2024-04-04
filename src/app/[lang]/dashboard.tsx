@@ -21,12 +21,12 @@ export default function Dashboard({dict}: { dict: Dict }) {
     const [expenseByType, setExpenseByType] = useState<Record<string, number>>({});
 
     const fetchValues = async () => {
-        const newIncome = await getIncomeInRange(rangeStart, rangeEnd);
-        setIncome(newIncome / euroToMicroEuro);
-        const newExpense = await getExpenseInRange(rangeStart, rangeEnd);
+        const newIncome = await getIncomeInRange(rangeStart, rangeEnd) / euroToMicroEuro;
+        setIncome(newIncome);
+        const newExpense = await getExpenseInRange(rangeStart, rangeEnd) / euroToMicroEuro;
         setEarnings(newIncome - newExpense);
-        const newVatToPay = await getVATInRange(rangeStart, rangeEnd);
-        setVatToPay(newVatToPay / euroToMicroEuro);
+        const newVatToPay = await getVATInRange(rangeStart, rangeEnd) / euroToMicroEuro;
+        setVatToPay(newVatToPay);
         const newExpenseByType = await getExpenseInRangeByType(rangeStart, rangeEnd);
         setExpenseByType(newExpenseByType);
     };
