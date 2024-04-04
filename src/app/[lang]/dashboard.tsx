@@ -23,6 +23,9 @@ export default function Dashboard({dict}: { dict: Dict }) {
     const earnings = income - expense;
 
     useEffect(() => {
+        if (isNaN(rangeStart.getTime()) || isNaN(rangeEnd.getTime())) {
+            return;
+        }
         getIncomeInRange(rangeStart, rangeEnd).then(v => setIncome(v / euroToMicroEuro));
         getExpenseInRange(rangeStart, rangeEnd).then(v => setExpense(v / euroToMicroEuro));
         getVATInRange(rangeStart, rangeEnd).then(v => setVatToPay(v / euroToMicroEuro));
