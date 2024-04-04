@@ -232,5 +232,11 @@ svg {
 
 .date-range-picker {
     display: flex;
-    justify-content: space-between;
+    gap: var(--spacing-large);
+}
+
+.date-range-picker__start, .date-range-picker__end {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-small);
 }
