@@ -5,6 +5,8 @@
     "incomes": "Einnahmen"
   },
   "home": {
+    "from": "Von",
+    "to": "Bis",
     "income": "Umsatz",
     "earnings": "Einnahmen",
     "vatToPay": "zu zahlende Umsatzsteuer"

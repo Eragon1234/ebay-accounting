@@ -5,6 +5,8 @@
     "incomes": "Incomes"
   },
   "home": {
+    "from": "From",
+    "to": "To",
     "income": "Income",
     "earnings": "Earnings",
     "vatToPay": "VAT to pay"

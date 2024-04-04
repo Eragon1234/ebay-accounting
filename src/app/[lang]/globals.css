@@ -98,7 +98,7 @@ form {
     gap: var(--spacing-medium);
 }
 
-form input, form select, form textarea {
+input, select, textarea {
     margin-bottom: var(--spacing-medium);
     padding: var(--spacing-medium) var(--spacing-large);
     border: 1px solid currentColor;
@@ -228,4 +228,9 @@ svg {
 
 .dashboard-card__amount {
     font-size: 3em;
+}
+
+.date-range-picker {
+    display: flex;
+    justify-content: space-between;
 }
