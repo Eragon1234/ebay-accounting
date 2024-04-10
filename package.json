@@ -27,6 +27,7 @@
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.11.0",
     "@cloudflare/workers-types": "^4.20240320.1",
-    "@types/pg": "^8.11.4"
+    "@types/pg": "^8.11.4",
+    "eslint-plugin-react": "^7.34.1"
   }
 }
