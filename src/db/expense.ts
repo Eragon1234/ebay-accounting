@@ -4,7 +4,7 @@ import db from "@/db/db";
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
 import {euroToMicroEuro, Expense, expense, NewExpense} from "@/db/schema";
-import {asc, between, count, desc, sum} from "drizzle-orm";
+import {asc, between, count, desc, eq, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
 import {revalidatePath} from "next/cache";
 import {Locales} from "@/translation/dictionaries";
@@ -59,6 +59,11 @@ export async function getExpenseInRangeByType(start: Date, end: Date): Promise<R
 
 export async function createExpense(newExpense: NewExpense) {
     await db.insert(expense).values(newExpense);
+}
+
+export async function deleteExpense(id: number) {
+    await db.delete(expense).where(eq(expense.id, id));
+    revalidatePath("/[lang]/expenses", "page");
 }
 
 const newExpenseSchema = createInsertSchema(expense);
