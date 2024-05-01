@@ -5,6 +5,7 @@ import SearchParams from "@/types/searchParams";
 import {Paginate} from "@/components/paginate/paginate";
 import {getDictionary, Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
+import {Actions} from "@/app/[lang]/incomes/actions";
 
 const PAGE_SIZE = 50;
 
@@ -28,6 +29,7 @@ export default async function Incomes({params, searchParams}: {
             {header: dict.incomes.name, render: a => a.name},
             {header: dict.incomes.amount, render: a => `${a.amount / euroToMicroEuro} €`},
             {header: dict.incomes.date, render: a => new Date(a.date).toLocaleDateString()},
+            {header: "", render: a => <Actions income={a}/>},
         ]} data={incomes}/>
         <Paginate {...pagination}/>
     </>

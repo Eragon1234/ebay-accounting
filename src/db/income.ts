@@ -4,7 +4,7 @@ import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
 import {euroToMicroEuro, Income, income, NewIncome} from "@/db/schema";
 import db from "@/db/db";
-import {between, count, desc, sum} from "drizzle-orm";
+import {between, count, desc, eq, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
 import {revalidatePath} from "next/cache";
 import {Locales} from "@/translation/dictionaries";
@@ -34,6 +34,11 @@ export async function getIncomeInRange(start: Date, end: Date): Promise<number> 
 
 export async function createIncome(newIncome: NewIncome) {
     await db.insert(income).values(newIncome)
+}
+
+export async function deleteIncome(id: number) {
+    await db.delete(income).where(eq(income.id, id));
+    revalidatePath("/[lang]/incomes", "page");
 }
 
 const newIncomeSchema = createInsertSchema(income);
