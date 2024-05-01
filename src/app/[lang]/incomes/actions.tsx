@@ -1,3 +1,5 @@
+"use client";
+
 import {Income} from "@/db/schema";
 import DeleteIcon from "@/components/icons/delete-icon";
 import {deleteIncome} from "@/db/income";
