@@ -5,7 +5,7 @@ import {countExpenses, getExpenses} from "@/db/expense";
 import {Paginate} from "@/components/paginate/paginate";
 import {getDictionary, Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro, TaxType} from "@/db/schema";
-import Actions from "@/app/[lang]/expenses/Actions";
+import Actions from "@/app/[lang]/expenses/actions";
 
 const PAGE_SIZE = 50;
 
