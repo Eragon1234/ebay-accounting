@@ -3,9 +3,11 @@ import Table from "@/components/table/table";
 import {calculatePagination, parsePageFromSearchParams} from "@/lib/paginate";
 import SearchParams from "@/types/searchParams";
 import {Paginate} from "@/components/paginate/paginate";
-import {getDictionary, Locales} from "@/translation/dictionaries";
+import {Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
 import {Actions} from "@/app/[lang]/incomes/actions";
+import {useContext} from "react";
+import {LocalizationContext} from "@/lib/contexts";
 
 const PAGE_SIZE = 50;
 
@@ -13,7 +15,7 @@ export default async function Incomes({params, searchParams}: {
     params: { lang: Locales }
     searchParams: SearchParams
 }) {
-    const dict = await getDictionary(params.lang);
+    const {dict} = useContext(LocalizationContext);
 
     const page = parsePageFromSearchParams(searchParams);
 

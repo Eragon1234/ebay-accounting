@@ -1,17 +1,18 @@
 import createExpenseFromForm, {getExpenseTypes} from "@/db/expense";
-import {getDictionary, Locales} from "@/translation/dictionaries";
 import {TaxTypeInput} from "@/app/[lang]/new-expense/taxTypeInput";
 import {SubmitButton} from "@/components/submit-button/submitButton";
+import {useContext} from "react";
+import {LocalizationContext} from "@/lib/contexts";
 
-export async function ExpenseForm({lang}: { lang: Locales }) {
-    const dict = await getDictionary(lang);
+export async function ExpenseForm() {
+    const {dict, locale} = useContext(LocalizationContext);
 
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);
 
     const types = await getExpenseTypes();
 
-    const action = createExpenseFromForm.bind(null, lang);
+    const action = createExpenseFromForm.bind(null, locale);
 
     return (
         <form action={action}>
@@ -24,7 +25,7 @@ export async function ExpenseForm({lang}: { lang: Locales }) {
                     types.map(type => <option key={type} value={type}></option>)
                 }
             </datalist>
-            <TaxTypeInput dict={dict}/>
+            <TaxTypeInput/>
             <label htmlFor="amount">{dict.addExpense.amount}</label>
             <input type="number" id="amount" name="amount" step="0.01" required/>
             <label htmlFor="date">{dict.addExpense.date}</label>

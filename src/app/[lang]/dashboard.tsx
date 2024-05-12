@@ -1,13 +1,15 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {getIncomeInRange} from "@/db/income";
 import {euroToMicroEuro} from "@/db/schema";
 import {getExpenseInRange, getExpenseInRangeByType} from "@/db/expense";
 import {getVATInRange} from "@/db/tax";
-import {Dict} from "@/translation/dictionaries";
+import {LocalizationContext} from "@/lib/contexts";
 
-export default function Dashboard({dict}: { dict: Dict }) {
+export default function Dashboard() {
+    const {dict} = useContext(LocalizationContext);
+
     const now = new Date();
     const yearBegin = new Date(Date.UTC(now.getFullYear(), 0));
     const yearEnd = new Date(Date.UTC(now.getFullYear(), 11, 31));

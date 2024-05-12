@@ -1,11 +1,11 @@
 "use client";
 
-import {AsyncReturnType} from "@/types/asyncReturnType";
-import {getDictionary} from "@/translation/dictionaries";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {TaxType} from "@/db/schema";
+import {LocalizationContext} from "@/lib/contexts";
 
-export function TaxTypeInput({dict}: { dict: AsyncReturnType<typeof getDictionary> }) {
+export function TaxTypeInput() {
+    const {dict} = useContext(LocalizationContext);
     const [taxType, setTaxType] = useState<string>(TaxType.VAT);
 
     return <>

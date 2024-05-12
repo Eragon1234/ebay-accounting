@@ -1,14 +1,15 @@
 import {createIncomeFromForm} from "@/db/income";
-import {getDictionary, Locales} from "@/translation/dictionaries";
 import {SubmitButton} from "@/components/submit-button/submitButton";
+import {useContext} from "react";
+import {LocalizationContext} from "@/lib/contexts";
 
-export async function IncomeForm({lang}: { lang: Locales }) {
-    const dict = await getDictionary(lang);
+export async function IncomeForm() {
+    const {dict, locale} = useContext(LocalizationContext);
 
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);
 
-    const action = createIncomeFromForm.bind(null, lang);
+    const action = createIncomeFromForm.bind(null, locale);
 
     return (
         <form action={action}>
