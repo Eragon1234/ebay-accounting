@@ -5,7 +5,7 @@ const secret = crypto.subtle.importKey(
     new TextEncoder().encode(process.env.SECRET!),
     {
         name: "HMAC",
-        hash: {name:"SHA-256"}
+        hash: {name: "SHA-256"}
     },
     false,
     ["sign", "verify"]
