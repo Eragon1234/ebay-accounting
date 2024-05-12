@@ -1,4 +1,4 @@
-{
+const en = {
   "sidebar": {
     "home": "Home",
     "expenses": "Expenses",
@@ -59,3 +59,5 @@
     "submit": "Sign In"
   }
 }
+
+export default en;

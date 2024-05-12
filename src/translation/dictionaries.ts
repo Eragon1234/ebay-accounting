@@ -1,12 +1,15 @@
-import {AsyncReturnType} from "@/types/asyncReturnType";
+import en from "@/translation/dictionaries/en";
+import de from "@/translation/dictionaries/de";
 
 export const dictionaries = {
-    en: () => import('./dictionaries/en.json').then((module) => module.default),
-    de: () => import('./dictionaries/de.json').then((module) => module.default)
+    en,
+    de
 }
 
 export type Locales = keyof typeof dictionaries;
 
-export type Dict = AsyncReturnType<typeof dictionaries[Locales]>;
+export type Dict = typeof dictionaries[Locales];
 
-export const getDictionary = async (locale: Locales) => dictionaries[locale]();
+export function getDictionary(locale: Locales): Dict {
+    return dictionaries[locale];
+}
