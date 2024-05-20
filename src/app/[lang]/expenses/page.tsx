@@ -3,7 +3,7 @@ import Table from "@/components/table/table";
 import SearchParams from "@/types/searchParams";
 import {countExpenses, getExpenses} from "@/db/expense";
 import {Paginate} from "@/components/paginate/paginate";
-import {Locales} from "@/translation/dictionaries";
+import {getDictionary, Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro, TaxType} from "@/db/schema";
 import Actions from "@/app/[lang]/expenses/actions";
 import {getLocalizationContext} from "@/lib/server-contexts";
@@ -14,6 +14,10 @@ export default async function Expenses({params, searchParams}: {
     params: { lang: Locales },
     searchParams: SearchParams
 }) {
+    getLocalizationContext().resolve({
+        locale: params.lang,
+        dict: getDictionary(params.lang)
+    });
     const {dict} = await getLocalizationContext();
 
     const page = parsePageFromSearchParams(searchParams);
