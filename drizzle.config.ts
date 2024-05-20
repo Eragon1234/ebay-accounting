@@ -2,9 +2,11 @@ import type {Config} from "drizzle-kit";
 
 export default {
     schema: "./src/db/schema.ts",
+    dialect: "sqlite",
     out: "./drizzle",
-    driver: 'pg',
+    driver: 'd1',
     dbCredentials: {
-        connectionString: process.env.DATABASE_URL!,
+        wranglerConfigPath: "",
+        dbName: ""
     }
 } satisfies Config;
