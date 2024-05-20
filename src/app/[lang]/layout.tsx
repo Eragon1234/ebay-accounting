@@ -3,7 +3,6 @@ import Sidebar from "@/app/[lang]/sidebar";
 import React from "react";
 import {Topbar} from "@/app/[lang]/topbar";
 import {dictionaries, getDictionary, Locales} from "@/translation/dictionaries";
-import {LocalizationContext} from "@/lib/contexts";
 import {getLocalizationContext} from "@/lib/server-context";
 
 export const runtime = "edge";
@@ -28,18 +27,13 @@ export default async function RootLayout({children, params}: { children: React.R
     return (
         <html>
         <body>
-        <LocalizationContext.Provider value={{
-            locale: params.lang,
-            dict
-        }}>
-            <Topbar/>
-            <Sidebar links={[
-                {href: `/${params.lang}`, name: dict.sidebar.home},
-                {href: `/${params.lang}/expenses`, name: dict.sidebar.expenses},
-                {href: `/${params.lang}/incomes`, name: dict.sidebar.incomes},
-            ]}/>
-            <main>{children}</main>
-        </LocalizationContext.Provider>
+        <Topbar/>
+        <Sidebar links={[
+            {href: `/${params.lang}`, name: dict.sidebar.home},
+            {href: `/${params.lang}/expenses`, name: dict.sidebar.expenses},
+            {href: `/${params.lang}/incomes`, name: dict.sidebar.incomes},
+        ]}/>
+        <main>{children}</main>
         </body>
         </html>
     )

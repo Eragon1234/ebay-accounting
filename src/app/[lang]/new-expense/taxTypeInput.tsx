@@ -1,11 +1,10 @@
 "use client";
 
-import {useContext, useState} from "react";
+import {useState} from "react";
 import {TaxType} from "@/db/schema";
-import {LocalizationContext} from "@/lib/contexts";
+import {Dict} from "@/translation/dictionaries";
 
-export function TaxTypeInput() {
-    const {dict} = useContext(LocalizationContext);
+export function TaxTypeInput({dict}: { dict: Dict }) {
     const [taxType, setTaxType] = useState<string>(TaxType.VAT);
 
     return <>

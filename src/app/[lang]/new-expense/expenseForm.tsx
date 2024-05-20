@@ -1,11 +1,10 @@
 import createExpenseFromForm, {getExpenseTypes} from "@/db/expense";
 import {TaxTypeInput} from "@/app/[lang]/new-expense/taxTypeInput";
 import {SubmitButton} from "@/components/submit-button/submitButton";
-import {useContext} from "react";
-import {LocalizationContext} from "@/lib/contexts";
+import {getLocalizationContext} from "@/lib/server-context";
 
 export async function ExpenseForm() {
-    const {dict, locale} = useContext(LocalizationContext);
+    const {dict, locale} = getLocalizationContext();
 
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);
@@ -25,7 +24,7 @@ export async function ExpenseForm() {
                     types.map(type => <option key={type} value={type}></option>)
                 }
             </datalist>
-            <TaxTypeInput/>
+            <TaxTypeInput dict={dict}/>
             <label htmlFor="amount">{dict.addExpense.amount}</label>
             <input type="number" id="amount" name="amount" step="0.01" required/>
             <label htmlFor="date">{dict.addExpense.date}</label>
