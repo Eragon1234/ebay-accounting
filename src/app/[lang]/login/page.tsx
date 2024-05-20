@@ -1,8 +1,8 @@
 import {signIn} from "@/lib/auth/signIn";
-import {getLocalizationContext} from "@/lib/server-context";
+import {getLocalizationContext} from "@/lib/server-contexts";
 
 export default async function Login() {
-    const {dict} = getLocalizationContext();
+    const {dict} = (await getLocalizationContext());
 
     return <form action={signIn}>
         <label htmlFor="password">{dict.login.password}</label>

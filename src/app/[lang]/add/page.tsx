@@ -1,10 +1,10 @@
 import Link from "next/link";
 import IncomeIcon from "@/components/icons/income-icon";
 import ExpenseIcon from "@/components/icons/expense-icon";
-import {getLocalizationContext} from "@/lib/server-context";
+import {getLocalizationContext} from "@/lib/server-contexts";
 
 export default async function Add() {
-    const {dict} = getLocalizationContext();
+    const {dict} = (await getLocalizationContext());
 
     return <>
         <h1>{dict.add.createNew}</h1>

@@ -1,10 +1,10 @@
 import createExpenseFromForm, {getExpenseTypes} from "@/db/expense";
 import {TaxTypeInput} from "@/app/[lang]/new-expense/taxTypeInput";
 import {SubmitButton} from "@/components/submit-button/submitButton";
-import {getLocalizationContext} from "@/lib/server-context";
+import {getLocalizationContext} from "@/lib/server-contexts";
 
 export async function ExpenseForm() {
-    const {dict, locale} = getLocalizationContext();
+    const {dict, locale} = await getLocalizationContext();
 
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);

@@ -3,7 +3,7 @@ import Sidebar from "@/app/[lang]/sidebar";
 import React from "react";
 import {Topbar} from "@/app/[lang]/topbar";
 import {dictionaries, getDictionary, Locales} from "@/translation/dictionaries";
-import {getLocalizationContext} from "@/lib/server-context";
+import {getLocalizationContext} from "@/lib/server-contexts";
 
 export const runtime = "edge";
 
@@ -20,9 +20,11 @@ export async function generateStaticParams() {
 
 export default async function RootLayout({children, params}: { children: React.ReactNode, params: { lang: Locales } }) {
     const localizationContext = getLocalizationContext();
-    localizationContext.locale = params.lang;
     const dict = getDictionary(params.lang);
-    localizationContext.dict = dict;
+    localizationContext.resolve({
+        locale: params.lang,
+        dict
+    });
 
     return (
         <html>

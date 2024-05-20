@@ -1,9 +1,9 @@
 import {createIncomeFromForm} from "@/db/income";
 import {SubmitButton} from "@/components/submit-button/submitButton";
-import {getLocalizationContext} from "@/lib/server-context";
+import {getLocalizationContext} from "@/lib/server-contexts";
 
 export async function IncomeForm() {
-    const {dict, locale} = getLocalizationContext();
+    const {dict, locale} = (await getLocalizationContext());
 
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);

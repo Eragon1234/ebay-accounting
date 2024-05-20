@@ -1,8 +1,8 @@
 import {ExpenseForm} from "@/app/[lang]/new-expense/expenseForm";
-import {getLocalizationContext} from "@/lib/server-context";
+import {getLocalizationContext} from "@/lib/server-contexts";
 
 export default async function NewExpensePage() {
-    const {dict} = getLocalizationContext();
+    const {dict} = (await getLocalizationContext());
 
     return <>
         <h1>{dict.addExpense.addExpense}</h1>
