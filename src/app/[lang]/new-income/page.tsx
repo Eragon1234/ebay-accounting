@@ -1,9 +1,8 @@
 import {IncomeForm} from "@/app/[lang]/new-income/incomeForm";
-import {useContext} from "react";
-import {LocalizationContext} from "@/lib/contexts";
+import {getLocalizationContext} from "@/lib/server-context";
 
 export default async function NewIncomePage() {
-    const {dict} = useContext(LocalizationContext);
+    const {dict} = getLocalizationContext();
 
     return <>
         <h1>{dict.addIncome.addIncome}</h1>

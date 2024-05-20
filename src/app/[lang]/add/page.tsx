@@ -1,11 +1,10 @@
 import Link from "next/link";
 import IncomeIcon from "@/components/icons/income-icon";
 import ExpenseIcon from "@/components/icons/expense-icon";
-import {useContext} from "react";
-import {LocalizationContext} from "@/lib/contexts";
+import {getLocalizationContext} from "@/lib/server-context";
 
 export default async function Add() {
-    const {dict} = useContext(LocalizationContext);
+    const {dict} = getLocalizationContext();
 
     return <>
         <h1>{dict.add.createNew}</h1>

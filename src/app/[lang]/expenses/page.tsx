@@ -6,8 +6,7 @@ import {Paginate} from "@/components/paginate/paginate";
 import {Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro, TaxType} from "@/db/schema";
 import Actions from "@/app/[lang]/expenses/actions";
-import {useContext} from "react";
-import {LocalizationContext} from "@/lib/contexts";
+import {getLocalizationContext} from "@/lib/server-context";
 
 const PAGE_SIZE = 50;
 
@@ -15,7 +14,7 @@ export default async function Expenses({params, searchParams}: {
     params: { lang: Locales },
     searchParams: SearchParams
 }) {
-    const {dict} = useContext(LocalizationContext);
+    const {dict} = getLocalizationContext();
 
     const page = parsePageFromSearchParams(searchParams);
 
