@@ -13,6 +13,7 @@ type ActionProps = {
 export default function Actions({expense}: ActionProps) {
     return <div style={{
         display: "flex",
+        gap: "1em",
         justifyContent: "space-between",
     }}>
         {expense.file && <Link href={`/files/${expense.file}`}><FileIcon/></Link>}
