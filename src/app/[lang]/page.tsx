@@ -29,7 +29,7 @@ export default function Home({params}: { params: { lang: Locales } }) {
 
     useEffect(() => {
         getDashboardCards(rangeStart, rangeEnd, dict).then(v => setDashboardCards(v));
-    }, [rangeEnd, rangeEnd, dict]);
+    }, [rangeStart, rangeEnd, dict]);
 
     return <>
         <div className="date-range-picker">
