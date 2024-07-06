@@ -43,7 +43,7 @@ export async function getExpenseInRange(start: Date, end: Date): Promise<number>
     return result[0].sum || 0;
 }
 
-export async function getExpenseInRangeByType(start: Date, end: Date): Promise<Record<string, number>> {
+export async function getExpenseInRangeByType(start: Date, end: Date) {
     const result = await db.select({
         type: expense.type,
         sum: sum(expense.amount).mapWith(Number)
@@ -51,10 +51,7 @@ export async function getExpenseInRangeByType(start: Date, end: Date): Promise<R
         between(expense.date, start.toISOString().slice(0, 10), end.toISOString().slice(0, 10))
     ).groupBy(expense.type);
 
-    return result.reduce<Record<string, number>>((acc, curr) => {
-        acc[curr.type] = curr.sum;
-        return acc
-    }, {});
+    return result;
 }
 
 export async function createExpense(newExpense: NewExpense) {
