@@ -12,13 +12,16 @@ type DashboardCard = {
 }
 
 export default async function getDashboardCards(start: Date, end: Date, dict: Dict): Promise<DashboardCard[]> {
-    const income = await getIncomeInRange(start, end);
-    const expense = await getExpenseInRange(start, end);
-    const differentialIncome = await getDifferentialIncome(start, end);
+    const [income, expense, expenseByType, paidVat, differentialIncome] = await Promise.all([
+        getIncomeInRange(start, end),
+        getExpenseInRange(start, end),
+        getExpenseInRangeByType(start, end),
+        getPaidVatBetweenDates(start, end),
+        getDifferentialIncome(start, end)
+    ]);
+
     const taxableIncome = await calculateTaxableIncome(income, differentialIncome);
-    const paidVat = await getPaidVatBetweenDates(start, end);
     const vatToPay = await calculateVat(taxableIncome, paidVat);
-    const expenseByType = await getExpenseInRangeByType(start, end);
 
     const earnings = income - expense;
 
