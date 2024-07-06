@@ -1,18 +1,16 @@
 import {IncomeForm} from "@/app/[lang]/new-income/incomeForm";
-import {getLocalizationContext} from "@/lib/server-contexts";
 import {getDictionary, Locales} from "@/translation/dictionaries";
 
 export default async function NewIncomePage({params}: { params: { lang: Locales } }) {
-    getLocalizationContext().resolve({
+    const localization = {
         locale: params.lang,
         dict: getDictionary(params.lang)
-    });
-
-    const {dict} = await getLocalizationContext();
+    }
+    const dict = localization.dict;
 
     return <>
         <h1>{dict.addIncome.addIncome}</h1>
-        <IncomeForm/>
+        <IncomeForm localization={localization}/>
     </>
 }
 

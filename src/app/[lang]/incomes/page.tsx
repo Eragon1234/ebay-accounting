@@ -6,7 +6,6 @@ import {Paginate} from "@/components/paginate/paginate";
 import {getDictionary, Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
 import {Actions} from "@/app/[lang]/incomes/actions";
-import {getLocalizationContext} from "@/lib/server-contexts";
 
 const PAGE_SIZE = 50;
 
@@ -14,12 +13,12 @@ export default async function Incomes({params, searchParams}: {
     params: { lang: Locales }
     searchParams: SearchParams
 }) {
-    getLocalizationContext().resolve({
+    const localization = {
         locale: params.lang,
         dict: getDictionary(params.lang)
-    });
+    };
 
-    const {dict} = await getLocalizationContext();
+    const {dict} = localization;
 
     const page = parsePageFromSearchParams(searchParams);
 

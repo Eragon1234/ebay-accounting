@@ -1,16 +1,15 @@
 import Link from "next/link";
 import IncomeIcon from "@/components/icons/income-icon";
 import ExpenseIcon from "@/components/icons/expense-icon";
-import {getLocalizationContext} from "@/lib/server-contexts";
 import {getDictionary, Locales} from "@/translation/dictionaries";
 
 export default async function Add({params}: { params: { lang: Locales } }) {
-    getLocalizationContext().resolve({
+    const localization = {
         locale: params.lang,
         dict: getDictionary(params.lang)
-    });
+    };
 
-    const {dict} = (await getLocalizationContext());
+    const {dict} = localization;
 
     return <>
         <h1>{dict.add.createNew}</h1>

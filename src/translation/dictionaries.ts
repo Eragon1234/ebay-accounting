@@ -13,3 +13,8 @@ export type Dict = typeof dictionaries[Locales];
 export function getDictionary(locale: Locales): Dict {
     return dictionaries[locale];
 }
+
+export type Localization = {
+    dict: Dict,
+    locale: Locales
+}
