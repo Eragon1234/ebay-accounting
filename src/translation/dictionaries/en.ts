@@ -9,7 +9,9 @@ const en = {
         "to": "To",
         "income": "Income",
         "earnings": "Earnings",
-        "vatToPay": "VAT to pay"
+        "vatToPay": "VAT to pay",
+        "taxableIncome": "Taxable income",
+        "paidVat": "VAT paid"
     },
     "incomes": {
         "incomes": "Incomes",

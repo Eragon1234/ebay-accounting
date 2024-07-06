@@ -9,7 +9,9 @@ const de = {
         "to": "Bis",
         "income": "Umsatz",
         "earnings": "Einnahmen",
-        "vatToPay": "zu zahlende Umsatzsteuer"
+        "vatToPay": "zu zahlende Umsatzsteuer",
+        "taxableIncome": "zu versteuerndes Einkommen",
+        "paidVat": "abgeführte Umsatzsteuer"
     },
     "incomes": {
         "incomes": "Einnahmen",
