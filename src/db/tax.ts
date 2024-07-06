@@ -1,16 +1,11 @@
 "use server";
 
-import {getIncomeInRange} from "@/db/income";
 import db from "@/db/db";
 import {expense, TaxType} from "@/db/schema";
 import {and, between, eq, sql, sum} from "drizzle-orm";
 
-export async function getVATInRange(start: Date, end: Date): Promise<number> {
-    const income = await getIncomeInRange(start, end);
-    const taxableIncome = await getTaxableIncome(start, end, income);
-
+export async function calculateVat(taxableIncome: number, paidVat: number): Promise<number> {
     const taxToBePaid = taxableIncome - (taxableIncome / 1.19);
-    const paidVat = await getPaidVatBetweenDates(start, end);
 
     return taxToBePaid - paidVat;
 }
