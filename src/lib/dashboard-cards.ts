@@ -32,6 +32,6 @@ export default async function getDashboardCards(start: Date, end: Date, dict: Di
             title: dict.home.vatToPay,
             amount: vatToPay / euroToMicroEuro
         },
-        ...expenseByType.map(v => ({title: v.type, amount: v.sum}))
+        ...expenseByType.map(v => ({title: v.type, amount: v.sum / euroToMicroEuro}))
     ]
 }
