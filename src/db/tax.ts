@@ -10,8 +10,12 @@ export async function calculateVat(taxableIncome: number, paidVat: number): Prom
     return taxToBePaid - paidVat;
 }
 
-export async function getTaxableIncome(start: Date, end: Date, income: number) {
-    const differentialSum = (await db.select({
+export async function calculateTaxableIncome(income: number, differentialIncome: number) {
+    return income - differentialIncome;
+}
+
+export async function getDifferentialIncome(start: Date, end: Date) {
+    return (await db.select({
         differentialSum: sum(expense.amount).mapWith(Number),
     }).from(expense).where(
         and(
@@ -19,8 +23,6 @@ export async function getTaxableIncome(start: Date, end: Date, income: number) {
             eq(expense.taxType, TaxType.DIFFERENTIAL)
         )
     ))[0].differentialSum;
-
-    return income - differentialSum;
 }
 
 export async function getPaidVatBetweenDates(start: Date, end: Date) {

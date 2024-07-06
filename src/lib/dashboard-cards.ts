@@ -4,7 +4,7 @@ import {Dict} from "@/translation/dictionaries";
 import {getIncomeInRange} from "@/db/income";
 import {euroToMicroEuro} from "@/db/schema";
 import {getExpenseInRange, getExpenseInRangeByType} from "@/db/expense";
-import {calculateVat, getPaidVatBetweenDates, getTaxableIncome} from "@/db/tax";
+import {calculateTaxableIncome, calculateVat, getDifferentialIncome, getPaidVatBetweenDates} from "@/db/tax";
 
 type DashboardCard = {
     title: string,
@@ -14,7 +14,8 @@ type DashboardCard = {
 export default async function getDashboardCards(start: Date, end: Date, dict: Dict): Promise<DashboardCard[]> {
     const income = await getIncomeInRange(start, end);
     const expense = await getExpenseInRange(start, end);
-    const taxableIncome = await getTaxableIncome(start, end, income);
+    const differentialIncome = await getDifferentialIncome(start, end);
+    const taxableIncome = await calculateTaxableIncome(income, differentialIncome);
     const paidVat = await getPaidVatBetweenDates(start, end);
     const vatToPay = await calculateVat(taxableIncome, paidVat);
     const expenseByType = await getExpenseInRangeByType(start, end);
