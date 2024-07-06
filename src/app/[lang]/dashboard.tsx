@@ -11,10 +11,6 @@ type DashboardProps = {
 }
 
 export default async function Dashboard({dict, rangeStart, rangeEnd}: DashboardProps) {
-    if (isNaN(rangeStart.getTime()) || isNaN(rangeEnd.getTime())) {
-        return;
-    }
-
     const income = await getIncomeInRange(rangeStart, rangeEnd);
     const expense = await getExpenseInRange(rangeStart, rangeEnd);
     const vatToPay = await getVATInRange(rangeStart, rangeEnd);
