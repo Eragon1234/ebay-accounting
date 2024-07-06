@@ -1,10 +1,15 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getDictionary, Locales} from "@/translation/dictionaries";
-import Dashboard from "@/app/[lang]/dashboard";
+import getDashboardCards from "@/lib/dashboard-cards";
 
 export const dynamic = "force-dynamic";
+
+interface DashboardCard {
+    title: string,
+    amount: number
+}
 
 export default function Home({params}: { params: { lang: Locales } }) {
     const localization = {
@@ -19,6 +24,12 @@ export default function Home({params}: { params: { lang: Locales } }) {
 
     const [rangeStart, setRangeStart] = useState(yearBegin);
     const [rangeEnd, setRangeEnd] = useState(yearEnd);
+
+    const [dashboardCards, setDashboardCards] = useState<DashboardCard[]>([]);
+
+    useEffect(() => {
+        getDashboardCards(rangeStart, rangeEnd, dict).then(v => setDashboardCards(v));
+    }, [rangeEnd, rangeEnd, dict]);
 
     return <>
         <div className="date-range-picker">
@@ -36,6 +47,17 @@ export default function Home({params}: { params: { lang: Locales } }) {
             </div>
         </div>
 
-        <Dashboard dict={dict} rangeStart={rangeStart} rangeEnd={rangeEnd}/>
+        <div className="dashboard">
+            {dashboardCards.map(card =>
+                <div key={card.title} className="card dashboard-card">
+                    <div className="dashboard-card__title">
+                        {card.title}
+                    </div>
+                    <div className="dashboard-card__amount">
+                        {card.amount.toFixed(2)} €
+                    </div>
+                </div>
+            )}
+        </div>
     </>
 }
