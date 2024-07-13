@@ -1,3 +1,5 @@
+"use client";
+
 import React, {useCallback} from "react";
 import {Dict} from "@/translation/dictionaries";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
