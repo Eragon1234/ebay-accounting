@@ -45,7 +45,7 @@ export default function Home({params}: { params: { lang: Locales } }) {
 
         <div className="dashboard">
             {dashboardCards.map(card =>
-                <Suspense fallback={<DashboardCard title={card.title} getAmount={async () => 0}/>}>
+                <Suspense key={card.title} fallback={<DashboardCard title={card.title} getAmount={async () => 0}/>}>
                     <DashboardCard title={card.title} getAmount={card.getAmount}/>
                 </Suspense>
             )}
