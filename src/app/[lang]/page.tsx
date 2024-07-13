@@ -1,4 +1,4 @@
-import React, {Suspense} from "react";
+import React from "react";
 import {Dict, getDictionary, Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
 import {getIncomeInRange} from "@/db/income";
@@ -33,9 +33,7 @@ export default async function Home({params, searchParams}: {
         <DateRangePicker dict={dict} defaultStart={yearBegin} defaultEnd={yearEnd}/>
         <div className="dashboard">
             {dashboardCards.map(card =>
-                <Suspense key={card.title} fallback={<DashboardCard title={card.title} getAmount={async () => 0}/>}>
-                    <DashboardCard title={card.title} getAmount={card.getAmount}/>
-                </Suspense>
+                <DashboardCard key={card.title} title={card.title} getAmount={card.getAmount}/>
             )}
             {(await dashboardCardsByType).map(card =>
                 <DashboardCard key={card.type} title={card.type} getAmount={async () => card.sum / euroToMicroEuro}/>
