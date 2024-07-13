@@ -2,12 +2,10 @@ import React from "react";
 
 type DashboardCardProps = {
     title: string,
-    getAmount(): Promise<number>
+    amount: number
 }
 
-export default async function DashboardCard({title, getAmount}: DashboardCardProps) {
-    const amount = await getAmount();
-
+export default async function DashboardCard({title, amount}: DashboardCardProps) {
     return <div className="card dashboard-card">
         <div className="dashboard-card__title">
             {title}

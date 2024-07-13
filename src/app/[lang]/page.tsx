@@ -26,61 +26,53 @@ export default async function Home({params, searchParams}: {
     const rangeStart = new Date(searchParams.start || yearBegin);
     const rangeEnd = new Date(searchParams.end || yearEnd);
 
-    const dashboardCards = getDashboardCards(dict, rangeStart, rangeEnd);
-    const dashboardCardsByType = getExpenseInRangeByType(rangeStart, rangeEnd);
+    const dashboardCards = await getDashboardCards(dict, rangeStart, rangeEnd);
 
     return <>
         <DateRangePicker dict={dict} defaultStart={yearBegin} defaultEnd={yearEnd}/>
         <div className="dashboard">
             {dashboardCards.map(card =>
-                <DashboardCard key={card.title} title={card.title} getAmount={card.getAmount}/>
-            )}
-            {(await dashboardCardsByType).map(card =>
-                <DashboardCard key={card.type} title={card.type} getAmount={async () => card.sum / euroToMicroEuro}/>
+                <DashboardCard key={card.title} title={card.title} amount={card.amount}/>
             )}
         </div>
     </>
 }
 
-function getDashboardCards(dict: Dict, rangeStart: Date, rangeEnd: Date) {
-    const income = getIncomeInRange(rangeStart, rangeEnd);
-    const expense = getExpenseInRange(rangeStart, rangeEnd);
-    const paidVat = getPaidVatBetweenDates(rangeStart, rangeEnd);
-    const differentialIncome = getDifferentialIncome(rangeStart, rangeEnd);
-    const taxableIncome = (async () => {
-        return calculateTaxableIncome(await income, await differentialIncome);
-    })();
+async function getDashboardCards(dict: Dict, start: Date, end: Date) {
+    const [income, expense, expenseByType, paidVat, differentialIncome] = await Promise.all([
+        getIncomeInRange(start, end),
+        getExpenseInRange(start, end),
+        getExpenseInRangeByType(start, end),
+        getPaidVatBetweenDates(start, end),
+        getDifferentialIncome(start, end)
+    ]);
+
+    const taxableIncome = await calculateTaxableIncome(income, differentialIncome);
+    const vatToPay = await calculateVat(taxableIncome, paidVat);
+
+    const earnings = income - expense;
 
     return [
         {
             title: dict.home.income,
-            async getAmount() {
-                return await income / euroToMicroEuro;
-            },
+            amount: income / euroToMicroEuro
         },
         {
             title: dict.home.earnings,
-            async getAmount() {
-                return (await income - await expense) / euroToMicroEuro;
-            }
+            amount: earnings / euroToMicroEuro
         },
         {
             title: dict.home.vatToPay,
-            async getAmount() {
-                return await calculateVat(await taxableIncome, await paidVat) / euroToMicroEuro;
-            },
+            amount: vatToPay / euroToMicroEuro
         },
         {
             title: dict.home.taxableIncome,
-            async getAmount() {
-                return await taxableIncome / euroToMicroEuro;
-            }
+            amount: taxableIncome / euroToMicroEuro
         },
         {
             title: dict.home.paidVat,
-            async getAmount() {
-                return await paidVat / euroToMicroEuro;
-            }
+            amount: paidVat / euroToMicroEuro
         },
+        ...expenseByType.map(v => ({title: v.type, amount: v.sum / euroToMicroEuro}))
     ]
 }
