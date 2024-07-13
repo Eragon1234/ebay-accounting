@@ -27,6 +27,7 @@ export default async function Home({params, searchParams}: {
     const rangeEnd = new Date(searchParams.end || yearEnd);
 
     const dashboardCards = getDashboardCards(dict, rangeStart, rangeEnd);
+    const dashboardCardsByType = getExpenseInRangeByType(rangeStart, rangeEnd);
 
     return <>
         <DateRangePicker dict={dict} defaultStart={yearBegin} defaultEnd={yearEnd}/>
@@ -36,7 +37,7 @@ export default async function Home({params, searchParams}: {
                     <DashboardCard title={card.title} getAmount={card.getAmount}/>
                 </Suspense>
             )}
-            {(await getExpenseInRangeByType(rangeStart, rangeEnd)).map(card =>
+            {(await dashboardCardsByType).map(card =>
                 <DashboardCard key={card.type} title={card.type} getAmount={async () => card.sum / euroToMicroEuro}/>
             )}
         </div>
