@@ -1,17 +1,18 @@
-"use client";
-
-import React, {Suspense, useState} from "react";
+import React, {Suspense} from "react";
 import {Dict, getDictionary, Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
 import {getIncomeInRange} from "@/db/income";
 import DashboardCard from "@/app/[lang]/dashboard-card";
-import {getExpenseInRange} from "@/db/expense";
+import {getExpenseInRange, getExpenseInRangeByType} from "@/db/expense";
 import {calculateTaxableIncome, calculateVat, getDifferentialIncome, getPaidVatBetweenDates} from "@/db/tax";
-import ExpenseTypeCards from "@/app/[lang]/expense-type-cards";
+import DateRangePicker from "@/components/date-range-picker/date-range-picker";
 
 export const dynamic = "force-dynamic";
 
-export default function Home({params}: { params: { lang: Locales } }) {
+export default async function Home({params, searchParams}: {
+    params: { lang: Locales },
+    searchParams: { start: string, end: string }
+}) {
     const localization = {
         locale: params.lang,
         dict: getDictionary(params.lang)
@@ -22,34 +23,22 @@ export default function Home({params}: { params: { lang: Locales } }) {
     const yearBegin = new Date(Date.UTC(now.getFullYear(), 0));
     const yearEnd = new Date(Date.UTC(now.getFullYear(), 11, 31));
 
-    const [rangeStart, setRangeStart] = useState(yearBegin);
-    const [rangeEnd, setRangeEnd] = useState(yearEnd);
+    const rangeStart = new Date(searchParams.start || yearBegin);
+    const rangeEnd = new Date(searchParams.end || yearEnd);
 
     const dashboardCards = getDashboardCards(dict, rangeStart, rangeEnd);
 
     return <>
-        <div className="date-range-picker">
-            <div className="date-range-picker__start">
-                <label htmlFor="date-range-picker__start">{dict.home.from}</label>
-                <input id="date-range-picker__start" type="date"
-                       defaultValue={yearBegin.toISOString().slice(0, 10)}
-                       onChange={e => setRangeStart(new Date(e.target.value))}/>
-            </div>
-            <div className="date-range-picker__end">
-                <label htmlFor="date-range-picker__end">{dict.home.to}</label>
-                <input id="date-range-picker__end" type="date"
-                       defaultValue={yearEnd.toISOString().slice(0, 10)}
-                       onChange={e => setRangeEnd(new Date(e.target.value))}/>
-            </div>
-        </div>
-
+        <DateRangePicker dict={dict} defaultStart={yearBegin} defaultEnd={yearEnd}/>
         <div className="dashboard">
             {dashboardCards.map(card =>
                 <Suspense key={card.title} fallback={<DashboardCard title={card.title} getAmount={async () => 0}/>}>
                     <DashboardCard title={card.title} getAmount={card.getAmount}/>
                 </Suspense>
             )}
-            <ExpenseTypeCards rangeStart={rangeStart} rangeEnd={rangeEnd}/>
+            {(await getExpenseInRangeByType(rangeStart, rangeEnd)).map(card =>
+                <DashboardCard key={card.type} title={card.type} getAmount={async () => card.sum}/>
+            )}
         </div>
     </>
 }
