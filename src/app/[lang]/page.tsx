@@ -1,15 +1,15 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
-import {getDictionary, Locales} from "@/translation/dictionaries";
-import getDashboardCards from "@/lib/dashboard-cards";
+import React, {Suspense, useState} from "react";
+import {Dict, getDictionary, Locales} from "@/translation/dictionaries";
+import {euroToMicroEuro} from "@/db/schema";
+import {getIncomeInRange} from "@/db/income";
+import DashboardCard from "@/app/[lang]/dashboard-card";
+import {getExpenseInRange} from "@/db/expense";
+import {calculateTaxableIncome, calculateVat, getDifferentialIncome, getPaidVatBetweenDates} from "@/db/tax";
+import ExpenseTypeCards from "@/app/[lang]/expense-type-cards";
 
 export const dynamic = "force-dynamic";
-
-interface DashboardCard {
-    title: string,
-    amount: number
-}
 
 export default function Home({params}: { params: { lang: Locales } }) {
     const localization = {
@@ -25,11 +25,7 @@ export default function Home({params}: { params: { lang: Locales } }) {
     const [rangeStart, setRangeStart] = useState(yearBegin);
     const [rangeEnd, setRangeEnd] = useState(yearEnd);
 
-    const [dashboardCards, setDashboardCards] = useState<DashboardCard[]>([]);
-
-    useEffect(() => {
-        getDashboardCards(rangeStart, rangeEnd, dict).then(v => setDashboardCards(v));
-    }, [rangeStart, rangeEnd, dict]);
+    const dashboardCards = getDashboardCards(dict, rangeStart, rangeEnd);
 
     return <>
         <div className="date-range-picker">
@@ -49,15 +45,54 @@ export default function Home({params}: { params: { lang: Locales } }) {
 
         <div className="dashboard">
             {dashboardCards.map(card =>
-                <div key={card.title} className="card dashboard-card">
-                    <div className="dashboard-card__title">
-                        {card.title}
-                    </div>
-                    <div className="dashboard-card__amount">
-                        {card.amount.toFixed(2)} €
-                    </div>
-                </div>
+                <Suspense fallback={<DashboardCard title={card.title} getAmount={async () => 0}/>}>
+                    <DashboardCard title={card.title} getAmount={card.getAmount}/>
+                </Suspense>
             )}
+            <ExpenseTypeCards rangeStart={rangeStart} rangeEnd={rangeEnd}/>
         </div>
     </>
+}
+
+function getDashboardCards(dict: Dict, rangeStart: Date, rangeEnd: Date) {
+    const income = getIncomeInRange(rangeStart, rangeEnd);
+    const expense = getExpenseInRange(rangeStart, rangeEnd);
+    const paidVat = getPaidVatBetweenDates(rangeStart, rangeEnd);
+    const differentialIncome = getDifferentialIncome(rangeStart, rangeEnd);
+    const taxableIncome = (async () => {
+        return calculateTaxableIncome(await income, await differentialIncome);
+    })();
+
+    return [
+        {
+            title: dict.home.income,
+            async getAmount() {
+                return await income / euroToMicroEuro;
+            },
+        },
+        {
+            title: dict.home.earnings,
+            async getAmount() {
+                return (await income - await expense) / euroToMicroEuro;
+            }
+        },
+        {
+            title: dict.home.vatToPay,
+            async getAmount() {
+                return await calculateVat(await taxableIncome, await paidVat) / euroToMicroEuro;
+            },
+        },
+        {
+            title: dict.home.taxableIncome,
+            async getAmount() {
+                return await taxableIncome / euroToMicroEuro;
+            }
+        },
+        {
+            title: dict.home.paidVat,
+            async getAmount() {
+                return await paidVat / euroToMicroEuro;
+            }
+        },
+    ]
 }
