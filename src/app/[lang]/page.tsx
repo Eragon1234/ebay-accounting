@@ -37,7 +37,7 @@ export default async function Home({params, searchParams}: {
                 </Suspense>
             )}
             {(await getExpenseInRangeByType(rangeStart, rangeEnd)).map(card =>
-                <DashboardCard key={card.type} title={card.type} getAmount={async () => card.sum}/>
+                <DashboardCard key={card.type} title={card.type} getAmount={async () => card.sum / euroToMicroEuro}/>
             )}
         </div>
     </>
