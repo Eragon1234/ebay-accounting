@@ -29,7 +29,7 @@ export default async function Home({params, searchParams}: {
     const dashboardCards = await getDashboardCards(dict, rangeStart, rangeEnd);
 
     return <>
-        <DateRangePicker dict={dict} defaultStart={yearBegin} defaultEnd={yearEnd}/>
+        <DateRangePicker dict={dict} defaultStart={rangeStart} defaultEnd={rangeEnd}/>
         <div className="dashboard">
             {dashboardCards.map(card =>
                 <DashboardCard key={card.title} title={card.title} amount={card.amount}/>
