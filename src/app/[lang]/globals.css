@@ -116,6 +116,11 @@ button, .button {
     background-color: transparent;
 }
 
+button:disabled, .button:disabled {
+    color: var(--secondary-foreground);
+    border-color: var(--secondary-foreground);
+}
+
 .hamburger-icon {
     font-size: 2em;
     display: none;
