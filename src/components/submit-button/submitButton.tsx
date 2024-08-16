@@ -1,3 +1,9 @@
-export async function SubmitButton({text}: { text: string }) {
-    return <button type="submit" style={{width: "auto",}}>{text}</button>;
+"use client";
+
+import {useFormStatus} from "react-dom";
+
+export function SubmitButton({text}: { text: string }) {
+    const {pending} = useFormStatus();
+
+    return <button disabled={pending} type="submit" style={{width: "auto",}}>{text}</button>;
 }
