@@ -1,5 +1,6 @@
 "use client";
 
+import "./date-range-picker.css"
 import React, {useCallback} from "react";
 import {Dict} from "@/translation/dictionaries";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
