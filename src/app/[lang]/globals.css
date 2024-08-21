@@ -99,6 +99,7 @@ form {
 }
 
 input, select, textarea {
+    font-size: 1.6rem;
     margin-bottom: var(--spacing-medium);
     padding: var(--spacing-medium) var(--spacing-large);
     border: 1px solid currentColor;
