@@ -6,6 +6,7 @@ import DashboardCard from "@/app/[lang]/dashboard-card";
 import {getExpenseInRange, getExpenseInRangeByType} from "@/db/expense";
 import {calculateTaxableIncome, calculateVat, getDifferentialIncome, getPaidVatBetweenDates} from "@/db/tax";
 import DateRangePicker from "@/components/date-range-picker/date-range-picker";
+import ExpenseChart from "@/app/[lang]/ExpenseChart";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +28,7 @@ export default async function Home({params, searchParams}: {
     const rangeEnd = new Date(searchParams.end || yearEnd);
 
     const dashboardCards = await getDashboardCards(dict, rangeStart, rangeEnd);
+    const expenseByType = await getExpenseInRangeByType(rangeStart, rangeEnd);
 
     return <>
         <DateRangePicker dict={dict} defaultStart={rangeStart} defaultEnd={rangeEnd}/>
@@ -34,6 +36,9 @@ export default async function Home({params, searchParams}: {
             {dashboardCards.map(card =>
                 <DashboardCard key={card.title} title={card.title} amount={card.amount}/>
             )}
+            <div className="card dashboard-card">
+                <ExpenseChart data={expenseByType.map(v => ({...v, sum: v.sum / euroToMicroEuro}))}/>
+            </div>
         </div>
     </>
 }
