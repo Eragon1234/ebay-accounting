@@ -36,7 +36,7 @@ export default async function Home({params, searchParams}: {
             {dashboardCards.map(card =>
                 <DashboardCard key={card.title} title={card.title} amount={card.amount}/>
             )}
-            <div className="card dashboard-card">
+            <div className="card dashboard-card" style={{width: "100%"}}>
                 <ExpenseChart data={expenseByType.map(v => ({...v, sum: v.sum / euroToMicroEuro}))}/>
             </div>
         </div>
