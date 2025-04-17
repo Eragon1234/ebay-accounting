@@ -16,8 +16,8 @@ export async function signIn(formData: FormData) {
     const b64hash = Buffer.from(hash).toString("base64");
 
     if (b64hash === process.env.PASSWORD_HASH) {
-        cookies().set("auth", await getToken(), cookieOptions);
+        (await cookies()).set("auth", await getToken(), cookieOptions);
 
-        redirect(headers().get("_redirect") || "/");
+        redirect((await headers()).get("_redirect") || "/");
     }
 }

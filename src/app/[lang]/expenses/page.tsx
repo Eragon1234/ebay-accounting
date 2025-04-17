@@ -9,10 +9,14 @@ import Actions from "@/app/[lang]/expenses/actions";
 
 const PAGE_SIZE = 50;
 
-export default async function Expenses({params, searchParams}: {
-    params: { lang: Locales },
-    searchParams: SearchParams
-}) {
+export default async function Expenses(
+    props: {
+        params: Promise<{ lang: Locales }>,
+        searchParams: Promise<SearchParams>
+    }
+) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
     const localization = {
         locale: params.lang,
         dict: getDictionary(params.lang)

@@ -17,7 +17,13 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function RootLayout({children, params}: { children: React.ReactNode, params: { lang: Locales } }) {
+export default async function RootLayout(props: { children: React.ReactNode, params: Promise<{ lang: Locales }> }) {
+    const params = await props.params;
+
+    const {
+        children
+    } = props;
+
     const localization = {
         locale: params.lang,
         dict: getDictionary(params.lang)

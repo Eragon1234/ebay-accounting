@@ -10,10 +10,14 @@ import ExpenseChart from "@/app/[lang]/ExpenseChart";
 
 export const dynamic = "force-dynamic";
 
-export default async function Home({params, searchParams}: {
-    params: { lang: Locales },
-    searchParams: { start: string, end: string }
-}) {
+export default async function Home(
+    props: {
+        params: Promise<{ lang: Locales }>,
+        searchParams: Promise<{ start: string, end: string }>
+    }
+) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
     const localization = {
         locale: params.lang,
         dict: getDictionary(params.lang)
