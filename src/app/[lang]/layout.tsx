@@ -2,19 +2,13 @@ import './globals.css'
 import Sidebar from "@/app/[lang]/sidebar";
 import React from "react";
 import {Topbar} from "@/app/[lang]/topbar";
-import {dictionaries, getDictionary, Locales} from "@/translation/dictionaries";
+import {getDictionary, Locales} from "@/translation/dictionaries";
 
 export const runtime = "edge";
 
 export const metadata = {
     title: 'eBay Accounting',
     description: 'eBay Accounting',
-}
-
-export async function generateStaticParams() {
-    return Object.keys(dictionaries).map(lang => ({
-        lang
-    }));
 }
 
 export default async function RootLayout(props: { children: React.ReactNode, params: Promise<{ lang: Locales }> }) {
