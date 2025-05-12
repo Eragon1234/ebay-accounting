@@ -65,7 +65,7 @@ export async function deleteExpense(id: number) {
 
 const newExpenseSchema = createInsertSchema(expense);
 
-export default async function createExpenseFromForm(lang: Locales, formData: FormData) {
+export default async function createExpenseFromForm(lang: Locales, _prevState: any, formData: FormData) {
     const validatedFields = newExpenseSchema.safeParse({
         name: (formData.get("name") as string).trim(),
         date: formData.get("date"),

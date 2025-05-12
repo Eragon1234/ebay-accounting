@@ -2,6 +2,7 @@ import createExpenseFromForm, {getExpenseTypes} from "@/db/expense";
 import {TaxTypeInput} from "@/app/[lang]/new-expense/taxTypeInput";
 import {SubmitButton} from "@/components/submit-button/submitButton";
 import {Localization} from "@/translation/dictionaries";
+import { useActionState } from "react";
 
 export async function ExpenseForm({localization}: { localization: Localization }) {
     const {dict, locale} = localization;
@@ -12,9 +13,10 @@ export async function ExpenseForm({localization}: { localization: Localization }
     const types = await getExpenseTypes();
 
     const action = createExpenseFromForm.bind(null, locale);
+    const [state, formAction, pending] = useActionState(action, null);
 
     return (
-        <form action={action}>
+        <form action={formAction}>
             <label htmlFor="name">{dict.addExpense.name}</label>
             <input type="text" id="name" name="name" required/>
             <label htmlFor="type">{dict.addExpense.type}</label>
