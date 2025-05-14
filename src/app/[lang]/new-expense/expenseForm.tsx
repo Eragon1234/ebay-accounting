@@ -1,16 +1,16 @@
+"use client";
+
 import createExpenseFromForm, {getExpenseTypes} from "@/db/expense";
 import {TaxTypeInput} from "@/app/[lang]/new-expense/taxTypeInput";
 import {SubmitButton} from "@/components/submit-button/submitButton";
 import {Localization} from "@/translation/dictionaries";
 import { useActionState } from "react";
 
-export async function ExpenseForm({localization}: { localization: Localization }) {
+export function ExpenseForm({localization, types}: { localization: Localization, types: string[] }) {
     const {dict, locale} = localization;
 
     const today = new Date();
     const isoDateString = today.toISOString().slice(0, 10);
-
-    const types = await getExpenseTypes();
 
     const action = createExpenseFromForm.bind(null, locale);
     const [state, formAction, pending] = useActionState(action, null);
