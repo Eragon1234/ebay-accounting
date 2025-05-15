@@ -38,3 +38,7 @@ next-env.d.ts
 
 # IDE
 /.idea
+
+.open-next
+.wrangler
+.dev.vars

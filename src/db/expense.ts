@@ -1,6 +1,5 @@
 "use server";
 
-import db from "@/db/db";
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
 import {euroToMicroEuro, Expense, expense, NewExpense} from "@/db/schema";
@@ -8,12 +7,17 @@ import {asc, between, count, desc, eq, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
 import {revalidatePath} from "next/cache";
 import {Locales} from "@/translation/dictionaries";
+import {getDbAsync} from "@/db/db";
 
 export async function countExpenses(): Promise<number> {
+    const db = await getDbAsync();
+
     return db.select({count: count(expense.id)}).from(expense).then(a => a[0].count);
 }
 
 export async function getExpenses(limit: number, offset: number): Promise<Expense[]> {
+    const db = await getDbAsync();
+
     return db.query.expense.findMany({
         limit,
         offset,
@@ -25,6 +29,8 @@ export async function getExpenses(limit: number, offset: number): Promise<Expens
 }
 
 export async function getExpenseTypes(): Promise<string[]> {
+    const db = await getDbAsync();
+
     const result = await db
         .select({type: expense.type})
         .from(expense)
@@ -34,6 +40,8 @@ export async function getExpenseTypes(): Promise<string[]> {
 }
 
 export async function getExpenseInRange(start: Date, end: Date): Promise<number> {
+    const db = await getDbAsync();
+
     const result = await db.select({
         sum: sum(expense.amount).mapWith(Number)
     }).from(expense).where(
@@ -44,6 +52,8 @@ export async function getExpenseInRange(start: Date, end: Date): Promise<number>
 }
 
 export async function getExpenseInRangeByType(start: Date, end: Date) {
+    const db = await getDbAsync();
+
     const result = await db.select({
         type: expense.type,
         sum: sum(expense.amount).mapWith(Number)
@@ -55,10 +65,14 @@ export async function getExpenseInRangeByType(start: Date, end: Date) {
 }
 
 export async function createExpense(newExpense: NewExpense) {
+    const db = await getDbAsync();
+
     await db.insert(expense).values(newExpense);
 }
 
 export async function deleteExpense(id: number) {
+    const db = await getDbAsync();
+
     await db.delete(expense).where(eq(expense.id, id));
     revalidatePath("/[lang]/expenses", "page");
 }

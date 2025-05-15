@@ -1,19 +1,21 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { saveFile } from "@/db/files";
-import { euroToMicroEuro, Income, income, NewIncome } from "@/db/schema";
-import db from "@/db/db";
-import { between, count, desc, eq, sum } from "drizzle-orm";
-import { createInsertSchema } from "drizzle-zod";
-import { revalidatePath } from "next/cache";
-import { Locales } from "@/translation/dictionaries";
+import {redirect} from "next/navigation";
+import {saveFile} from "@/db/files";
+import {euroToMicroEuro, Income, income, NewIncome} from "@/db/schema";
+import {between, count, desc, eq, sum} from "drizzle-orm";
+import {createInsertSchema} from "drizzle-zod";
+import {revalidatePath} from "next/cache";
+import {Locales} from "@/translation/dictionaries";
+import {getDbAsync} from "@/db/db";
 
 export async function countIncomes() {
+    const db = await getDbAsync();
   return db.select({ count: count(income.id) }).from(income).then(a => a[0].count);
 }
 
 export async function getIncomes(limit: number, offset: number): Promise<Income[]> {
+    const db = await getDbAsync();
   return db.query.income.findMany({
     limit,
     offset,
@@ -24,6 +26,7 @@ export async function getIncomes(limit: number, offset: number): Promise<Income[
 }
 
 export async function getIncomeInRange(start: Date, end: Date): Promise<number> {
+    const db = await getDbAsync();
   const result = await db.select({
     sum: sum(income.amount).mapWith(Number)
   }).from(income).where(
@@ -33,10 +36,12 @@ export async function getIncomeInRange(start: Date, end: Date): Promise<number> 
 }
 
 export async function createIncome(newIncome: NewIncome) {
+    const db = await getDbAsync();
   await db.insert(income).values(newIncome)
 }
 
 export async function deleteIncome(id: number) {
+    const db = await getDbAsync();
   await db.delete(income).where(eq(income.id, id));
   revalidatePath("/[lang]/incomes", "page");
 }

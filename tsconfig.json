@@ -33,13 +33,11 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    "env.d.ts"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
-  ],
-  "types": [
-    "@cloudflare/workers-types"
+    "node_modules",
+    "open-next.config.ts",
+    "worker.ts"
   ]
 }

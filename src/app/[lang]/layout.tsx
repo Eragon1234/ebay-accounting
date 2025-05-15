@@ -4,8 +4,6 @@ import React from "react";
 import {Topbar} from "@/app/[lang]/topbar";
 import {getDictionary, Locales} from "@/translation/dictionaries";
 
-export const runtime = "edge";
-
 export const metadata = {
     title: 'eBay Accounting',
     description: 'eBay Accounting',

@@ -1,6 +1,6 @@
 "use server";
 
-import db from "@/db/db";
+import {getDbAsync} from "@/db/db";
 import {expense, TaxType} from "@/db/schema";
 import {and, between, eq, sql, sum} from "drizzle-orm";
 
@@ -15,6 +15,7 @@ export async function calculateTaxableIncome(income: number, differentialIncome:
 }
 
 export async function getDifferentialIncome(start: Date, end: Date) {
+    const db = await getDbAsync();
     return (await db.select({
         differentialSum: sum(expense.amount).mapWith(Number),
     }).from(expense).where(
@@ -26,6 +27,7 @@ export async function getDifferentialIncome(start: Date, end: Date) {
 }
 
 export async function getPaidVatBetweenDates(start: Date, end: Date) {
+    const db = await getDbAsync();
     const result = await db.select({
         paidVat: sql`sum(${expense.amount} - (${expense.amount} / (100 + ${expense.vat}) * 100))`.mapWith(Number)
     }).from(expense).where(
