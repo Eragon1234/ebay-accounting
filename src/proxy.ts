@@ -11,7 +11,7 @@ function getLocale(request: NextRequest): string {
     return languages.find(l => locales.includes(l)) || locales[0];
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     const {pathname} = request.nextUrl;
 
     const pathnameHasLocale = locales.some(
