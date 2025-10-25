@@ -1,22 +1,19 @@
 import {NextRequest, NextResponse} from "next/server";
-import {dictionaries} from "@/translation/dictionaries";
 import {getUserSession} from "@/lib/auth/check";
-
-const locales = Object.keys(dictionaries);
+import {defaultLocale, isValidLocale} from "@/translation/dictionaries";
 
 function getLocale(request: NextRequest): string {
     const weightedLanguages = request.headers.get("accept-language")!.split(",");
     const languages = weightedLanguages.map(language => language.split(";")[0]);
 
-    return languages.find(l => locales.includes(l)) || locales[0];
+    return languages.find(l => isValidLocale(l)) || defaultLocale;
 }
 
 export async function proxy(request: NextRequest) {
     const {pathname} = request.nextUrl;
 
-    const pathnameHasLocale = locales.some(
-        (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-    );
+    const firstPathnameSegment = pathname.split("/")[1];
+    const pathnameHasLocale = isValidLocale(firstPathnameSegment);
 
     if (pathnameHasLocale) {
         const authenticated = await getUserSession(request.cookies.get("auth")?.value);
