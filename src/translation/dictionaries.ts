@@ -37,3 +37,9 @@ export type Localization = {
     dict: Dict,
     locale: Locales
 }
+
+export function getLocalization(lang: string): Localization {
+    const locale = getLocale(lang);
+    const dict = getDictionary(locale);
+    return {dict, locale};
+}

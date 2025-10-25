@@ -1,13 +1,10 @@
 import {ExpenseForm} from "@/app/[lang]/new-expense/expenseForm";
-import { getExpenseTypes } from "@/db/expense";
-import {getDictionary, Locales} from "@/translation/dictionaries";
+import {getExpenseTypes} from "@/db/expense";
+import {getLocalization, Locales} from "@/translation/dictionaries";
 
 export default async function NewExpensePage(props: { params: Promise<{ lang: Locales }> }) {
     const params = await props.params;
-    const localization = {
-        locale: params.lang,
-        dict: getDictionary(params.lang)
-    };
+    const localization = getLocalization(params.lang);
 
     const {dict} = localization;
 

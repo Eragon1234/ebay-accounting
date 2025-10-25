@@ -2,7 +2,7 @@ import './globals.css'
 import Sidebar from "@/app/[lang]/sidebar";
 import React from "react";
 import {Topbar} from "@/app/[lang]/topbar";
-import {getDictionary, getLocale} from "@/translation/dictionaries";
+import {getLocalization} from "@/translation/dictionaries";
 
 export const metadata = {
     title: 'eBay Accounting',
@@ -16,12 +16,7 @@ export default async function RootLayout(props: { children: React.ReactNode, par
         children
     } = props;
 
-    const locale = getLocale(params.lang)
-
-    const localization = {
-        locale: params.lang,
-        dict: getDictionary(locale)
-    }
+    const localization = getLocalization(params.lang);
     const dict = localization.dict;
 
     return (

@@ -1,5 +1,5 @@
 import React from "react";
-import {Dict, getDictionary, Locales} from "@/translation/dictionaries";
+import {Dict, getLocalization, Locales} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
 import {getIncomeInRange} from "@/db/income";
 import DashboardCard from "@/app/[lang]/dashboard-card";
@@ -18,10 +18,7 @@ export default async function Home(
 ) {
     const searchParams = await props.searchParams;
     const params = await props.params;
-    const localization = {
-        locale: params.lang,
-        dict: getDictionary(params.lang)
-    }
+    const localization = getLocalization(params.lang);
     const dict = localization.dict;
 
     const now = new Date();
