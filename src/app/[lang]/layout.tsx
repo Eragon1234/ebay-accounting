@@ -3,8 +3,9 @@ import Sidebar from "@/app/[lang]/sidebar";
 import React from "react";
 import {Topbar} from "@/app/[lang]/topbar";
 import {getLocalization} from "@/translation/dictionaries";
+import {Metadata} from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
     title: 'eBay Accounting',
     description: 'eBay Accounting',
 }
