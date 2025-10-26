@@ -9,7 +9,7 @@ function getLocale(request: NextRequest): string {
     return languages.find(l => isValidLocale(l)) || defaultLocale;
 }
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const {pathname} = request.nextUrl;
 
     const firstPathnameSegment = pathname.split("/")[1];
