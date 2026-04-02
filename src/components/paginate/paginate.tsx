@@ -13,13 +13,12 @@ export function Paginate({pageCount, currentPage}: PaginateProps) {
         return null;
     }
 
-    const start = clamp(currentPage - 2, 2, pageCount);
-    const end = clamp(currentPage + 2, 2, pageCount);
+    const [start, end] = pageWindow(pageCount, currentPage);
 
     return (
         <div className="pagination-nav">
             <Page page={1} isCurrent={currentPage === 1}/>
-            <Ellipsis/>
+            {start > 2 && <Ellipsis/>}
             {
                 range(start, end).map(page =>
                     <Page
@@ -29,10 +28,25 @@ export function Paginate({pageCount, currentPage}: PaginateProps) {
                     />
                 )
             }
-            <Ellipsis/>
-            <Page page={pageCount - 1} isCurrent={currentPage === pageCount - 1}/>
+            {end < pageCount - 1 && <Ellipsis/>}
+            <Page page={pageCount} isCurrent={currentPage === pageCount - 1}/>
         </div>
     )
+}
+
+const PAGES_AROUND_CURRENT = 2;
+
+function pageWindow(pageCount: number, currentPage: number) {
+    const twoPagesBefore = currentPage - PAGES_AROUND_CURRENT;
+    const twoPagesAfter = currentPage + PAGES_AROUND_CURRENT;
+
+    const startOverflow = Math.max(2 - twoPagesBefore, 0);
+    const endOverflow = Math.min(pageCount - 1 - twoPagesAfter, 0);
+
+    const start = clamp(twoPagesBefore + endOverflow, 2, pageCount - 1);
+    const end = clamp(twoPagesAfter + startOverflow, 2, pageCount - 1);
+
+    return [start, end]
 }
 
 function Page({page, isCurrent}: { page: number, isCurrent: boolean }) {
