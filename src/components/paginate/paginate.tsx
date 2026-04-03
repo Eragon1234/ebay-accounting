@@ -29,7 +29,7 @@ export function Paginate({pageCount, currentPage}: PaginateProps) {
                 )
             }
             {end < pageCount - 1 && <Ellipsis/>}
-            <Page page={pageCount} isCurrent={currentPage === pageCount - 1}/>
+            <Page page={pageCount} isCurrent={currentPage === pageCount}/>
         </div>
     )
 }
