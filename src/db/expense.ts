@@ -3,11 +3,12 @@
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
 import {euroToMicroEuro, Expense, expense, NewExpense} from "@/db/schema";
-import {asc, between, count, desc, eq, sum} from "drizzle-orm";
+import {asc, between, count, desc, eq, sql, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
 import {revalidatePath} from "next/cache";
 import {Locales} from "@/translation/dictionaries";
 import {getDbAsync} from "@/db/db";
+import Brand from "@/lib/brand";
 
 export async function countExpenses(): Promise<number> {
     const db = await getDbAsync();
@@ -51,15 +52,47 @@ export async function getExpenseInRange(start: Date, end: Date): Promise<number>
     return result[0].sum || 0;
 }
 
-export async function getExpenseInRangeByType(start: Date, end: Date) {
+type ExpenseSumByType = Brand<'ExpenseSumByType', {
+    type: string;
+    total: number;
+    netto: number;
+    vat: number;
+}>;
+
+export async function getExpenseInRangeByType(start: Date, end: Date): Promise<ExpenseSumByType[]> {
     const db = await getDbAsync();
 
     const result = await db.select({
         type: expense.type,
-        sum: sum(expense.amount).mapWith(Number)
+        total: sum(expense.amount).mapWith(Number),
+        netto: sql`sum((
+        ${expense.amount} /
+        (
+        100
+        +
+        ${expense.vat}
+        )
+        *
+        100
+        )
+        )`.mapWith(Number),
+        vat: sql`sum(
+        ${expense.amount}
+        -
+        (
+        ${expense.amount} /
+        (
+        100
+        +
+        ${expense.vat}
+        )
+        *
+        100
+        )
+        )`.mapWith(Number)
     }).from(expense).where(
         between(expense.date, start.toISOString().slice(0, 10), end.toISOString().slice(0, 10))
-    ).groupBy(expense.type);
+    ).groupBy(expense.type) as ExpenseSumByType[];
 
     return result;
 }

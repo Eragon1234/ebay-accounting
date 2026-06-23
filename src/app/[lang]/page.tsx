@@ -35,10 +35,10 @@ export default async function Home(
         <DateRangePicker dict={dict} defaultStart={rangeStart} defaultEnd={rangeEnd}/>
         <div className="dashboard">
             {dashboardCards.map(card =>
-                <DashboardCard key={card.title} title={card.title} amount={card.amount}/>
+                <DashboardCard key={card.title} {...card}/>
             )}
             <div className="card dashboard-card" style={{width: "100%"}}>
-                <ExpenseChart data={expenseByType.map(v => ({...v, sum: v.sum / euroToMicroEuro}))}/>
+                <ExpenseChart data={expenseByType.map(v => ({...v, sum: v.total / euroToMicroEuro}))}/>
             </div>
         </div>
     </>
@@ -61,24 +61,33 @@ async function getDashboardCards(dict: Dict, start: Date, end: Date) {
     return [
         {
             title: dict.home.income,
-            amount: income / euroToMicroEuro
+            total: income / euroToMicroEuro,
+            netto: (income - (vatToPay + paidVat)) / euroToMicroEuro,
+            vat: (vatToPay + paidVat) / euroToMicroEuro
         },
         {
             title: dict.home.earnings,
-            amount: earnings / euroToMicroEuro
+            total: earnings / euroToMicroEuro
         },
         {
             title: dict.home.vatToPay,
-            amount: vatToPay / euroToMicroEuro
+            total: vatToPay / euroToMicroEuro
         },
         {
             title: dict.home.taxableIncome,
-            amount: taxableIncome / euroToMicroEuro
+            total: taxableIncome / euroToMicroEuro,
+            netto: (taxableIncome / 1.19) / euroToMicroEuro,
+            vat: (taxableIncome - (taxableIncome / 1.19)) / euroToMicroEuro
         },
         {
             title: dict.home.paidVat,
-            amount: paidVat / euroToMicroEuro
+            total: paidVat / euroToMicroEuro
         },
-        ...expenseByType.map(v => ({title: v.type, amount: v.sum / euroToMicroEuro}))
+        ...expenseByType.map(v => ({
+            title: v.type,
+            total: v.total / euroToMicroEuro,
+            netto: v.netto / euroToMicroEuro,
+            vat: v.vat / euroToMicroEuro
+        }))
     ]
 }
