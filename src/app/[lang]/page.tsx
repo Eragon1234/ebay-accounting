@@ -56,7 +56,7 @@ async function getDashboardCards(dict: Dict, start: Date, end: Date) {
     const taxableIncome = await calculateTaxableIncome(income, differentialIncome);
     const vatToPay = await calculateVat(taxableIncome, paidVat);
 
-    const earnings = income - expense;
+    const earnings = income - expense.total;
 
     return [
         {
@@ -82,6 +82,12 @@ async function getDashboardCards(dict: Dict, start: Date, end: Date) {
         {
             title: dict.home.paidVat,
             total: paidVat / euroToMicroEuro
+        },
+        {
+            title: dict.home.totalExpense,
+            total: expense.total / euroToMicroEuro,
+            netto: expense.netto / euroToMicroEuro,
+            vat: expense.vat / euroToMicroEuro
         },
         ...expenseByType.map(v => ({
             title: v.type,

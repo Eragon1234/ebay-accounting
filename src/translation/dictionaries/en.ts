@@ -11,7 +11,8 @@ const en = {
         "earnings": "Earnings",
         "vatToPay": "VAT to pay",
         "taxableIncome": "Taxable income",
-        "paidVat": "VAT paid"
+        "paidVat": "VAT paid",
+        "totalExpense": "Total expense"
     },
     "incomes": {
         "incomes": "Incomes",

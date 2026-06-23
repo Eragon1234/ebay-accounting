@@ -40,16 +40,24 @@ export async function getExpenseTypes(): Promise<string[]> {
     return result.map(r => r.type || "");
 }
 
-export async function getExpenseInRange(start: Date, end: Date): Promise<number> {
+type ExpenseSum = Brand<'ExpenseSum', {
+    total: number;
+    netto: number;
+    vat: number;
+}>;
+
+export async function getExpenseInRange(start: Date, end: Date): Promise<ExpenseSum> {
     const db = await getDbAsync();
 
     const result = await db.select({
-        sum: sum(expense.amount).mapWith(Number)
+        total: sum(expense.amount).mapWith(Number),
+        netto: sql`sum((${expense.amount} / (100 + ${expense.vat}) * 100))`.mapWith(Number),
+        vat: sql`sum(${expense.amount} - (${expense.amount} / (100 + ${expense.vat}) * 100))`.mapWith(Number)
     }).from(expense).where(
         between(expense.date, start.toISOString().slice(0, 10), end.toISOString().slice(0, 10))
     );
 
-    return result[0].sum || 0;
+    return result[0] as ExpenseSum;
 }
 
 type ExpenseSumByType = Brand<'ExpenseSumByType', {
@@ -65,31 +73,8 @@ export async function getExpenseInRangeByType(start: Date, end: Date): Promise<E
     const result = await db.select({
         type: expense.type,
         total: sum(expense.amount).mapWith(Number),
-        netto: sql`sum((
-        ${expense.amount} /
-        (
-        100
-        +
-        ${expense.vat}
-        )
-        *
-        100
-        )
-        )`.mapWith(Number),
-        vat: sql`sum(
-        ${expense.amount}
-        -
-        (
-        ${expense.amount} /
-        (
-        100
-        +
-        ${expense.vat}
-        )
-        *
-        100
-        )
-        )`.mapWith(Number)
+        netto: sql`sum((${expense.amount} / (100 + ${expense.vat}) * 100))`.mapWith(Number),
+        vat: sql`sum(${expense.amount} - (${expense.amount} / (100 + ${expense.vat}) * 100))`.mapWith(Number)
     }).from(expense).where(
         between(expense.date, start.toISOString().slice(0, 10), end.toISOString().slice(0, 10))
     ).groupBy(expense.type) as ExpenseSumByType[];
