@@ -11,7 +11,6 @@ const de = {
         "earnings": "Einnahmen",
         "vatToPay": "zu zahlende Umsatzsteuer",
         "taxableIncome": "zu versteuerndes Einkommen",
-        "paidVat": "abgeführte Umsatzsteuer",
         "totalExpense": "Gesamtausgaben"
     },
     "incomes": {

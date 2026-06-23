@@ -4,7 +4,7 @@ import {euroToMicroEuro} from "@/db/schema";
 import {getIncomeInRange} from "@/db/income";
 import DashboardCard from "@/app/[lang]/dashboard-card";
 import {getExpenseInRange, getExpenseInRangeByType} from "@/db/expense";
-import {calculateTaxableIncome, calculateVat, getDifferentialIncome, getPaidVatBetweenDates} from "@/db/tax";
+import {calculateTaxableIncome, calculateVat, getDifferentialIncome} from "@/db/tax";
 import DateRangePicker from "@/components/date-range-picker/date-range-picker";
 import ExpenseChart from "@/app/[lang]/ExpenseChart";
 
@@ -45,16 +45,15 @@ export default async function Home(
 }
 
 async function getDashboardCards(dict: Dict, start: Date, end: Date) {
-    const [income, expense, expenseByType, paidVat, differentialIncome] = await Promise.all([
+    const [income, expense, expenseByType, differentialIncome] = await Promise.all([
         getIncomeInRange(start, end),
         getExpenseInRange(start, end),
         getExpenseInRangeByType(start, end),
-        getPaidVatBetweenDates(start, end),
         getDifferentialIncome(start, end)
     ]);
 
     const taxableIncome = await calculateTaxableIncome(income, differentialIncome);
-    const vatToPay = await calculateVat(taxableIncome, paidVat);
+    const vatToPay = await calculateVat(taxableIncome, expense.vat);
 
     const earnings = income - expense.total;
 
@@ -62,8 +61,8 @@ async function getDashboardCards(dict: Dict, start: Date, end: Date) {
         {
             title: dict.home.income,
             total: income / euroToMicroEuro,
-            netto: (income - (vatToPay + paidVat)) / euroToMicroEuro,
-            vat: (vatToPay + paidVat) / euroToMicroEuro
+            netto: (income - (vatToPay + expense.vat)) / euroToMicroEuro,
+            vat: (vatToPay + expense.vat) / euroToMicroEuro
         },
         {
             title: dict.home.earnings,
@@ -78,10 +77,6 @@ async function getDashboardCards(dict: Dict, start: Date, end: Date) {
             total: taxableIncome / euroToMicroEuro,
             netto: (taxableIncome / 1.19) / euroToMicroEuro,
             vat: (taxableIncome - (taxableIncome / 1.19)) / euroToMicroEuro
-        },
-        {
-            title: dict.home.paidVat,
-            total: paidVat / euroToMicroEuro
         },
         {
             title: dict.home.totalExpense,
