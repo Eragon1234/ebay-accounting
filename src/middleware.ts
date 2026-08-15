@@ -14,28 +14,25 @@ export async function middleware(request: NextRequest) {
 
     const firstPathnameSegment = pathname.split("/")[1];
     const pathnameHasLocale = isValidLocale(firstPathnameSegment);
+    if (!pathnameHasLocale) {
+        const locale = getLocale(request);
 
-    if (pathnameHasLocale) {
-        const authenticated = await getUserSession(request.cookies.get("auth")?.value);
-        if (!authenticated.authenticated) {
-            if (request.nextUrl.pathname.endsWith("/login")) return;
-
-            const redirect = request.nextUrl.pathname;
-
-            request.nextUrl.pathname = `/${getLocale(request)}/login`;
-
-            const response = NextResponse.rewrite(request.nextUrl);
-            response.headers.set("_redirect", redirect);
-
-            return response;
-        }
-        return;
+        const localizedURL = new URL(`/${locale}${pathname}`, request.nextUrl);
+        return NextResponse.redirect(localizedURL);
     }
 
-    const locale = getLocale(request);
-    request.nextUrl.pathname = `/${locale}${pathname}`
+    const locale = firstPathnameSegment;
 
-    return NextResponse.redirect(request.nextUrl);
+    if (request.nextUrl.pathname.endsWith("/login")) return;
+
+    const authenticated = await getUserSession(request.cookies.get("auth")?.value);
+    if (!authenticated.authenticated) {
+        const loginURL = new URL(`/${locale}/login`, request.url);
+
+        const response = NextResponse.rewrite(loginURL);
+        response.headers.set("_redirect", pathname);
+        return response;
+    }
 }
 
 export const config = {
