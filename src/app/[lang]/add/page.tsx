@@ -1,9 +1,9 @@
 import Link from "next/link";
 import IncomeIcon from "@/components/icons/income-icon";
 import ExpenseIcon from "@/components/icons/expense-icon";
-import {getLocalization, Locales} from "@/translation/dictionaries";
+import {getLocalization} from "@/translation/dictionaries";
 
-export default async function Add(props: { params: Promise<{ lang: Locales }> }) {
+export default async function Add(props: PageProps<'/[lang]/add'>) {
     const params = await props.params;
     const localization = getLocalization(params.lang);
     const {dict} = localization;

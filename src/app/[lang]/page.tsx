@@ -1,5 +1,5 @@
 import React from "react";
-import {Dict, getLocalization, Locales} from "@/translation/dictionaries";
+import {Dict, getLocalization} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
 import {getIncomeInRange} from "@/db/income";
 import DashboardCard from "@/app/[lang]/dashboard-card";
@@ -11,10 +11,7 @@ import ExpenseChart from "@/app/[lang]/ExpenseChart";
 export const dynamic = "force-dynamic";
 
 export default async function Home(
-    props: {
-        params: Promise<{ lang: Locales }>,
-        searchParams: Promise<{ start: string, end: string }>
-    }
+    props: PageProps<'/[lang]'>
 ) {
     const searchParams = await props.searchParams;
     const params = await props.params;
@@ -25,8 +22,11 @@ export default async function Home(
     const yearBegin = new Date(Date.UTC(now.getFullYear(), 0));
     const yearEnd = new Date(Date.UTC(now.getFullYear(), 11, 31));
 
-    const rangeStart = new Date(searchParams.start || yearBegin);
-    const rangeEnd = new Date(searchParams.end || yearEnd);
+    const start = !Array.isArray(searchParams.start) && searchParams.start ? searchParams.start : yearBegin;
+    const end = !Array.isArray(searchParams.end) && searchParams.end ? searchParams.end : yearEnd;
+
+    const rangeStart = new Date(start);
+    const rangeEnd = new Date(end);
 
     const dashboardCards = await getDashboardCards(dict, rangeStart, rangeEnd);
     const expenseByType = await getExpenseInRangeByType(rangeStart, rangeEnd);

@@ -1,7 +1,7 @@
 import {IncomeForm} from "@/app/[lang]/new-income/incomeForm";
-import {getLocalization, Locales} from "@/translation/dictionaries";
+import {getLocalization} from "@/translation/dictionaries";
 
-export default async function NewIncomePage(props: { params: Promise<{ lang: Locales }> }) {
+export default async function NewIncomePage(props: PageProps<'/[lang]/new-income'>) {
     const params = await props.params;
     const localization = getLocalization(params.lang);
     const dict = localization.dict;

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description: 'eBay Accounting',
 }
 
-export default async function RootLayout(props: { children: React.ReactNode, params: Promise<{ lang: string }> }) {
+export default async function RootLayout(props: LayoutProps<'/[lang]'>) {
     const params = await props.params;
 
     const {

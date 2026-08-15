@@ -1,19 +1,15 @@
 import {countIncomes, getIncomes} from "@/db/income";
 import Table from "@/components/table/table";
 import {calculatePagination, parsePageFromSearchParams} from "@/lib/paginate";
-import SearchParams from "@/types/searchParams";
 import {Paginate} from "@/components/paginate/paginate";
-import {getLocalization, Locales} from "@/translation/dictionaries";
+import {getLocalization} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
 import {Actions} from "@/app/[lang]/incomes/actions";
 
 const PAGE_SIZE = 50;
 
 export default async function Incomes(
-    props: {
-        params: Promise<{ lang: Locales }>
-        searchParams: Promise<SearchParams>
-    }
+    props: PageProps<'/[lang]/incomes'>
 ) {
     const searchParams = await props.searchParams;
     const params = await props.params;
