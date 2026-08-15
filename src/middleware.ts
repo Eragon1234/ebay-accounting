@@ -23,6 +23,8 @@ export async function middleware(request: NextRequest) {
 
     const locale = firstPathnameSegment;
 
+    if (process.env.DISABLE_AUTH) return;
+
     if (request.nextUrl.pathname.endsWith("/login")) return;
 
     const authenticated = await getUserSession(request.cookies.get("auth")?.value);
