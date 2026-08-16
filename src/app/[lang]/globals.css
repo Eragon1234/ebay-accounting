@@ -183,14 +183,6 @@ button:disabled, .button:disabled {
     display: inline-block;
 }
 
-svg {
-    width: 1em;
-    height: 1em;
-    vertical-align: middle;
-    fill: currentColor;
-    stroke: currentColor;
-}
-
 .card {
     padding: var(--spacing-large);
     border: 1px solid var(--foreground);

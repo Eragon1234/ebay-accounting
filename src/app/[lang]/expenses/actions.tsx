@@ -1,10 +1,9 @@
 "use client";
 
-import DeleteIcon from "@/components/icons/delete-icon";
 import {Expense} from "@/db/schema";
 import {deleteExpense} from "@/db/expense";
-import FileIcon from "@/components/icons/file-icon";
 import Link from "next/link";
+import {FileIcon, TrashIcon} from "lucide-react";
 
 type ActionProps = {
     expense: Expense
@@ -17,7 +16,7 @@ export default function Actions({expense}: ActionProps) {
         justifyContent: "space-between",
     }}>
         {expense.file && <Link href={`/files/${expense.file}`}><FileIcon/></Link>}
-        <div onClick={() => deleteExpenseAction(expense)}><DeleteIcon/></div>
+        <div onClick={() => deleteExpenseAction(expense)}><TrashIcon/></div>
     </div>
 }
 

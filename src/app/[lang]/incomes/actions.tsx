@@ -1,8 +1,8 @@
 "use client";
 
 import {Income} from "@/db/schema";
-import DeleteIcon from "@/components/icons/delete-icon";
 import {deleteIncome} from "@/db/income";
+import {TrashIcon} from "lucide-react";
 
 type ActionsProps = {
     income: Income
@@ -10,7 +10,7 @@ type ActionsProps = {
 
 export function Actions({income}: ActionsProps) {
     return <div>
-        <div onClick={() => deleteIncomeAction(income)}><DeleteIcon/></div>
+        <div onClick={() => deleteIncomeAction(income)}><TrashIcon/></div>
     </div>
 }
 
