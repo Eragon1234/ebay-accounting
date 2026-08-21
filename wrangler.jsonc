@@ -15,7 +15,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_id": "63d64687-5cfb-43fd-9549-41f2c17c7988"
+      "database_id": "63d64687-5cfb-43fd-9549-41f2c17c7988",
+      "migrations_dir": "./drizzle"
     }
   ],
   "r2_buckets": [
