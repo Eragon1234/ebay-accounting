@@ -1,0 +1,11 @@
+.file-upload__input {
+    display: none;
+}
+
+.file-upload__button {
+
+}
+
+.file-upload__button--drag-over {
+    outline: 2px dashed currentColor;
+}

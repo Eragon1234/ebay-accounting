@@ -39,7 +39,7 @@ export default async function Expenses(
             {header: dict.expenses.amount, render: a => `${a.amount / euroToMicroEuro} €`},
             {header: dict.expenses.taxType, render: a => formatType(a.taxType, a.vat)},
             {header: dict.expenses.date, render: a => new Date(a.date).toLocaleDateString()},
-            {header: "", render: a => <Actions expense={a}/>}
+            {header: "", render: a => <Actions dict={dict} expense={a}/>}
         ]} data={expenses}/>
         <Paginate {...pagination}/>
     </>

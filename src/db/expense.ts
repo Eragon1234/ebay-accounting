@@ -88,6 +88,12 @@ export async function createExpense(newExpense: NewExpense) {
     await db.insert(expense).values(newExpense);
 }
 
+export async function updateExpense(id: number, updatedFields: Partial<NewExpense>) {
+    const db = await getDbAsync();
+
+    await db.update(expense).set(updatedFields).where(eq(expense.id, id));
+}
+
 export async function deleteExpense(id: number) {
     const db = await getDbAsync();
 
@@ -126,4 +132,21 @@ export default async function createExpenseFromForm(lang: Locales, _prevState: a
 
     revalidatePath("/[lang]/expenses", "page");
     redirect(`/${lang}/expenses`);
+}
+
+type AddFileToExpenseResult = {success: true, error_code: undefined} | {success: false, error_code: string};
+
+export async function addFileToExpense(id: number, file: File): Promise<AddFileToExpenseResult> {
+    if (!file || file.size === 0) {
+        console.log("File is empty or missing")
+        return {success: false, error_code: "file_empty"};
+    }
+
+    const path = await saveFile(file);
+
+    await updateExpense(id, { file: path });
+
+    revalidatePath("/[lang]/expenses", "page");
+
+    return {success: true, error_code: undefined};
 }

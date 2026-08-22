@@ -36,7 +36,8 @@ const de = {
         "taxTypeEnum": {
             "VAT": "Mwst.",
             "DIFFERENTIAL": "Differenzbesteuert"
-        }
+        },
+        "addFile": "Datei zu Ausgabe hinzufügen"
     },
     "addExpense": {
         "name": "Name",

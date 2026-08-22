@@ -36,7 +36,8 @@ const en = {
         "taxTypeEnum": {
             "VAT": "VAT",
             "DIFFERENTIAL": "DIFFERENTIAL"
-        }
+        },
+        "addFile": "Add File to Expense"
     },
     "addExpense": {
         "name": "Name",
