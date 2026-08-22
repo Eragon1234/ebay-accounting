@@ -15,6 +15,6 @@ export default async function Login(props: PageProps<'/[lang]/login'>) {
     return <form action={signIn}>
         <label htmlFor="password">{dict.login.password}</label>
         <input type="password" name="password" id="password"/>
-        <button type="submit">{dict.login.submit}</button>
+        <button className="button" type="submit">{dict.login.submit}</button>
     </form>
 }

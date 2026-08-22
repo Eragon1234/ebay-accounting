@@ -107,7 +107,23 @@ input, select, textarea {
     background-color: transparent;
 }
 
-button, .button {
+button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+button:disabled {
+    cursor: default;
+}
+
+button:focus-visible {
+    outline: 2px solid currentColor;
+}
+
+.button {
     width: fit-content;
     padding: var(--spacing-medium) var(--spacing-medium);
     cursor: pointer;
@@ -117,9 +133,13 @@ button, .button {
     background-color: transparent;
 }
 
-button:disabled, .button:disabled {
+.button:disabled {
     color: var(--secondary-foreground);
     border-color: var(--secondary-foreground);
+}
+
+.button:focus-visible {
+    outline: 2px solid currentColor;
 }
 
 .hamburger-icon {
