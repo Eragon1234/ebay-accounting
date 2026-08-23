@@ -3,7 +3,7 @@
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
 import {euroToMicroEuro, Expense, expense, NewExpense} from "@/db/schema";
-import {asc, between, count, desc, eq, sql, sum} from "drizzle-orm";
+import {asc, between, desc, eq, sql, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
 import {revalidatePath} from "next/cache";
 import {Locales} from "@/translation/dictionaries";
@@ -13,7 +13,7 @@ import Brand from "@/types/brand";
 export async function countExpenses(): Promise<number> {
     const db = await getDbAsync();
 
-    return db.select({count: count(expense.id)}).from(expense).then(a => a[0].count);
+    return db.$count(expense);
 }
 
 export async function getExpenses(limit: number, offset: number): Promise<Expense[]> {

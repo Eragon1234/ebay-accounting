@@ -3,7 +3,7 @@
 import {redirect} from "next/navigation";
 import {saveFile} from "@/db/files";
 import {euroToMicroEuro, Income, income, NewIncome} from "@/db/schema";
-import {between, count, desc, eq, sum} from "drizzle-orm";
+import {between, desc, eq, sum} from "drizzle-orm";
 import {createInsertSchema} from "drizzle-zod";
 import {revalidatePath} from "next/cache";
 import {Locales} from "@/translation/dictionaries";
@@ -11,7 +11,7 @@ import {getDbAsync} from "@/db/db";
 
 export async function countIncomes() {
     const db = await getDbAsync();
-  return db.select({ count: count(income.id) }).from(income).then(a => a[0].count);
+    return db.$count(income);
 }
 
 export async function getIncomes(limit: number, offset: number): Promise<Income[]> {
