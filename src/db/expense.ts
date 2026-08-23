@@ -8,7 +8,7 @@ import {createInsertSchema} from "drizzle-zod";
 import {revalidatePath} from "next/cache";
 import {Locales} from "@/translation/dictionaries";
 import {getDbAsync} from "@/db/db";
-import Brand from "@/lib/brand";
+import Brand from "@/types/brand";
 
 export async function countExpenses(): Promise<number> {
     const db = await getDbAsync();
