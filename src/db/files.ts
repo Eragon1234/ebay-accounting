@@ -15,3 +15,8 @@ export async function saveFile(file: File): Promise<string> {
 
     return filename;
 }
+
+export async function deleteFile(file: string): Promise<void> {
+    const bucket = getCloudflareContext().env.BUCKET;
+    await bucket.delete(file);
+}
