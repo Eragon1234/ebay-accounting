@@ -14,9 +14,12 @@ type ActionProps = {
 }
 
 export default function Actions({expense, dict}: ActionProps) {
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (confirm(`Do you want to delete '${expense.name}'`)) {
-            deleteExpenseAction(expense.id);
+            const result = await deleteExpenseAction(expense.id);
+            if (!result.success) {
+                console.log("Failed to delete expense", result.error_code);
+            }
         }
     }
 

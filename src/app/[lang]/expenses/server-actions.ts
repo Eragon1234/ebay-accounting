@@ -5,9 +5,22 @@ import {revalidatePath} from "next/cache";
 import {Expense} from "@/db/schema";
 import {saveFile} from "@/db/files";
 
-export async function deleteExpenseAction(expenseId: Expense['id']) {
-    await deleteExpense(expenseId);
-    revalidatePath("/[lang]/expenses", "page");
+type DeleteExpenseActionResult = {
+    success: true
+} | {
+    success: false
+    error_code: string
+}
+
+export async function deleteExpenseAction(expenseId: Expense['id']): Promise<DeleteExpenseActionResult> {
+    try {
+        await deleteExpense(expenseId);
+        revalidatePath("/[lang]/expenses", "page");
+        return {success: true}
+    } catch (error) {
+        console.log(`Failed to delete expense with id ${expenseId}`, error);
+        return {success: false, error_code: "unknown_error"}
+    }
 }
 
 type AddFileToExpenseResult = { success: true, error_code: undefined } | { success: false, error_code: string };
