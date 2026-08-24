@@ -1,9 +1,9 @@
 "use client";
 
-import { createIncomeFromForm } from "@/db/income";
-import { SubmitButton } from "@/components/submit-button/submitButton";
-import { Localization } from "@/translation/dictionaries";
-import { useActionState } from "react";
+import {createIncomeFromForm} from "@/app/[lang]/new-income/server-actions";
+import {SubmitButton} from "@/components/submit-button/submitButton";
+import {Localization} from "@/translation/dictionaries";
+import {useActionState} from "react";
 
 export function IncomeForm({ localization }: { localization: Localization }) {
   const { dict, locale } = localization;

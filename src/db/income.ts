@@ -1,12 +1,7 @@
-"use server";
+import "server-only";
 
-import {redirect} from "next/navigation";
-import {saveFile} from "@/db/files";
-import {euroToMicroEuro, Income, income, NewIncome} from "@/db/schema";
+import {Income, income, NewIncome} from "@/db/schema";
 import {between, desc, eq, sum} from "drizzle-orm";
-import {createInsertSchema} from "drizzle-zod";
-import {revalidatePath} from "next/cache";
-import {Locales} from "@/translation/dictionaries";
 import {getDbAsync} from "@/db/db";
 
 export async function countIncomes() {
@@ -43,35 +38,4 @@ export async function createIncome(newIncome: NewIncome) {
 export async function deleteIncome(id: number) {
     const db = await getDbAsync();
     await db.delete(income).where(eq(income.id, id));
-    revalidatePath("/[lang]/incomes", "page");
-}
-
-const newIncomeSchema = createInsertSchema(income);
-
-export async function createIncomeFromForm(lang: Locales, prevState: any, formData: FormData) {
-    const validatedFields = newIncomeSchema.safeParse({
-        name: (formData.get("name") as string).trim(),
-        amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
-        date: formData.get("date"),
-    });
-
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors
-        }
-    }
-
-    const file = formData.get("file") as File;
-    let path;
-    if (file && file.size > 0) {
-        path = await saveFile(file);
-    }
-
-    await createIncome({
-        ...validatedFields.data,
-        file: path
-    });
-
-    revalidatePath("/[lang]/incomes", "page");
-    redirect(`/${lang}/incomes`);
 }
