@@ -1,12 +1,7 @@
-"use server";
+import "server-only";
 
-import {redirect} from "next/navigation";
-import {saveFile} from "@/db/files";
-import {euroToMicroEuro, Expense, expense, NewExpense} from "@/db/schema";
+import {Expense, expense, NewExpense} from "@/db/schema";
 import {asc, between, desc, eq, sql, sum} from "drizzle-orm";
-import {createInsertSchema} from "drizzle-zod";
-import {revalidatePath} from "next/cache";
-import {Locales} from "@/translation/dictionaries";
 import {getDbAsync} from "@/db/db";
 import Brand from "@/types/brand";
 
@@ -98,55 +93,4 @@ export async function deleteExpense(id: number) {
     const db = await getDbAsync();
 
     await db.delete(expense).where(eq(expense.id, id));
-    revalidatePath("/[lang]/expenses", "page");
-}
-
-const newExpenseSchema = createInsertSchema(expense);
-
-export default async function createExpenseFromForm(lang: Locales, _prevState: any, formData: FormData) {
-    const validatedFields = newExpenseSchema.safeParse({
-        name: (formData.get("name") as string).trim(),
-        date: formData.get("date"),
-        type: (formData.get("type") as string).trim(),
-        amount: Math.round(parseFloat(formData.get("amount") as string) * euroToMicroEuro),
-        taxType: formData.get("taxType"),
-        vat: parseInt(formData.get("vat") as string) || 0
-    });
-
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors
-        }
-    }
-
-    const file = formData.get("file") as File;
-    let path;
-    if (file && file.size > 0) {
-        path = await saveFile(file);
-    }
-
-    await createExpense({
-        ...validatedFields.data,
-        file: path
-    });
-
-    revalidatePath("/[lang]/expenses", "page");
-    redirect(`/${lang}/expenses`);
-}
-
-type AddFileToExpenseResult = {success: true, error_code: undefined} | {success: false, error_code: string};
-
-export async function addFileToExpense(id: number, file: File): Promise<AddFileToExpenseResult> {
-    if (!file || file.size === 0) {
-        console.log("File is empty or missing")
-        return {success: false, error_code: "file_empty"};
-    }
-
-    const path = await saveFile(file);
-
-    await updateExpense(id, { file: path });
-
-    revalidatePath("/[lang]/expenses", "page");
-
-    return {success: true, error_code: undefined};
 }

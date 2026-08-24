@@ -1,12 +1,12 @@
 "use client";
 
 import {Expense} from "@/db/schema";
-import {addFileToExpense, deleteExpense} from "@/db/expense";
 import Link from "next/link";
 import {FileIcon, FilePlusCornerIcon, TrashIcon} from "lucide-react";
 import FileUpload from "@/components/file-upload/fileUpload";
 import {useTransition} from "react";
 import {Dict} from "@/translation/dictionaries";
+import {addFileToExpense, deleteExpenseAction} from "@/app/[lang]/expenses/server-actions";
 
 type ActionProps = {
     expense: Expense
@@ -14,6 +14,12 @@ type ActionProps = {
 }
 
 export default function Actions({expense, dict}: ActionProps) {
+    const handleDelete = () => {
+        if (confirm(`Do you want to delete '${expense.name}'`)) {
+            deleteExpenseAction(expense.id);
+        }
+    }
+
     return <div style={{
         display: "flex",
         gap: "1em",
@@ -24,14 +30,8 @@ export default function Actions({expense, dict}: ActionProps) {
                 <Link href={`/files/${expense.file}`}><FileIcon/></Link> :
                 <AddFileButton expenseId={expense.id} dict={dict}/>
         }
-        <div onClick={() => deleteExpenseAction(expense)}><TrashIcon/></div>
+        <div onClick={handleDelete}><TrashIcon/></div>
     </div>
-}
-
-function deleteExpenseAction(expense: Expense) {
-    if (confirm(`Do you want to delete '${expense.name}'`)) {
-        deleteExpense(expense.id);
-    }
 }
 
 type AddFileFormProps = {

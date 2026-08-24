@@ -1,10 +1,10 @@
 "use client";
 
-import createExpenseFromForm from "@/db/expense";
-import { TaxTypeInput } from "@/app/[lang]/new-expense/taxTypeInput";
-import { SubmitButton } from "@/components/submit-button/submitButton";
-import { Localization } from "@/translation/dictionaries";
-import { useActionState } from "react";
+import {TaxTypeInput} from "@/app/[lang]/new-expense/taxTypeInput";
+import {SubmitButton} from "@/components/submit-button/submitButton";
+import {Localization} from "@/translation/dictionaries";
+import {useActionState} from "react";
+import createExpenseFromForm from "@/app/[lang]/new-expense/server-actions";
 
 export function ExpenseForm({ localization, types }: { localization: Localization, types: string[] }) {
   const { dict, locale } = localization;
