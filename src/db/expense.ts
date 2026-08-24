@@ -4,6 +4,7 @@ import {Expense, expense, NewExpense, TaxType} from "@/db/schema";
 import {and, asc, between, desc, eq, sql, sum} from "drizzle-orm";
 import {getDbAsync} from "@/db/db";
 import Brand from "@/types/brand";
+import {deleteFile} from "@/db/files";
 
 export async function countExpenses(): Promise<number> {
     const db = await getDbAsync();
@@ -104,5 +105,13 @@ export async function updateExpense(id: number, updatedFields: Partial<NewExpens
 export async function deleteExpense(id: number) {
     const db = await getDbAsync();
 
-    await db.delete(expense).where(eq(expense.id, id));
+    const [deletedExpense] = await db.delete(expense).where(eq(expense.id, id)).returning({file: expense.file});
+
+    if (deletedExpense.file) {
+        try {
+            await deleteFile(deletedExpense.file);
+        } catch (error) {
+            console.error(`Failed to delete file '${deletedExpense.file}' for expense with ID ${id}:`, error);
+        }
+    }
 }
