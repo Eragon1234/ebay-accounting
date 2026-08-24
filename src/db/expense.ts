@@ -1,7 +1,7 @@
 import "server-only";
 
-import {Expense, expense, NewExpense} from "@/db/schema";
-import {asc, between, desc, eq, sql, sum} from "drizzle-orm";
+import {Expense, expense, NewExpense, TaxType} from "@/db/schema";
+import {and, asc, between, desc, eq, sql, sum} from "drizzle-orm";
 import {getDbAsync} from "@/db/db";
 import Brand from "@/types/brand";
 
@@ -75,6 +75,18 @@ export async function getExpenseInRangeByType(start: Date, end: Date): Promise<E
     ).groupBy(expense.type) as ExpenseSumByType[];
 
     return result;
+}
+
+export async function getDifferentialIncome(start: Date, end: Date) {
+    const db = await getDbAsync();
+    return (await db.select({
+        differentialSum: sum(expense.amount).mapWith(Number),
+    }).from(expense).where(
+        and(
+            between(expense.date, start.toISOString().slice(0, 10), end.toISOString().slice(0, 10)),
+            eq(expense.taxType, TaxType.DIFFERENTIAL)
+        )
+    ))[0].differentialSum;
 }
 
 export async function createExpense(newExpense: NewExpense) {

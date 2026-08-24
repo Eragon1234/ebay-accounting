@@ -3,8 +3,8 @@ import {Dict, getLocalization} from "@/translation/dictionaries";
 import {euroToMicroEuro} from "@/db/schema";
 import {getIncomeInRange} from "@/db/income";
 import DashboardCard from "@/app/[lang]/dashboard-card";
-import {getExpenseInRange, getExpenseInRangeByType} from "@/db/expense";
-import {calculateTaxableIncome, calculateVat, getDifferentialIncome} from "@/db/tax";
+import {getDifferentialIncome, getExpenseInRange, getExpenseInRangeByType} from "@/db/expense";
+import {calculateTaxableIncome, calculateVat} from "@/lib/tax";
 import DateRangePicker from "@/components/date-range-picker/date-range-picker";
 import ExpenseChart from "@/app/[lang]/ExpenseChart";
 
