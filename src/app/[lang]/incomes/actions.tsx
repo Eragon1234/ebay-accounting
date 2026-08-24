@@ -11,7 +11,10 @@ type ActionsProps = {
 export function Actions({income}: ActionsProps) {
     const handleDelete = async () => {
         if (confirm(`Are you sure you want to delete ${income.name}?`)) {
-            deleteIncomeAction(income.id);
+            const result = await deleteIncomeAction(income.id);
+            if (!result.success) {
+                console.log("Failed to delete income", result.error_code);
+            }
         }
     }
 
