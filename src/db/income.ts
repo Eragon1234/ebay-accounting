@@ -3,6 +3,7 @@ import "server-only";
 import {Income, income, NewIncome} from "@/db/schema";
 import {between, desc, eq, sum} from "drizzle-orm";
 import {getDbAsync} from "@/db/db";
+import {deleteFile} from "@/db/files";
 
 export async function countIncomes() {
     const db = await getDbAsync();
@@ -37,5 +38,14 @@ export async function createIncome(newIncome: NewIncome) {
 
 export async function deleteIncome(id: number) {
     const db = await getDbAsync();
-    await db.delete(income).where(eq(income.id, id));
+
+    const [deletedIncome] = await db.delete(income).where(eq(income.id, id)).returning({file: income.file});
+
+    if (deletedIncome.file) {
+        try {
+            await deleteFile(deletedIncome.file);
+        } catch (error) {
+            console.error(`Failed to delete file '${deletedIncome.file}' for income with ID ${id}:`, error);
+        }
+    }
 }
