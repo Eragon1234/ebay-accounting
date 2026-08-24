@@ -1,4 +1,4 @@
-"use server";
+import "server-only";
 
 import {getCloudflareContext} from "@opennextjs/cloudflare";
 
