@@ -102,10 +102,21 @@ export async function updateExpense(id: number, updatedFields: Partial<NewExpens
     await db.update(expense).set(updatedFields).where(eq(expense.id, id));
 }
 
-export async function deleteExpense(id: number) {
+/**
+ * Deletes an expense from the database based on the provided ID.
+ * If the expense has an associated file, it will also be deleted.
+ *
+ * @param {number} id - The unique identifier of the expense to be deleted.
+ * @return {Promise<boolean>} A promise that resolves to `true` if the expense was successfully deleted, or `false` if no matching expense was found.
+ */
+export async function deleteExpense(id: number): Promise<boolean> {
     const db = await getDbAsync();
 
     const [deletedExpense] = await db.delete(expense).where(eq(expense.id, id)).returning({file: expense.file});
+
+    if (!deletedExpense) {
+        return false;
+    }
 
     if (deletedExpense.file) {
         try {
@@ -114,4 +125,6 @@ export async function deleteExpense(id: number) {
             console.error(`Failed to delete file '${deletedExpense.file}' for expense with ID ${id}:`, error);
         }
     }
+
+    return true;
 }
