@@ -21,7 +21,7 @@ export function Paginate({pageCount, currentPage}: PaginateProps) {
             <Page page={1} isCurrent={currentPage === 1}/>
             {start > 2 && <Ellipsis/>}
             {
-                pages.map(page =>
+                pageCount > 2 && pages.map(page =>
                     <Page
                         key={page}
                         page={page}
