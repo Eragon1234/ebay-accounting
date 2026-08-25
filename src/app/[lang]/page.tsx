@@ -1,94 +1,117 @@
 import React from "react";
-import {Dict, getLocalization} from "@/translation/dictionaries";
-import {euroToMicroEuro} from "@/db/schema";
-import {getIncomeInRange} from "@/db/income";
+import { Dict, getLocalization } from "@/translation/dictionaries";
+import { euroToMicroEuro } from "@/db/schema";
+import { getIncomeInRange } from "@/db/income";
 import DashboardCard from "@/app/[lang]/dashboard-card";
-import {getDifferentialIncome, getExpenseInRange, getExpenseInRangeByType} from "@/db/expense";
-import {calculateTaxableIncome, calculateVat} from "@/lib/tax";
+import {
+  getDifferentialIncome,
+  getExpenseInRange,
+  getExpenseInRangeByType,
+} from "@/db/expense";
+import { calculateTaxableIncome, calculateVat } from "@/lib/tax";
 import DateRangePicker from "@/components/date-range-picker/date-range-picker";
 import ExpenseChart from "@/app/[lang]/ExpenseChart";
 
 export const dynamic = "force-dynamic";
 
-export default async function Home(
-    props: PageProps<'/[lang]'>
-) {
-    const searchParams = await props.searchParams;
-    const params = await props.params;
-    const localization = getLocalization(params.lang);
-    const dict = localization.dict;
+export default async function Home(props: PageProps<"/[lang]">) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+  const localization = getLocalization(params.lang);
+  const dict = localization.dict;
 
-    const now = new Date();
-    const yearBegin = new Date(Date.UTC(now.getFullYear(), 0));
-    const yearEnd = new Date(Date.UTC(now.getFullYear(), 11, 31));
+  const now = new Date();
+  const yearBegin = new Date(Date.UTC(now.getFullYear(), 0));
+  const yearEnd = new Date(Date.UTC(now.getFullYear(), 11, 31));
 
-    const start = !Array.isArray(searchParams.start) && searchParams.start ? searchParams.start : yearBegin;
-    const end = !Array.isArray(searchParams.end) && searchParams.end ? searchParams.end : yearEnd;
+  const start =
+    !Array.isArray(searchParams.start) && searchParams.start
+      ? searchParams.start
+      : yearBegin;
+  const end =
+    !Array.isArray(searchParams.end) && searchParams.end
+      ? searchParams.end
+      : yearEnd;
 
-    const rangeStart = new Date(start);
-    const rangeEnd = new Date(end);
+  const rangeStart = new Date(start);
+  const rangeEnd = new Date(end);
 
-    const dashboardCards = await getDashboardCards(dict, rangeStart, rangeEnd);
-    const expenseByType = await getExpenseInRangeByType(rangeStart, rangeEnd);
+  const dashboardCards = await getDashboardCards(dict, rangeStart, rangeEnd);
+  const expenseByType = await getExpenseInRangeByType(rangeStart, rangeEnd);
 
-    return <>
-        <DateRangePicker dict={dict} defaultStart={rangeStart} defaultEnd={rangeEnd}/>
-        <div className="dashboard">
-            {dashboardCards.map(card =>
-                <DashboardCard key={card.title} {...card}/>
-            )}
-            <div className="card dashboard-card" style={{width: "100%"}}>
-                <ExpenseChart data={expenseByType.map(v => ({...v, sum: v.total / euroToMicroEuro}))}/>
-            </div>
+  return (
+    <>
+      <DateRangePicker
+        dict={dict}
+        defaultStart={rangeStart}
+        defaultEnd={rangeEnd}
+      />
+      <div className="dashboard">
+        {dashboardCards.map((card) => (
+          <DashboardCard key={card.title} {...card} />
+        ))}
+        <div className="card dashboard-card" style={{ width: "100%" }}>
+          <ExpenseChart
+            data={expenseByType.map((v) => ({
+              ...v,
+              sum: v.total / euroToMicroEuro,
+            }))}
+          />
         </div>
+      </div>
     </>
+  );
 }
 
 async function getDashboardCards(dict: Dict, start: Date, end: Date) {
-    const [income, expense, expenseByType, differentialIncome] = await Promise.all([
-        getIncomeInRange(start, end),
-        getExpenseInRange(start, end),
-        getExpenseInRangeByType(start, end),
-        getDifferentialIncome(start, end)
+  const [income, expense, expenseByType, differentialIncome] =
+    await Promise.all([
+      getIncomeInRange(start, end),
+      getExpenseInRange(start, end),
+      getExpenseInRangeByType(start, end),
+      getDifferentialIncome(start, end),
     ]);
 
-    const taxableIncome = await calculateTaxableIncome(income, differentialIncome);
-    const vatToPay = await calculateVat(taxableIncome, expense.vat);
+  const taxableIncome = await calculateTaxableIncome(
+    income,
+    differentialIncome,
+  );
+  const vatToPay = await calculateVat(taxableIncome, expense.vat);
 
-    const earnings = income - expense.total;
+  const earnings = income - expense.total;
 
-    return [
-        {
-            title: dict.home.income,
-            total: income / euroToMicroEuro,
-            netto: (income - (vatToPay + expense.vat)) / euroToMicroEuro,
-            vat: (vatToPay + expense.vat) / euroToMicroEuro
-        },
-        {
-            title: dict.home.earnings,
-            total: earnings / euroToMicroEuro
-        },
-        {
-            title: dict.home.vatToPay,
-            total: vatToPay / euroToMicroEuro
-        },
-        {
-            title: dict.home.taxableIncome,
-            total: taxableIncome / euroToMicroEuro,
-            netto: (taxableIncome / 1.19) / euroToMicroEuro,
-            vat: (taxableIncome - (taxableIncome / 1.19)) / euroToMicroEuro
-        },
-        {
-            title: dict.home.totalExpense,
-            total: expense.total / euroToMicroEuro,
-            netto: expense.netto / euroToMicroEuro,
-            vat: expense.vat / euroToMicroEuro
-        },
-        ...expenseByType.map(v => ({
-            title: v.type,
-            total: v.total / euroToMicroEuro,
-            netto: v.netto / euroToMicroEuro,
-            vat: v.vat / euroToMicroEuro
-        }))
-    ]
+  return [
+    {
+      title: dict.home.income,
+      total: income / euroToMicroEuro,
+      netto: (income - (vatToPay + expense.vat)) / euroToMicroEuro,
+      vat: (vatToPay + expense.vat) / euroToMicroEuro,
+    },
+    {
+      title: dict.home.earnings,
+      total: earnings / euroToMicroEuro,
+    },
+    {
+      title: dict.home.vatToPay,
+      total: vatToPay / euroToMicroEuro,
+    },
+    {
+      title: dict.home.taxableIncome,
+      total: taxableIncome / euroToMicroEuro,
+      netto: taxableIncome / 1.19 / euroToMicroEuro,
+      vat: (taxableIncome - taxableIncome / 1.19) / euroToMicroEuro,
+    },
+    {
+      title: dict.home.totalExpense,
+      total: expense.total / euroToMicroEuro,
+      netto: expense.netto / euroToMicroEuro,
+      vat: expense.vat / euroToMicroEuro,
+    },
+    ...expenseByType.map((v) => ({
+      title: v.type,
+      total: v.total / euroToMicroEuro,
+      netto: v.netto / euroToMicroEuro,
+      vat: v.vat / euroToMicroEuro,
+    })),
+  ];
 }

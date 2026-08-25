@@ -3,10 +3,7 @@
   "name": "ebay-accounting",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-03-01",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "global_fetch_strictly_public"
-  ],
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "keep_vars": true,
   "assets": {
     "binding": "ASSETS",

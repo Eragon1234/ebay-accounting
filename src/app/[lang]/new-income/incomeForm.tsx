@@ -1,9 +1,9 @@
 "use client";
 
-import {createIncomeFromForm} from "@/app/[lang]/new-income/server-actions";
-import {SubmitButton} from "@/components/submit-button/submitButton";
-import {Localization} from "@/translation/dictionaries";
-import {useActionState} from "react";
+import { createIncomeFromForm } from "@/app/[lang]/new-income/server-actions";
+import { SubmitButton } from "@/components/submit-button/submitButton";
+import { Localization } from "@/translation/dictionaries";
+import { useActionState } from "react";
 
 export function IncomeForm({ localization }: { localization: Localization }) {
   const { dict, locale } = localization;
@@ -21,10 +21,16 @@ export function IncomeForm({ localization }: { localization: Localization }) {
       <label htmlFor="amount">{dict.addIncome.amount}</label>
       <input type="number" id="amount" name="amount" step="0.01" required />
       <label htmlFor="date">{dict.addIncome.date}</label>
-      <input type="date" id="date" name="date" defaultValue={isoDateString} required />
+      <input
+        type="date"
+        id="date"
+        name="date"
+        defaultValue={isoDateString}
+        required
+      />
       <label htmlFor="file">{dict.addIncome.file}</label>
       <input type="file" name="file" id="file" />
       <SubmitButton text={dict.addIncome.addIncome} />
     </form>
-  )
+  );
 }

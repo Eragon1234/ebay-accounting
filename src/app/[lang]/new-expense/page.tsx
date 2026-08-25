@@ -1,17 +1,21 @@
-import {ExpenseForm} from "@/app/[lang]/new-expense/expenseForm";
-import {getExpenseTypes} from "@/db/expense";
-import {getLocalization} from "@/translation/dictionaries";
+import { ExpenseForm } from "@/app/[lang]/new-expense/expenseForm";
+import { getExpenseTypes } from "@/db/expense";
+import { getLocalization } from "@/translation/dictionaries";
 
-export default async function NewExpensePage(props: PageProps<'/[lang]/new-expense'>) {
-    const params = await props.params;
-    const localization = getLocalization(params.lang);
+export default async function NewExpensePage(
+  props: PageProps<"/[lang]/new-expense">,
+) {
+  const params = await props.params;
+  const localization = getLocalization(params.lang);
 
-    const {dict} = localization;
+  const { dict } = localization;
 
-    const types = await getExpenseTypes();
+  const types = await getExpenseTypes();
 
-    return <>
-        <h1>{dict.addExpense.addExpense}</h1>
-        <ExpenseForm localization={localization} types={types}/>
+  return (
+    <>
+      <h1>{dict.addExpense.addExpense}</h1>
+      <ExpenseForm localization={localization} types={types} />
     </>
+  );
 }

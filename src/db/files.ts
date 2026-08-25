@@ -1,22 +1,22 @@
 import "server-only";
 
-import {getCloudflareContext} from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 export async function saveFile(file: File): Promise<string> {
-    const bucket = getCloudflareContext().env.BUCKET;
-    const filename = crypto.randomUUID();
-    if (await bucket.head(filename)) {
-        return saveFile(file);
-    }
+  const bucket = getCloudflareContext().env.BUCKET;
+  const filename = crypto.randomUUID();
+  if (await bucket.head(filename)) {
+    return saveFile(file);
+  }
 
-    const arrayBuffer = await file.arrayBuffer();
+  const arrayBuffer = await file.arrayBuffer();
 
-    await bucket.put(filename, arrayBuffer);
+  await bucket.put(filename, arrayBuffer);
 
-    return filename;
+  return filename;
 }
 
 export async function deleteFile(file: string): Promise<void> {
-    const bucket = getCloudflareContext().env.BUCKET;
-    await bucket.delete(file);
+  const bucket = getCloudflareContext().env.BUCKET;
+  await bucket.delete(file);
 }

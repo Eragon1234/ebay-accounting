@@ -1,71 +1,71 @@
 :root {
-    font-size: 62.5%;
+  font-size: 62.5%;
 
-    --background: rgb(255, 255, 255);
+  --background: rgb(255, 255, 255);
 
-    --foreground: rgb(0, 0, 0);
-    --secondary-foreground: rgba(0, 0, 0, 0.8);
+  --foreground: rgb(0, 0, 0);
+  --secondary-foreground: rgba(0, 0, 0, 0.8);
 
-    --border-color: rgba(0, 0, 0, 0.2);
+  --border-color: rgba(0, 0, 0, 0.2);
 
-    --spacing-small: 0.5rem;
-    --spacing-medium: 1rem;
-    --spacing-large: 2rem;
+  --spacing-small: 0.5rem;
+  --spacing-medium: 1rem;
+  --spacing-large: 2rem;
 
-    --border-radius: 1.2rem;
+  --border-radius: 1.2rem;
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        --background: rgb(0, 0, 0);
+  :root {
+    --background: rgb(0, 0, 0);
 
-        --foreground: rgb(255, 255, 255);
-        --secondary-foreground: rgba(255, 255, 255, 0.8);
+    --foreground: rgb(255, 255, 255);
+    --secondary-foreground: rgba(255, 255, 255, 0.8);
 
-        --border-color: rgba(255, 255, 255, 0.2);
-    }
+    --border-color: rgba(255, 255, 255, 0.2);
+  }
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: Tahoma, sans-serif;
-    font-size: 1.6rem;
-    display: grid;
+  font-family: Tahoma, sans-serif;
+  font-size: 1.6rem;
+  display: grid;
 
-    padding: var(--spacing-large);
-    color: var(--foreground);
-    background: var(--background);
-    margin-inline: auto;
-    grid-template-areas:
-        "topbar topbar"
-        "sidebar main";
-    grid-template-rows: auto 1fr;
-    grid-template-columns: 1fr 7fr;
-    grid-gap: var(--spacing-large);
+  padding: var(--spacing-large);
+  color: var(--foreground);
+  background: var(--background);
+  margin-inline: auto;
+  grid-template-areas:
+    "topbar topbar"
+    "sidebar main";
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr 7fr;
+  grid-gap: var(--spacing-large);
 }
 
 #topbar {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border-color);
-    grid-area: topbar;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  grid-area: topbar;
 }
 
 #topbar h1 {
-    margin-bottom: var(--spacing-medium);
+  margin-bottom: var(--spacing-medium);
 }
 
 #sidebar {
-    grid-area: sidebar;
+  grid-area: sidebar;
 }
 
 main {
-    grid-area: main;
+  grid-area: main;
 }
 
 h1,
@@ -74,192 +74,194 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: 450;
+  font-weight: 450;
 }
 
 h1 {
-    margin-bottom: var(--spacing-large);
+  margin-bottom: var(--spacing-large);
 }
 
 a {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 @media (prefers-color-scheme: dark) {
-    html {
-        color-scheme: dark;
-    }
+  html {
+    color-scheme: dark;
+  }
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-medium);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
 }
 
-input, select, textarea {
-    font-size: 1.6rem;
-    margin-bottom: var(--spacing-medium);
-    padding: var(--spacing-medium) var(--spacing-large);
-    border: 1px solid currentColor;
-    border-radius: var(--border-radius);
-    background-color: transparent;
+input,
+select,
+textarea {
+  font-size: 1.6rem;
+  margin-bottom: var(--spacing-medium);
+  padding: var(--spacing-medium) var(--spacing-large);
+  border: 1px solid currentColor;
+  border-radius: var(--border-radius);
+  background-color: transparent;
 }
 
 button {
-    font: inherit;
-    color: inherit;
-    cursor: pointer;
-    border: none;
-    background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
 }
 
 button:disabled {
-    cursor: default;
+  cursor: default;
 }
 
 button:focus-visible {
-    outline: 2px solid currentColor;
+  outline: 2px solid currentColor;
 }
 
 .button {
-    width: fit-content;
-    padding: var(--spacing-medium) var(--spacing-medium);
-    cursor: pointer;
-    color: var(--foreground);
-    border: 1px solid var(--foreground);
-    border-radius: var(--border-radius);
-    background-color: transparent;
+  width: fit-content;
+  padding: var(--spacing-medium) var(--spacing-medium);
+  cursor: pointer;
+  color: var(--foreground);
+  border: 1px solid var(--foreground);
+  border-radius: var(--border-radius);
+  background-color: transparent;
 }
 
 .button:disabled {
-    color: var(--secondary-foreground);
-    border-color: var(--secondary-foreground);
+  color: var(--secondary-foreground);
+  border-color: var(--secondary-foreground);
 }
 
 .button:focus-visible {
-    outline: 2px solid currentColor;
+  outline: 2px solid currentColor;
 }
 
 .hamburger-icon {
-    font-size: 2em;
-    display: none;
+  font-size: 2em;
+  display: none;
 }
 
 #sidebar {
-    font-size: 1.8rem;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-medium);
+  font-size: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
 }
 
 @media screen and (max-width: 800px) {
-    #sidebar {
-        display: none;
-    }
+  #sidebar {
+    display: none;
+  }
 
-    body {
-        grid-template-areas:
-                "topbar topbar"
-                "main main";
-    }
+  body {
+    grid-template-areas:
+      "topbar topbar"
+      "main main";
+  }
 
-    body.sidebar-open {
-        grid-template-areas:
-                "topbar topbar"
-                "sidebar sidebar";
-    }
+  body.sidebar-open {
+    grid-template-areas:
+      "topbar topbar"
+      "sidebar sidebar";
+  }
 
-    body.sidebar-open #sidebar {
-        display: flex;
-    }
+  body.sidebar-open #sidebar {
+    display: flex;
+  }
 
-    body.sidebar-open main {
-        display: none;
-    }
+  body.sidebar-open main {
+    display: none;
+  }
 
-    .hamburger-icon {
-        display: initial;
-    }
+  .hamburger-icon {
+    display: initial;
+  }
 }
 
 #sidebar a {
-    padding: var(--spacing-medium);
-    color: var(--secondary-foreground);
-    border-radius: var(--border-radius);
+  padding: var(--spacing-medium);
+  color: var(--secondary-foreground);
+  border-radius: var(--border-radius);
 }
 
 #sidebar a.active {
-    color: var(--foreground);
-    background-color: var(--border-color);
+  color: var(--foreground);
+  background-color: var(--border-color);
 }
 
 #sidebar a:hover {
-    color: var(--foreground);
+  color: var(--foreground);
 }
 
 #sidebar h1 {
-    display: inline-block;
+  display: inline-block;
 }
 
 .card {
-    padding: var(--spacing-large);
-    border: 1px solid var(--foreground);
-    border-radius: var(--border-radius);
+  padding: var(--spacing-large);
+  border: 1px solid var(--foreground);
+  border-radius: var(--border-radius);
 }
 
 .add-option {
-    font-size: 1.5em;
-    display: inline-flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    gap: var(--spacing-medium);
+  font-size: 1.5em;
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-medium);
 }
 
 .add-option + .add-option {
-    margin-left: var(--spacing-large);
+  margin-left: var(--spacing-large);
 }
 
 .add-option svg {
-    width: 2em;
-    height: 2em;
+  width: 2em;
+  height: 2em;
 }
 
 .dashboard {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-large);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-large);
 }
 
 .dashboard-card {
-    display: inline-flex;
-    flex-direction: column;
-    gap: var(--spacing-medium);
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
 }
 
 .dashboard-card__title {
-    font-size: 1.3em;
-    font-weight: bold;
+  font-size: 1.3em;
+  font-weight: bold;
 }
 
 .dashboard-card__amount {
-    font-size: 3em;
+  font-size: 3em;
 }
 
 .dashboard-card__breakdown {
-    font-size: 1.2em;
-    display: flex;
-    flex-direction: row;
-    gap: var(--spacing-medium);
+  font-size: 1.2em;
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-medium);
 }
 
 #delete-icon {
-    fill: none;
+  fill: none;
 }
 
 #delete-icon:hover {
-    cursor: pointer;
-    color: red;
+  cursor: pointer;
+  color: red;
 }

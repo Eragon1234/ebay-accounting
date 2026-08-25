@@ -1,12 +1,18 @@
 "use client";
 
-import {TaxTypeInput} from "@/app/[lang]/new-expense/taxTypeInput";
-import {SubmitButton} from "@/components/submit-button/submitButton";
-import {Localization} from "@/translation/dictionaries";
-import {useActionState} from "react";
+import { TaxTypeInput } from "@/app/[lang]/new-expense/taxTypeInput";
+import { SubmitButton } from "@/components/submit-button/submitButton";
+import { Localization } from "@/translation/dictionaries";
+import { useActionState } from "react";
 import createExpenseFromForm from "@/app/[lang]/new-expense/server-actions";
 
-export function ExpenseForm({ localization, types }: { localization: Localization, types: string[] }) {
+export function ExpenseForm({
+  localization,
+  types,
+}: {
+  localization: Localization;
+  types: string[];
+}) {
   const { dict, locale } = localization;
 
   const today = new Date();
@@ -22,9 +28,9 @@ export function ExpenseForm({ localization, types }: { localization: Localizatio
       <label htmlFor="type">{dict.addExpense.type}</label>
       <input type="text" id="type" name="type" list="types" required />
       <datalist id="types">
-        {
-          types.map(type => <option key={type} value={type}></option>)
-        }
+        {types.map((type) => (
+          <option key={type} value={type}></option>
+        ))}
       </datalist>
       <TaxTypeInput dict={dict} />
       <label htmlFor="amount">{dict.addExpense.amount}</label>
@@ -35,5 +41,5 @@ export function ExpenseForm({ localization, types }: { localization: Localizatio
       <input type="file" name="file" id="file" />
       <SubmitButton text={dict.addExpense.addExpense} />
     </form>
-  )
+  );
 }

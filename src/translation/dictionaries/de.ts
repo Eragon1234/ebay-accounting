@@ -1,66 +1,66 @@
 const de = {
-    "sidebar": {
-        "home": "Home",
-        "expenses": "Ausgaben",
-        "incomes": "Einnahmen"
+  sidebar: {
+    home: "Home",
+    expenses: "Ausgaben",
+    incomes: "Einnahmen",
+  },
+  home: {
+    from: "Von",
+    to: "Bis",
+    income: "Umsatz",
+    earnings: "Einnahmen",
+    vatToPay: "zu zahlende Umsatzsteuer",
+    taxableIncome: "zu versteuerndes Einkommen",
+    totalExpense: "Gesamtausgaben",
+  },
+  incomes: {
+    incomes: "Einnahmen",
+    name: "Name",
+    amount: "Betrag",
+    date: "Datum",
+  },
+  addIncome: {
+    name: "Name",
+    amount: "Betrag",
+    date: "Datum",
+    file: "Datei",
+    addIncome: "Einnahme hinzufügen",
+  },
+  expenses: {
+    expenses: "Ausgaben",
+    name: "Name",
+    amount: "Betrag",
+    taxType: "Steuerart",
+    type: "Art",
+    date: "Datum",
+    taxTypeEnum: {
+      VAT: "Mwst.",
+      DIFFERENTIAL: "Differenzbesteuert",
     },
-    "home": {
-        "from": "Von",
-        "to": "Bis",
-        "income": "Umsatz",
-        "earnings": "Einnahmen",
-        "vatToPay": "zu zahlende Umsatzsteuer",
-        "taxableIncome": "zu versteuerndes Einkommen",
-        "totalExpense": "Gesamtausgaben"
+    addFile: "Datei zu Ausgabe hinzufügen",
+  },
+  addExpense: {
+    name: "Name",
+    taxType: "Steuerart",
+    type: "Art",
+    amount: "Betrag",
+    date: "Datum",
+    file: "Datei",
+    addExpense: "Ausgabe hinzufügen",
+    taxTypeEnum: {
+      VAT: "Mwst.",
+      DIFFERENTIAL: "Differenzbesteuert",
     },
-    "incomes": {
-        "incomes": "Einnahmen",
-        "name": "Name",
-        "amount": "Betrag",
-        "date": "Datum"
-    },
-    "addIncome": {
-        "name": "Name",
-        "amount": "Betrag",
-        "date": "Datum",
-        "file": "Datei",
-        "addIncome": "Einnahme hinzufügen"
-    },
-    "expenses": {
-        "expenses": "Ausgaben",
-        "name": "Name",
-        "amount": "Betrag",
-        "taxType": "Steuerart",
-        "type": "Art",
-        "date": "Datum",
-        "taxTypeEnum": {
-            "VAT": "Mwst.",
-            "DIFFERENTIAL": "Differenzbesteuert"
-        },
-        "addFile": "Datei zu Ausgabe hinzufügen"
-    },
-    "addExpense": {
-        "name": "Name",
-        "taxType": "Steuerart",
-        "type": "Art",
-        "amount": "Betrag",
-        "date": "Datum",
-        "file": "Datei",
-        "addExpense": "Ausgabe hinzufügen",
-        "taxTypeEnum": {
-            "VAT": "Mwst.",
-            "DIFFERENTIAL": "Differenzbesteuert"
-        }
-    },
-    "add": {
-        "expense": "Ausgabe",
-        "income": "Einnahme",
-        "createNew": "Neuer Eintrag"
-    },
-    "login": {
-        "password": "Passwort",
-        "submit": "Login"
-    }
-}
+  },
+  add: {
+    expense: "Ausgabe",
+    income: "Einnahme",
+    createNew: "Neuer Eintrag",
+  },
+  login: {
+    password: "Passwort",
+    submit: "Login",
+  },
+};
 
 export default de;
