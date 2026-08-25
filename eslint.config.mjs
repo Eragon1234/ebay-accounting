@@ -10,7 +10,7 @@ const eslintConfig = [
         ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", '.wrangler/**', '.open-next/**', 'cloudflare-env.d.ts'],
     },
     ...compat.config({
-        extends: ['next/core-web-vitals', 'next/typescript'],
+        extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
     }),
 ]
 
