@@ -14,13 +14,14 @@ export function Paginate({pageCount, currentPage}: PaginateProps) {
     }
 
     const [start, end] = pageWindow(pageCount, currentPage);
+    const pages = Array.from(range(start, end));
 
     return (
         <div className="pagination-nav">
             <Page page={1} isCurrent={currentPage === 1}/>
             {start > 2 && <Ellipsis/>}
             {
-                range(start, end).map(page =>
+                pages.map(page =>
                     <Page
                         key={page}
                         page={page}
