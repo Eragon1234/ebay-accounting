@@ -49,6 +49,7 @@ export default function FileUpload({
 
     if (!isAccepted(file)) {
       console.log("unaccepted file type", file);
+      return;
     }
 
     onFile(file);
