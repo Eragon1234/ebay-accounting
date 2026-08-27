@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import "./table.css";
 
-type TableProps<D extends Record<any, any>> = {
+type TableProps<D> = {
   columns: Column<D>[];
   data: D[];
 };
@@ -12,10 +12,7 @@ type Column<D> = {
   render: (value: D) => ReactNode;
 };
 
-export default function Table<D extends Record<any, any>>({
-  columns,
-  data,
-}: TableProps<D>) {
+export default function Table<D>({ columns, data }: TableProps<D>) {
   return (
     <div
       style={{
