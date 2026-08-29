@@ -12,7 +12,7 @@ const newIncomeSchema = createInsertSchema(income);
 
 export async function createIncomeFromForm(
   lang: Locales,
-  prevState: any,
+  _prevState: unknown,
   formData: FormData,
 ) {
   const validatedFields = newIncomeSchema.safeParse({

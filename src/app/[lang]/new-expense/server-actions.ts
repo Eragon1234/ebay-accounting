@@ -12,7 +12,7 @@ const newExpenseSchema = createInsertSchema(expense);
 
 export default async function createExpenseFromForm(
   lang: Locales,
-  _prevState: any,
+  _prevState: unknown,
   formData: FormData,
 ) {
   const validatedFields = newExpenseSchema.safeParse({
