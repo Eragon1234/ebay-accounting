@@ -1,23 +1,16 @@
-"use server";
+import "server-only";
 
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { cookieOptions, getToken } from "@/lib/auth/token";
 
-export async function signIn(formData: FormData) {
-  const password = formData.get("password");
-
-  if (!password || typeof password != "string") {
-    return;
-  }
-
+export async function checkPassword(password: string): Promise<boolean> {
   const hash = await crypto.subtle.digest("SHA-256", Buffer.from(password));
 
   const b64hash = Buffer.from(hash).toString("base64");
 
-  if (b64hash === process.env.PASSWORD_HASH) {
-    (await cookies()).set("auth", await getToken(), cookieOptions);
+  return b64hash === process.env.PASSWORD_HASH;
+}
 
-    redirect((await headers()).get("_redirect") || "/");
-  }
+export async function setAuthCookie() {
+  (await cookies()).set("auth", await getToken(), cookieOptions);
 }
